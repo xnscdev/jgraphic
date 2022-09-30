@@ -3,7 +3,6 @@ package org.xnsc.jworld.render;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
 
 public class DisplayManager {
     private static final String TITLE = "JWorld";
@@ -14,8 +13,8 @@ public class DisplayManager {
     public static void createDisplay() {
         if (!glfwInit())
             throw new IllegalStateException("Failed to initialize GLFW");
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
@@ -28,7 +27,6 @@ public class DisplayManager {
 
         glfwMakeContextCurrent(window);
         GL.createCapabilities();
-        glViewport(0, 0, WIDTH, HEIGHT);
     }
 
     public static void updateDisplay() {

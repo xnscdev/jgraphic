@@ -3,6 +3,7 @@ package org.xnsc.jworld.render;
 import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,14 @@ public class ObjectManager {
         vbos.add(vbo);
     }
 
+    public static void storeIndices(int[] indices) {
+        int vbo = glGenBuffers();
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
+        IntBuffer buffer = storeIntBuffer(indices);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
+        vbos.add(vbo);
+    }
+
     public static void clean() {
         for (int vao : vaos)
             glDeleteVertexArrays(vao);
@@ -42,6 +51,13 @@ public class ObjectManager {
 
     private static FloatBuffer storeFloatBuffer(float[] data) {
         FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
+        buffer.put(data);
+        buffer.flip();
+        return buffer;
+    }
+
+    private static IntBuffer storeIntBuffer(int[] data) {
+        IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
         buffer.put(data);
         buffer.flip();
         return buffer;
