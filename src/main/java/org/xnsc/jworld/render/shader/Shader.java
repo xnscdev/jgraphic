@@ -20,10 +20,7 @@ public abstract class Shader {
         glAttachShader(program, fragment);
         glLinkProgram(program);
         glValidateProgram(program);
-        //bindAttributes();
     }
-
-    protected abstract void bindAttributes();
 
     public void start() {
         glUseProgram(program);
@@ -36,10 +33,6 @@ public abstract class Shader {
         glDeleteShader(vertex);
         glDeleteShader(fragment);
         glDeleteProgram(program);
-    }
-
-    protected void bindAttribute(int attr, String name) {
-        glBindAttribLocation(program, attr, name);
     }
 
     public static void stop() {

@@ -4,7 +4,7 @@ import static org.lwjgl.opengl.GL30.*;
 
 public class Renderer {
     public void init() {
-        glClearColor(1, 0, 0, 1);
+        glClearColor(1, 1, 1, 1);
     }
 
     public void refresh() {
@@ -14,8 +14,12 @@ public class Renderer {
     public void render(RawModel model) {
         glBindVertexArray(model.getVAO());
         glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+        model.preRender();
         glDrawElements(GL_TRIANGLES, model.getVertexCount(), GL_UNSIGNED_INT, 0);
+        model.postRender();
         glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
         glBindVertexArray(0);
     }
 }
