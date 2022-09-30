@@ -1,13 +1,19 @@
 package org.xnsc.jworld.render.shader;
 
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.lwjgl.BufferUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.FloatBuffer;
 import java.util.Objects;
 
 import static org.lwjgl.opengl.GL20.*;
 
 public abstract class Shader {
+    private static final FloatBuffer bufferMatrix4f = BufferUtils.createFloatBuffer(16);
     private final int program;
     private final int vertex;
     private final int fragment;
@@ -20,6 +26,7 @@ public abstract class Shader {
         glAttachShader(program, fragment);
         glLinkProgram(program);
         glValidateProgram(program);
+        getUniforms();
     }
 
     public void start() {
@@ -33,6 +40,28 @@ public abstract class Shader {
         glDeleteShader(vertex);
         glDeleteShader(fragment);
         glDeleteProgram(program);
+    }
+
+    protected abstract void getUniforms();
+
+    protected int getUniform(String name) {
+        return glGetUniformLocation(program, name);
+    }
+
+    protected void loadFloat(int loc, float value) {
+        glUniform1f(loc, value);
+    }
+
+    protected void loadBoolean(int loc, boolean value) {
+        glUniform1f(loc, value ? 1 : 0);
+    }
+
+    protected void loadVector3f(int loc, Vector3f value) {
+        glUniform3f(loc, value.x, value.y, value.z);
+    }
+
+    protected void loadMatrix4f(int loc, Matrix4f value) {
+        glUniformMatrix4fv(loc, false, value.get(bufferMatrix4f));
     }
 
     public static void stop() {

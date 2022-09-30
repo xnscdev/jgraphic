@@ -20,10 +20,4 @@ public class RawModel {
     public int getVertexCount() {
         return vertexCount;
     }
-
-    public void preRender() {
-    }
-
-    public void postRender() {
-    }
 }

@@ -1,5 +1,6 @@
 package org.xnsc.jworld;
 
+import org.joml.Vector3f;
 import org.xnsc.jworld.render.*;
 import org.xnsc.jworld.render.shader.Shader;
 import org.xnsc.jworld.render.shader.StaticShader;
@@ -8,9 +9,7 @@ public class Main {
     public static void main(String[] args) {
         DisplayManager.createDisplay();
         Renderer renderer = new Renderer();
-        renderer.init();
 
-        StaticShader shader = new StaticShader();
         float[] vertices = {
                 -0.5f, 0.5f, 0,
                 -0.5f, -0.5f, 0,
@@ -28,16 +27,17 @@ public class Main {
                 3, 1, 2
         };
         TexturedModel model = new TexturedModel(vertices, textures, indices, "texture.png");
+        Entity entity = new Entity(model, new Vector3f(0, 0, -2), 0, 0, 0, 1);
 
         while (!DisplayManager.closeRequested()) {
+            renderer.tick();
+            entity.move(0, 0, -0.01f);
             renderer.refresh();
-            shader.start();
-            renderer.render(model);
-            Shader.stop();
+            renderer.render(entity);
             DisplayManager.updateDisplay();
         }
 
-        shader.clean();
+        renderer.clean();
         ObjectManager.clean();
         DisplayManager.closeDisplay();
     }

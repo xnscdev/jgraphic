@@ -1,7 +1,5 @@
 package org.xnsc.jworld.render;
 
-import static org.lwjgl.opengl.GL13.*;
-
 public class TexturedModel extends RawModel {
     private final int texture;
 
@@ -10,13 +8,7 @@ public class TexturedModel extends RawModel {
         this.texture = ObjectManager.createTexture("/textures/" + texture);
     }
 
-    @Override
-    public void preRender() {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture);
-    }
-
-    @Override
-    public void postRender() {
+    public int getTexture() {
+        return texture;
     }
 }

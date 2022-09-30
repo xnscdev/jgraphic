@@ -6,8 +6,8 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class DisplayManager {
     private static final String TITLE = "JWorld";
-    private static final int WIDTH = 1280;
-    private static final int HEIGHT = 720;
+    public static final int WIDTH = 1280;
+    public static final int HEIGHT = 720;
     private static long window;
 
     public static void createDisplay() {
@@ -40,5 +40,9 @@ public class DisplayManager {
 
     public static boolean closeRequested() {
         return glfwWindowShouldClose(window);
+    }
+
+    public static boolean keyDown(int key) {
+        return glfwGetKey(window, key) == GLFW_PRESS;
     }
 }
