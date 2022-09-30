@@ -7,7 +7,7 @@ import org.xnsc.jworld.render.shader.MatrixUtils;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Camera {
-    private Vector3f position = new Vector3f();
+    private final Vector3f position = new Vector3f();
     private float pitch;
     private float yaw;
     private float roll;

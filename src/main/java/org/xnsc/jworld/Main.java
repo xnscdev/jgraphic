@@ -2,8 +2,6 @@ package org.xnsc.jworld;
 
 import org.joml.Vector3f;
 import org.xnsc.jworld.render.*;
-import org.xnsc.jworld.render.shader.Shader;
-import org.xnsc.jworld.render.shader.StaticShader;
 
 public class Main {
     public static void main(String[] args) {
