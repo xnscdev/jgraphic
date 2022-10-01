@@ -2,11 +2,13 @@ package org.xnsc.jworld.render.model;
 
 import org.xnsc.jworld.render.util.ObjectManager;
 
-public abstract class RawModel {
+public class RawModel {
     private final int vao;
     private final int vertexCount;
     private float reflectivity = 0;
     private float shineDamper = 1;
+    private boolean transparent = false;
+    private boolean fakeLighting = false;
 
     public RawModel(ModelData data) {
         vao = ObjectManager.createVAO();
@@ -40,6 +42,22 @@ public abstract class RawModel {
 
     public void setShineDamper(float shineDamper) {
         this.shineDamper = shineDamper;
+    }
+
+    public boolean isTransparent() {
+        return transparent;
+    }
+
+    public void setTransparent(boolean transparent) {
+        this.transparent = transparent;
+    }
+
+    public boolean isFakeLighting() {
+        return fakeLighting;
+    }
+
+    public void setFakeLighting(boolean fakeLighting) {
+        this.fakeLighting = fakeLighting;
     }
 
     public void preRender() {}

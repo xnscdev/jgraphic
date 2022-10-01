@@ -57,8 +57,8 @@ public class OBJLoader {
             float[] texturesArray = new float[vertices.size() * 2];
             float[] normalsArray = new float[vertices.size() * 3];
             int[] indicesArray = indices.stream().mapToInt(Integer::intValue).toArray();
-            float furthest = convertData(vertices, textures, normals, verticesArray, texturesArray, normalsArray);
-            return new ModelData(verticesArray, texturesArray, normalsArray, indicesArray, furthest);
+            convertData(vertices, textures, normals, verticesArray, texturesArray, normalsArray);
+            return new ModelData(verticesArray, texturesArray, normalsArray, indicesArray);
         }
         catch (IOException e) {
             throw new RuntimeException(e);
@@ -79,12 +79,9 @@ public class OBJLoader {
             handleProcessedVertex(vertex, texture, normal, indices, vertices);
     }
 
-    private static float convertData(List<ModelVertex> vertices, List<Vector2f> textures, List<Vector3f> normals, float[] verticesArray, float[] texturesArray, float[] normalsArray) {
-        float furthest = 0;
+    private static void convertData(List<ModelVertex> vertices, List<Vector2f> textures, List<Vector3f> normals, float[] verticesArray, float[] texturesArray, float[] normalsArray) {
         for (int i = 0; i < vertices.size(); i++) {
             ModelVertex vertex = vertices.get(i);
-            if (vertex.getLength() > furthest)
-                furthest = vertex.getLength();
             Vector3f position = vertex.getPosition();
             Vector2f texture = textures.get(vertex.getTextureIndex());
             Vector3f normal = normals.get(vertex.getNormalIndex());
@@ -97,7 +94,6 @@ public class OBJLoader {
             normalsArray[i * 3 + 1] = normal.y;
             normalsArray[i * 3 + 2] = normal.z;
         }
-        return furthest;
     }
 
     private static void handleProcessedVertex(ModelVertex vertex, int texture, int normal, List<Integer> indices, List<ModelVertex> vertices) {

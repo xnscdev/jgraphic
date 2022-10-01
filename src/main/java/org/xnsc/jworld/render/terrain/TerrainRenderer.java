@@ -1,6 +1,7 @@
-package org.xnsc.jworld.render.entity;
+package org.xnsc.jworld.render.terrain;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.xnsc.jworld.render.Camera;
 import org.xnsc.jworld.render.LightSource;
 import org.xnsc.jworld.render.Shader;
@@ -9,14 +10,13 @@ import org.xnsc.jworld.render.model.RawModel;
 import org.xnsc.jworld.render.util.MatrixUtils;
 
 import java.util.List;
-import java.util.Map;
 
 import static org.lwjgl.opengl.GL30.*;
 
-public class EntityRenderer {
-    private final EntityShader shader = new EntityShader();
+public class TerrainRenderer {
+    private final TerrainShader shader = new TerrainShader();
 
-    public EntityRenderer() {
+    public TerrainRenderer() {
         shader.start();
         shader.loadProjectionMatrix(World.PROJECTION);
         Shader.stop();
@@ -26,30 +26,18 @@ public class EntityRenderer {
         shader.clean();
     }
 
-    public void render(Camera camera, LightSource light, Map<RawModel, List<Entity>> entities) {
+    public void render(Camera camera, LightSource light, List<TerrainPiece> terrains) {
         shader.start();
         shader.loadSkyFog();
         shader.loadLightSource(light);
         shader.loadViewMatrix(camera);
-        for (RawModel model : entities.keySet()) {
-            bindModel(model);
-            List<Entity> batch = entities.get(model);
-            for (Entity entity : batch) {
-                bindEntity(entity);
-                glDrawElements(GL_TRIANGLES, model.getVertexCount(), GL_UNSIGNED_INT, 0);
-            }
-            unbindModel(model);
+        for (TerrainPiece terrain : terrains) {
+            bindModel(terrain.getModel());
+            bindTerrainPiece(terrain);
+            glDrawElements(GL_TRIANGLES, terrain.getModel().getVertexCount(), GL_UNSIGNED_INT, 0);
+            unbindModel(terrain.getModel());
         }
         Shader.stop();
-    }
-
-    public void enableCulling() {
-        glCullFace(GL_BACK);
-        glEnable(GL_CULL_FACE);
-    }
-
-    public void disableCulling() {
-        glDisable(GL_CULL_FACE);
     }
 
     private void bindModel(RawModel model) {
@@ -57,24 +45,20 @@ public class EntityRenderer {
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
         glEnableVertexAttribArray(2);
-        if (model.isTransparent())
-            disableCulling();
-        shader.loadFakeLighting(model.isFakeLighting());
         shader.loadSpecularLighting(model.getReflectivity(), model.getShineDamper());
         model.preRender();
     }
 
     private void unbindModel(RawModel model) {
         model.postRender();
-        enableCulling();
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
         glDisableVertexAttribArray(2);
         glBindVertexArray(0);
     }
 
-    private void bindEntity(Entity entity) {
-        Matrix4f transformMatrix = MatrixUtils.transformMatrix(entity.getPosition(), entity.getRx(), entity.getRy(), entity.getRz(), entity.getScale());
+    private void bindTerrainPiece(TerrainPiece terrain) {
+        Matrix4f transformMatrix = MatrixUtils.transformMatrix(new Vector3f(terrain.getX(), 0, terrain.getZ()), 0, 0, 0, 1);
         shader.loadTransformMatrix(transformMatrix);
     }
 }
