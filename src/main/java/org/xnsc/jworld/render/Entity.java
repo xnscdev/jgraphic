@@ -3,14 +3,14 @@ package org.xnsc.jworld.render;
 import org.joml.Vector3f;
 
 public class Entity {
-    private final TexturedModel model;
+    private final RawModel model;
     private Vector3f position;
     private float rx;
     private float ry;
     private float rz;
     private float scale;
 
-    public Entity(TexturedModel model, Vector3f position, float rx, float ry, float rz, float scale) {
+    public Entity(RawModel model, Vector3f position, float rx, float ry, float rz, float scale) {
         this.model = model;
         this.position = position;
         this.rx = rx;
@@ -19,7 +19,7 @@ public class Entity {
         this.scale = scale;
     }
 
-    public TexturedModel getModel() {
+    public RawModel getModel() {
         return model;
     }
 

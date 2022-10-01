@@ -2,7 +2,7 @@ package org.xnsc.jworld.render;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.xnsc.jworld.render.shader.MatrixUtils;
+import org.xnsc.jworld.render.util.MatrixUtils;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -33,9 +33,9 @@ public class Camera {
 
     public void tick() {
         if (DisplayManager.keyDown(GLFW_KEY_A))
-            position.x -= 0.02f;
+            position.x -= 0.06f;
         if (DisplayManager.keyDown(GLFW_KEY_D))
-            position.x += 0.02f;
+            position.x += 0.06f;
     }
 
     public Matrix4f viewMatrix() {
