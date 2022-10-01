@@ -2,6 +2,7 @@ package org.xnsc.jworld.render;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.xnsc.jworld.render.util.DisplayManager;
 import org.xnsc.jworld.render.util.MatrixUtils;
 
 import static org.lwjgl.glfw.GLFW.*;

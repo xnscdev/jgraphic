@@ -1,6 +1,7 @@
-package org.xnsc.jworld.render;
+package org.xnsc.jworld.render.entity;
 
 import org.joml.Matrix4f;
+import org.xnsc.jworld.render.model.RawModel;
 import org.xnsc.jworld.render.util.MatrixUtils;
 
 import java.util.List;

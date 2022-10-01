@@ -1,4 +1,4 @@
-package org.xnsc.jworld.render;
+package org.xnsc.jworld.render.util;
 
 import org.lwjgl.opengl.GL;
 

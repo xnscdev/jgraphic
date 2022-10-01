@@ -1,5 +1,9 @@
 package org.xnsc.jworld.render;
 
+import org.xnsc.jworld.render.entity.Entity;
+import org.xnsc.jworld.render.entity.EntityRenderer;
+import org.xnsc.jworld.render.entity.EntityShader;
+import org.xnsc.jworld.render.model.RawModel;
 import org.xnsc.jworld.render.util.MatrixUtils;
 
 import java.util.ArrayList;

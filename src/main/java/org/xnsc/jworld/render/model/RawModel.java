@@ -1,20 +1,20 @@
-package org.xnsc.jworld.render;
+package org.xnsc.jworld.render.model;
 
 import org.xnsc.jworld.render.util.ObjectManager;
 
-public class RawModel {
+public abstract class RawModel {
     private final int vao;
     private final int vertexCount;
     private float reflectivity = 0;
     private float shineDamper = 1;
 
-    public RawModel(float[] vertices, float[] textures, float[] normals, int[] indices) {
+    public RawModel(ModelData data) {
         vao = ObjectManager.createVAO();
-        vertexCount = indices.length;
-        ObjectManager.storeAttribute(0, 3, vertices);
-        ObjectManager.storeAttribute(1, 2, textures);
-        ObjectManager.storeAttribute(2, 3, normals);
-        ObjectManager.storeIndices(indices);
+        vertexCount = data.indices().length;
+        ObjectManager.storeAttribute(0, 3, data.vertices());
+        ObjectManager.storeAttribute(1, 2, data.textures());
+        ObjectManager.storeAttribute(2, 3, data.normals());
+        ObjectManager.storeIndices(data.indices());
         ObjectManager.unbindVAO();
     }
 

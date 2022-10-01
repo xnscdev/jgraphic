@@ -1,6 +1,9 @@
 package org.xnsc.jworld.render;
 
 import org.joml.Vector3f;
+import org.xnsc.jworld.render.entity.Entity;
+import org.xnsc.jworld.render.model.ModelData;
+import org.xnsc.jworld.render.model.TexturedModel;
 import org.xnsc.jworld.render.util.OBJLoader;
 
 import java.util.ArrayList;
@@ -15,7 +18,8 @@ public class World {
 
     public World() {
         Random random = new Random();
-        RawModel model = OBJLoader.loadModel("model");
+        ModelData data = OBJLoader.loadModel("model");
+        TexturedModel model = new TexturedModel(data, "model");
         for (int i = 0; i < 200; i++) {
             float x = random.nextFloat() * 100 - 50;
             float y = random.nextFloat() * 100 - 50;

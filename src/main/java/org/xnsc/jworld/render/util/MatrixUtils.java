@@ -3,7 +3,6 @@ package org.xnsc.jworld.render.util;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import org.xnsc.jworld.render.DisplayManager;
 
 public final class MatrixUtils {
     private MatrixUtils() {}

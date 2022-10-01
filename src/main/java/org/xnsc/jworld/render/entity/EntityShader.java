@@ -1,6 +1,9 @@
-package org.xnsc.jworld.render;
+package org.xnsc.jworld.render.entity;
 
 import org.joml.Matrix4f;
+import org.xnsc.jworld.render.Camera;
+import org.xnsc.jworld.render.LightSource;
+import org.xnsc.jworld.render.Shader;
 
 public class EntityShader extends Shader {
     private int locTransformMatrix;

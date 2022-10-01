@@ -1,13 +1,15 @@
-package org.xnsc.jworld.render;
+package org.xnsc.jworld.render.model;
+
+import org.xnsc.jworld.render.util.ObjectManager;
 
 import static org.lwjgl.opengl.GL13.*;
 
 public class TexturedModel extends RawModel {
     private final int texture;
 
-    public TexturedModel(float[] vertices, float[] textures, float[] normals, int[] indices, int texture) {
-        super(vertices, textures, normals, indices);
-        this.texture = texture;
+    public TexturedModel(ModelData data, String texture) {
+        super(data);
+        this.texture = ObjectManager.createTexture(texture);
     }
 
     public int getTexture() {
