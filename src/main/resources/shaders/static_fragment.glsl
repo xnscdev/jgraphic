@@ -16,7 +16,7 @@ void main(void) {
   vec3 unit_normal = normalize(surface_normal);
   vec3 unit_light = normalize(light_vector);
   vec3 unit_camera = normalize(camera_vector);
-  float brightness = max(dot(unit_normal, unit_light), 0.0);
+  float brightness = max(dot(unit_normal, unit_light), 0.2);
   vec3 diffuse = brightness * light_color;
   vec3 light_dir = reflect(-unit_light, unit_normal);
   float specular_factor = max(dot(light_dir, unit_camera), 0.0);

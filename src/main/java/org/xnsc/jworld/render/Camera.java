@@ -33,9 +33,13 @@ public class Camera {
 
     public void tick() {
         if (DisplayManager.keyDown(GLFW_KEY_A))
-            position.x -= 0.06f;
+            position.x -= 0.1f;
         if (DisplayManager.keyDown(GLFW_KEY_D))
-            position.x += 0.06f;
+            position.x += 0.1f;
+        if (DisplayManager.keyDown(GLFW_KEY_W))
+            position.z -= 0.1f;
+        if (DisplayManager.keyDown(GLFW_KEY_S))
+            position.z += 0.1f;
     }
 
     public Matrix4f viewMatrix() {
