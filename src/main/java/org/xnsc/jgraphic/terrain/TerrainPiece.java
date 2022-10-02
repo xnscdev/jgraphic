@@ -1,8 +1,11 @@
 package org.xnsc.jgraphic.terrain;
 
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.xnsc.jgraphic.model.ModelData;
 import org.xnsc.jgraphic.model.TexturedModel;
+import org.xnsc.jgraphic.util.MatrixUtils;
+import org.xnsc.jgraphic.world.World;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -20,6 +23,7 @@ public class TerrainPiece {
     private int hx;
     private int hz;
     private BufferedImage heightMap;
+    private float[][] heights;
     private TexturedModel model;
 
     public TerrainPiece(int x, int z, float size, int vertexCount, String texture) {
@@ -50,6 +54,22 @@ public class TerrainPiece {
         return vertexCount;
     }
 
+    public float getTerrainHeight(float worldX, float worldZ) {
+        float terrainX = worldX - x;
+        float terrainZ = worldZ - z;
+        float tileSize = size / ((float) heights.length - 1);
+        int gridX = (int) (terrainX / tileSize);
+        int gridZ = (int) (terrainZ / tileSize);
+        if (gridX < 0 || gridX >= heights.length - 1 || gridZ < 0 || gridZ >= heights.length - 1)
+            return World.VOID;
+        float rx = terrainX % tileSize / tileSize;
+        float rz = terrainX % tileSize / tileSize;
+        if (rx <= 1 - rz)
+            return MatrixUtils.barycentric(new Vector3f(0, heights[gridX][gridZ], 0), new Vector3f(1, heights[gridX + 1][gridZ], 0), new Vector3f(0, heights[gridX][gridZ + 1], 1), new Vector2f(rx, rz));
+        else
+            return MatrixUtils.barycentric(new Vector3f(1, heights[gridX + 1][gridZ], 0), new Vector3f(1, heights[gridX + 1][gridZ + 1], 1), new Vector3f(0, heights[gridX][gridZ + 1], 1), new Vector2f(rx, rz));
+    }
+
     public void setHeightMap(int hx, int hz, int maxHeight, String path) {
         this.hx = hx;
         this.hz = hz;
@@ -65,6 +85,7 @@ public class TerrainPiece {
 
     public void build() {
         int count = vertexCount * vertexCount;
+        heights = new float[vertexCount][vertexCount];
         float[] vertices = new float[count * 3];
         float[] textures = new float[count * 2];
         float[] normals = new float[count * 3];
@@ -73,7 +94,9 @@ public class TerrainPiece {
         for (int i = 0; i < vertexCount; i++) {
             for (int j = 0; j < vertexCount; j++) {
                 vertices[index * 3] = (float) j / ((float) vertexCount - 1) * size;
-                vertices[index * 3 + 1] = getHeight(j + hz, i + hx, heightMap);
+                float height = getHeight(j + hz, i + hx, heightMap);
+                vertices[index * 3 + 1] = height;
+                heights[j][i] = height;
                 vertices[index * 3 + 2] = (float) i / ((float) vertexCount - 1) * size;
                 textures[index * 2] = (float) j / ((float) vertexCount - 1);
                 textures[index * 2 + 1] = (float) i / ((float) vertexCount - 1);

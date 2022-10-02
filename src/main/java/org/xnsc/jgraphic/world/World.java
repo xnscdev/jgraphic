@@ -18,9 +18,9 @@ public class World {
     private static final float FOV = 70;
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 1000f;
-    private static final int TERRAIN_VERTEX_COUNT = 128;
     private static final Vector3f DEFAULT_SKY_COLOR = new Vector3f(0.5f, 1, 1);
     public static final Matrix4f PROJECTION = MatrixUtils.projectionMatrix(FOV, NEAR_PLANE, FAR_PLANE);
+    public static final float VOID = -2000;
     private final EntityRenderer entityRenderer = new EntityRenderer();
     private final TerrainRenderer terrainRenderer = new TerrainRenderer();
     private final Map<RawModel, List<Entity>> entitiesMap = new HashMap<>();
@@ -42,16 +42,16 @@ public class World {
 
     public void tick() {
         double delta = DisplayManager.deltaTime();
-        camera.tick();
         ListIterator<Entity> iter = entities.listIterator();
         while (iter.hasNext()) {
             Entity entity = iter.next();
-            entity.tick(delta);
-            if (entity.getPosition().y < -2000)
+            entity.tick(getTerrainForEntity(entity), delta);
+            if (entity.getPosition().y < VOID)
                 iter.remove();
             else
                 loadEntity(entity);
         }
+        camera.tick();
         render(camera, light);
     }
 
@@ -85,15 +85,7 @@ public class World {
         entities.add(entity);
     }
 
-    public void addLevelTerrain(int centerX, int centerZ, float size, String texture) {
-        TerrainPiece terrain = new TerrainPiece(centerX, centerZ, size, TERRAIN_VERTEX_COUNT, texture);
-        terrain.build();
-        terrains.add(terrain);
-    }
-
-    public void addHeightmapTerrain(int centerX, int centerZ, float size, String texture, String heightMap, int maxHeight, int mapX, int mapZ) {
-        TerrainPiece terrain = new TerrainPiece(centerX, centerZ, size, TERRAIN_VERTEX_COUNT, texture);
-        terrain.setHeightMap(mapX, mapZ, maxHeight, heightMap);
+    public void addTerrain(TerrainPiece terrain) {
         terrain.build();
         terrains.add(terrain);
     }
@@ -134,5 +126,13 @@ public class World {
     public void setFog(float density, float gradient) {
         fogDensity = density;
         fogGradient = gradient;
+    }
+
+    private TerrainPiece getTerrainForEntity(Entity entity) {
+        for (TerrainPiece terrain : terrains) {
+            if (entity.getPosition().x >= terrain.getX() && entity.getPosition().x < terrain.getX() + terrain.getSize() && entity.getPosition().z >= terrain.getZ() && entity.getPosition().z < terrain.getZ() + terrain.getSize())
+                return terrain;
+        }
+        return null;
     }
 }

@@ -2,12 +2,13 @@ package org.xnsc.jgraphic.entity;
 
 import org.joml.Vector3f;
 import org.xnsc.jgraphic.model.RawModel;
+import org.xnsc.jgraphic.terrain.TerrainPiece;
 import org.xnsc.jgraphic.util.DisplayManager;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Player extends Entity {
-    public static final IPlayerMovement MOVEMENT_WASD = (player, delta) -> {
+    public static final IPlayerMovement MOVEMENT_WASD = (player, terrain, delta) -> {
         if (DisplayManager.keyDown(GLFW_KEY_A)) {
             player.position.x -= player.moveSpeed * delta * Math.cos(Math.toRadians(player.yaw));
             player.position.z -= player.moveSpeed * delta * Math.sin(Math.toRadians(player.yaw));
@@ -24,11 +25,11 @@ public class Player extends Entity {
             player.position.z += player.moveSpeed * delta * Math.cos(Math.toRadians(player.yaw));
             player.position.x -= player.moveSpeed * delta * Math.sin(Math.toRadians(player.yaw));
         }
-        if (DisplayManager.keyDown(GLFW_KEY_SPACE) && player.position.y == TERRAIN_HEIGHT)
+        if (DisplayManager.keyDown(GLFW_KEY_SPACE) && terrain != null && player.position.y <= terrain.getTerrainHeight(player.position.x, player.position.z))
             player.addVelocity(new Vector3f(0, player.jumpSpeed, 0));
     };
-    public static final IPlayerMovement MOVEMENT_WASD_TLR = (player, delta) -> {
-        MOVEMENT_WASD.move(player, delta);
+    public static final IPlayerMovement MOVEMENT_WASD_TLR = (player, terrain, delta) -> {
+        MOVEMENT_WASD.move(player, terrain, delta);
         if (DisplayManager.keyDown(GLFW_KEY_LEFT)) {
             player.ry += player.turnSpeed * delta;
             player.yaw -= player.turnSpeed * delta;
@@ -54,10 +55,10 @@ public class Player extends Entity {
     }
 
     @Override
-    public void tick(double delta) {
+    public void tick(TerrainPiece terrain, double delta) {
         if (movement != null)
-            movement.move(this, delta);
-        super.tick(delta);
+            movement.move(this, terrain, delta);
+        super.tick(terrain, delta);
     }
 
     @Override

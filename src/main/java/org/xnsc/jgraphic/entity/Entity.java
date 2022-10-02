@@ -2,10 +2,10 @@ package org.xnsc.jgraphic.entity;
 
 import org.joml.Vector3f;
 import org.xnsc.jgraphic.model.RawModel;
+import org.xnsc.jgraphic.terrain.TerrainPiece;
 import org.xnsc.jgraphic.world.World;
 
 public class Entity {
-    protected static final float TERRAIN_HEIGHT = 0;
     private final RawModel model;
     protected Vector3f position;
     protected float rx;
@@ -28,13 +28,14 @@ public class Entity {
         this(model, position, 0, 0, 0, 1);
     }
 
-    public void tick(double delta) {
+    public void tick(TerrainPiece terrain, double delta) {
         Vector3f dp = new Vector3f(velocity).mul((float) delta);
         position.add(dp);
         Vector3f dv = new Vector3f(acceleration).mul((float) delta);
         velocity.add(dv);
-        if (position.y < TERRAIN_HEIGHT) {
-            position.y = TERRAIN_HEIGHT;
+        float terrainHeight = terrain == null ? World.VOID : terrain.getTerrainHeight(position.x, position.z);
+        if (position.y < terrainHeight) {
+            position.y = terrainHeight;
             velocity.y = 0;
         }
     }
