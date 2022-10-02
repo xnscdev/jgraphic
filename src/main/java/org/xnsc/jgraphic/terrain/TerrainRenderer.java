@@ -57,5 +57,6 @@ public class TerrainRenderer {
     private void bindTerrainPiece(TerrainPiece terrain) {
         Matrix4f transformMatrix = MatrixUtils.transformMatrix(new Vector3f(terrain.getX(), 0, terrain.getZ()), 0, 0, 0, 1);
         shader.loadTransformMatrix(transformMatrix);
+        shader.setTextureScale(terrain.getSize() / 10);
     }
 }

@@ -18,9 +18,10 @@ public class Main {
         world.setCamera(new Camera3PT(player));
         world.getCamera().setPosition(new Vector3f(0, 20, 50));
         world.getCamera().setPitch(20);
-        world.getLightSource().setPosition(new Vector3f(50000, 40000, 10000));
+        world.getLightSource().setPosition(new Vector3f(2000, 4000, 2000));
         world.setAmbientThreshold(0.2f);
         world.setGravityAccel(20);
+        //world.setFog(0.003f, 1.5f);
         world.addEntity(player);
         Random random = new Random();
         TexturedModel treeModel = new TexturedModel("tree");
@@ -31,7 +32,7 @@ public class Main {
             Entity tree = new Entity(treeModel, new Vector3f(x, 0, z), 0, 0, 0, scale);
             world.addEntity(tree);
         }
-        world.addTerrain("terrain");
+        world.addHeightmapTerrain(0, 0, 4000, "terrain", "heightmap", 40, 0, 0);
         AppInstance.launch(world);
     }
 }

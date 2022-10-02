@@ -18,6 +18,7 @@ public class World {
     private static final float FOV = 70;
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 1000f;
+    private static final int TERRAIN_VERTEX_COUNT = 128;
     private static final Vector3f DEFAULT_SKY_COLOR = new Vector3f(0.5f, 1, 1);
     public static final Matrix4f PROJECTION = MatrixUtils.projectionMatrix(FOV, NEAR_PLANE, FAR_PLANE);
     private final EntityRenderer entityRenderer = new EntityRenderer();
@@ -84,11 +85,17 @@ public class World {
         entities.add(entity);
     }
 
-    public void addTerrain(String texture) {
-        terrains.add(new TerrainPiece(0, 0, texture));
-        terrains.add(new TerrainPiece(0, -1, texture));
-        terrains.add(new TerrainPiece(-1, 0, texture));
-        terrains.add(new TerrainPiece(-1, -1, texture));
+    public void addLevelTerrain(int centerX, int centerZ, float size, String texture) {
+        TerrainPiece terrain = new TerrainPiece(centerX, centerZ, size, TERRAIN_VERTEX_COUNT, texture);
+        terrain.build();
+        terrains.add(terrain);
+    }
+
+    public void addHeightmapTerrain(int centerX, int centerZ, float size, String texture, String heightMap, int maxHeight, int mapX, int mapZ) {
+        TerrainPiece terrain = new TerrainPiece(centerX, centerZ, size, TERRAIN_VERTEX_COUNT, texture);
+        terrain.setHeightMap(mapX, mapZ, maxHeight, heightMap);
+        terrain.build();
+        terrains.add(terrain);
     }
 
     public LightSource getLightSource() {
