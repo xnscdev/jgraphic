@@ -5,26 +5,20 @@ import org.xnsc.jgraphic.util.ObjectManager;
 import org.xnsc.jgraphic.world.World;
 
 public class AppInstance {
-    private World world;
+    private static World world;
 
-    public AppInstance(String title, int width, int height) {
+    public static void init(String title, int width, int height) {
         DisplayManager.createDisplay(title, width, height);
     }
 
-    public void setWorld(World world) {
-        this.world = world;
-    }
-
-    public void mainLoop() {
+    public static void launch(World world) {
+        AppInstance.world = world;
         if (world.getCamera() == null)
             throw new IllegalStateException("Attempted to render a world without a camera");
         while (!DisplayManager.closeRequested()) {
             world.tick();
             DisplayManager.updateDisplay();
         }
-    }
-
-    public void clean() {
         world.clean();
         ObjectManager.clean();
         DisplayManager.closeDisplay();

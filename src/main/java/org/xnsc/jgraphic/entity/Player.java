@@ -41,6 +41,8 @@ public class Player extends Entity {
             ry -= TURN_SPEED * delta;
             yaw += TURN_SPEED * delta;
         }
+        if (DisplayManager.keyDown(GLFW_KEY_SPACE) && position.y == TERRAIN_HEIGHT)
+            addVelocity(new Vector3f(0, 15, 0));
         super.tick(delta);
     }
 }

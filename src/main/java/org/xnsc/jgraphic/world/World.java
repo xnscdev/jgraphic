@@ -80,6 +80,7 @@ public class World {
     }
 
     public void addEntity(Entity entity) {
+        entity.addAcceleration(new Vector3f(0, -gravityAccel, 0));
         entities.add(entity);
     }
 

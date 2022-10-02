@@ -5,10 +5,10 @@ import org.joml.Vector3f;
 import org.xnsc.jgraphic.util.MatrixUtils;
 
 public class Camera {
-    private Vector3f position = new Vector3f();
-    private float pitch;
-    private float yaw;
-    private float roll;
+    protected Vector3f position = new Vector3f();
+    protected float pitch;
+    protected float yaw;
+    protected float roll;
 
     public Vector3f getPosition() {
         return position;

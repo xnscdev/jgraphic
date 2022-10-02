@@ -1,5 +1,9 @@
 package org.xnsc.jgraphic.util;
 
+import org.joml.Vector2f;
+import org.lwjgl.glfw.GLFWCursorPosCallback;
+import org.lwjgl.glfw.GLFWMouseButtonCallback;
+import org.lwjgl.glfw.GLFWScrollCallback;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -10,6 +14,10 @@ public class DisplayManager {
     private static int height;
     private static long window;
     private static double lastUpdate;
+    private static float lastScroll;
+    private static float scrollOffset;
+    private static Vector2f lastMousePos = new Vector2f();
+    private static Vector2f mouseOffset;
 
     public static void createDisplay(String title, int width, int height) {
         DisplayManager.title = title;
@@ -28,6 +36,26 @@ public class DisplayManager {
             glfwTerminate();
             throw new RuntimeException("Failed to create window");
         }
+
+        glfwSetScrollCallback(window, new GLFWScrollCallback() {
+            @Override
+            public void invoke(long window, double xoffset, double yoffset) {
+                scrollOffset = (float) yoffset;
+            }
+        });
+        glfwSetCursorPosCallback(window, new GLFWCursorPosCallback() {
+            @Override
+            public void invoke(long window, double xpos, double ypos) {
+                mouseOffset = new Vector2f((float) xpos, (float) ypos);
+            }
+        });
+        glfwSetMouseButtonCallback(window, new GLFWMouseButtonCallback() {
+            @Override
+            public void invoke(long window, int button, int action, int mods) {
+                if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
+                    lastMousePos = mouseOffset;
+            }
+        });
 
         glfwMakeContextCurrent(window);
         GL.createCapabilities();
@@ -57,6 +85,10 @@ public class DisplayManager {
         return glfwGetKey(window, key) == GLFW_PRESS;
     }
 
+    public static boolean mouseDown(int button) {
+        return glfwGetMouseButton(window, button) == GLFW_PRESS;
+    }
+
     public static String getTitle() {
         return title;
     }
@@ -67,5 +99,17 @@ public class DisplayManager {
 
     public static int getHeight() {
         return height;
+    }
+
+    public static float getScrollOffset() {
+        float offset = scrollOffset - lastScroll;
+        scrollOffset = lastScroll;
+        return offset;
+    }
+
+    public static Vector2f getMouseOffset() {
+        Vector2f offset = new Vector2f(mouseOffset).sub(lastMousePos);
+        lastMousePos = mouseOffset;
+        return offset;
     }
 }
