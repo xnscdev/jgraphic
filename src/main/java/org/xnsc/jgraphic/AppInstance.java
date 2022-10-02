@@ -16,6 +16,8 @@ public class AppInstance {
     }
 
     public void mainLoop() {
+        if (world.getCamera() == null)
+            throw new IllegalStateException("Attempted to render a world without a camera");
         while (!DisplayManager.closeRequested()) {
             world.tick();
             DisplayManager.updateDisplay();

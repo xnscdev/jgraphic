@@ -26,7 +26,7 @@ public class World {
     private final List<TerrainPiece> terrains = new ArrayList<>();
     private final List<Entity> entities = new ArrayList<>();
     private LightSource light = new LightSource(new Vector3f(0, 40000, 0), new Vector3f(1, 1, 1));
-    private Camera camera = new Camera();
+    private Camera camera;
     private Vector3f skyColor;
     private float fogDensity;
     private float fogGradient = 1;
@@ -83,8 +83,11 @@ public class World {
         entities.add(entity);
     }
 
-    public void addTerrainPiece(TerrainPiece terrain) {
-        terrains.add(terrain);
+    public void addTerrain(String texture) {
+        terrains.add(new TerrainPiece(0, 0, texture));
+        terrains.add(new TerrainPiece(0, -1, texture));
+        terrains.add(new TerrainPiece(-1, 0, texture));
+        terrains.add(new TerrainPiece(-1, -1, texture));
     }
 
     public LightSource getLightSource() {
@@ -93,6 +96,10 @@ public class World {
 
     public Camera getCamera() {
         return camera;
+    }
+
+    public void setCamera(Camera camera) {
+        this.camera = camera;
     }
 
     public float getAmbientThreshold() {

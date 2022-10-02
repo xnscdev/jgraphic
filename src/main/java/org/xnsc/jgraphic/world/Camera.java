@@ -2,14 +2,9 @@ package org.xnsc.jgraphic.world;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.xnsc.jgraphic.util.DisplayManager;
 import org.xnsc.jgraphic.util.MatrixUtils;
 
-import static org.lwjgl.glfw.GLFW.*;
-
 public class Camera {
-    private static final float MOVE_SPEED = 0.4f;
-    private static final int TURN_SPEED = 1;
     private Vector3f position = new Vector3f();
     private float pitch;
     private float yaw;
@@ -48,30 +43,6 @@ public class Camera {
     }
 
     public void tick() {
-        if (DisplayManager.keyDown(GLFW_KEY_A)) {
-            position.x -= MOVE_SPEED * Math.cos(Math.toRadians(yaw));
-            position.z -= MOVE_SPEED * Math.sin(Math.toRadians(yaw));
-        }
-        if (DisplayManager.keyDown(GLFW_KEY_D)) {
-            position.x += MOVE_SPEED * Math.cos(Math.toRadians(yaw));
-            position.z += MOVE_SPEED * Math.sin(Math.toRadians(yaw));
-        }
-        if (DisplayManager.keyDown(GLFW_KEY_W)) {
-            position.z -= MOVE_SPEED * Math.cos(Math.toRadians(yaw));
-            position.x += MOVE_SPEED * Math.sin(Math.toRadians(yaw));
-        }
-        if (DisplayManager.keyDown(GLFW_KEY_S)) {
-            position.z += MOVE_SPEED * Math.cos(Math.toRadians(yaw));
-            position.x -= MOVE_SPEED * Math.sin(Math.toRadians(yaw));
-        }
-        if (DisplayManager.keyDown(GLFW_KEY_LEFT))
-            yaw -= TURN_SPEED;
-        if (DisplayManager.keyDown(GLFW_KEY_RIGHT))
-            yaw += TURN_SPEED;
-        if (DisplayManager.keyDown(GLFW_KEY_UP))
-            pitch -= TURN_SPEED;
-        if (DisplayManager.keyDown(GLFW_KEY_DOWN))
-            pitch += TURN_SPEED;
     }
 
     public Matrix4f viewMatrix() {

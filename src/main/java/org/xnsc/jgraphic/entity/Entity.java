@@ -5,35 +5,26 @@ import org.xnsc.jgraphic.model.RawModel;
 
 public class Entity {
     private final RawModel model;
-    private Vector3f position;
-    private float rx;
-    private float ry;
-    private float rz;
-    private float scale;
-    private float mass;
-    private Vector3f accel;
-    private Vector3f velocity = new Vector3f();
+    protected Vector3f position;
+    protected float rx;
+    protected float ry;
+    protected float rz;
+    protected float scale;
 
-    public Entity(RawModel model, Vector3f position, float rx, float ry, float rz, float scale, float mass, Vector3f accel) {
+    public Entity(RawModel model, Vector3f position, float rx, float ry, float rz, float scale) {
         this.model = model;
         this.position = position;
         this.rx = rx;
         this.ry = ry;
         this.rz = rz;
         this.scale = scale;
-        this.mass = mass;
-        this.accel = accel;
     }
 
-    public Entity(RawModel model, Vector3f position, float mass, Vector3f accel) {
-        this(model, position, 0, 0, 0, 1, mass, accel);
+    public Entity(RawModel model, Vector3f position) {
+        this(model, position, 0, 0, 0, 1);
     }
 
     public void tick(double delta) {
-        Vector3f dp = new Vector3f(velocity).mul((float) delta);
-        position.add(dp);
-        Vector3f dv = new Vector3f(accel).mul((float) delta);
-        velocity.add(dv);
     }
 
     public RawModel getModel() {
