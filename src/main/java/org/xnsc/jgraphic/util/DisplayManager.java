@@ -9,6 +9,7 @@ public class DisplayManager {
     private static int width;
     private static int height;
     private static long window;
+    private static double lastUpdate;
 
     public static void createDisplay(String title, int width, int height) {
         DisplayManager.title = title;
@@ -30,6 +31,13 @@ public class DisplayManager {
 
         glfwMakeContextCurrent(window);
         GL.createCapabilities();
+    }
+
+    public static double deltaTime() {
+        double now = glfwGetTime();
+        double delta = now - lastUpdate;
+        lastUpdate = now;
+        return delta;
     }
 
     public static void updateDisplay() {

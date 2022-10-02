@@ -68,6 +68,10 @@ public class Camera {
             yaw -= TURN_SPEED;
         if (DisplayManager.keyDown(GLFW_KEY_RIGHT))
             yaw += TURN_SPEED;
+        if (DisplayManager.keyDown(GLFW_KEY_UP))
+            pitch -= TURN_SPEED;
+        if (DisplayManager.keyDown(GLFW_KEY_DOWN))
+            pitch += TURN_SPEED;
     }
 
     public Matrix4f viewMatrix() {

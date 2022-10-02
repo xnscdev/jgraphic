@@ -10,14 +10,30 @@ public class Entity {
     private float ry;
     private float rz;
     private float scale;
+    private float mass;
+    private Vector3f accel;
+    private Vector3f velocity = new Vector3f();
 
-    public Entity(RawModel model, Vector3f position, float rx, float ry, float rz, float scale) {
+    public Entity(RawModel model, Vector3f position, float rx, float ry, float rz, float scale, float mass, Vector3f accel) {
         this.model = model;
         this.position = position;
         this.rx = rx;
         this.ry = ry;
         this.rz = rz;
         this.scale = scale;
+        this.mass = mass;
+        this.accel = accel;
+    }
+
+    public Entity(RawModel model, Vector3f position, float mass, Vector3f accel) {
+        this(model, position, 0, 0, 0, 1, mass, accel);
+    }
+
+    public void tick(double delta) {
+        Vector3f dp = new Vector3f(velocity).mul((float) delta);
+        position.add(dp);
+        Vector3f dv = new Vector3f(accel).mul((float) delta);
+        velocity.add(dv);
     }
 
     public RawModel getModel() {

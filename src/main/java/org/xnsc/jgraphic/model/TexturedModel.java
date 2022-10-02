@@ -1,5 +1,6 @@
 package org.xnsc.jgraphic.model;
 
+import org.xnsc.jgraphic.util.OBJLoader;
 import org.xnsc.jgraphic.util.ObjectManager;
 
 import static org.lwjgl.opengl.GL13.*;
@@ -10,6 +11,10 @@ public class TexturedModel extends RawModel {
     public TexturedModel(ModelData data, String texture) {
         super(data);
         this.texture = ObjectManager.createTexture(texture);
+    }
+
+    public TexturedModel(String texture) {
+        this(OBJLoader.loadModel(texture), texture);
     }
 
     public int getTexture() {

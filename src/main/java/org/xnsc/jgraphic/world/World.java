@@ -7,12 +7,10 @@ import org.xnsc.jgraphic.entity.EntityRenderer;
 import org.xnsc.jgraphic.model.RawModel;
 import org.xnsc.jgraphic.terrain.TerrainPiece;
 import org.xnsc.jgraphic.terrain.TerrainRenderer;
+import org.xnsc.jgraphic.util.DisplayManager;
 import org.xnsc.jgraphic.util.MatrixUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -27,11 +25,13 @@ public class World {
     private final Map<RawModel, List<Entity>> entitiesMap = new HashMap<>();
     private final List<TerrainPiece> terrains = new ArrayList<>();
     private final List<Entity> entities = new ArrayList<>();
-    private LightSource light = new LightSource(new Vector3f(2000, 3000, 2000), new Vector3f(1, 1, 1));
+    private LightSource light = new LightSource(new Vector3f(0, 40000, 0), new Vector3f(1, 1, 1));
     private Camera camera = new Camera();
     private Vector3f skyColor;
     private float fogDensity;
     private float fogGradient = 1;
+    private float ambientThreshold;
+    private float gravityAccel;
 
     public World() {
         entityRenderer.enableCulling();
@@ -40,9 +40,16 @@ public class World {
     }
 
     public void tick() {
+        double delta = DisplayManager.deltaTime();
         camera.tick();
-        for (Entity entity : entities) {
-            loadEntity(entity);
+        ListIterator<Entity> iter = entities.listIterator();
+        while (iter.hasNext()) {
+            Entity entity = iter.next();
+            entity.tick(delta);
+            if (entity.getPosition().y < -2000)
+                iter.remove();
+            else
+                loadEntity(entity);
         }
         render(camera, light);
     }
@@ -54,7 +61,7 @@ public class World {
 
     public void render(Camera camera, LightSource light) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        WorldState state = new WorldState(camera, light, skyColor, fogDensity, fogGradient);
+        WorldState state = new WorldState(camera, light, skyColor, fogDensity, fogGradient, ambientThreshold);
         entityRenderer.render(state, entitiesMap);
         terrainRenderer.render(state, terrains);
         entitiesMap.clear();
@@ -86,6 +93,22 @@ public class World {
 
     public Camera getCamera() {
         return camera;
+    }
+
+    public float getAmbientThreshold() {
+        return ambientThreshold;
+    }
+
+    public void setAmbientThreshold(float ambientThreshold) {
+        this.ambientThreshold = ambientThreshold;
+    }
+
+    public float getGravityAccel() {
+        return gravityAccel;
+    }
+
+    public void setGravityAccel(float gravityAccel) {
+        this.gravityAccel = gravityAccel;
     }
 
     public void setSkyColor(Vector3f skyColor) {
