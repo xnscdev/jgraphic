@@ -1,6 +1,7 @@
-package org.xnsc.jworld.render;
+package org.xnsc.jgraphic.world;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 public class ObjectShader extends Shader {
     private int locTransformMatrix;
@@ -54,9 +55,9 @@ public class ObjectShader extends Shader {
         loadFloat(locShineDamper, shineDamper);
     }
 
-    public void loadSkyFog() {
-        loadFloat(locFogDensity, World.FOG_DENSITY);
-        loadFloat(locFogGradient, World.FOG_GRADIENT);
-        loadVector3f(locSkyColor, World.SKY_COLOR);
+    public void loadSkyFog(Vector3f skyColor, float fogDensity, float fogGradient) {
+        loadFloat(locFogDensity, fogDensity);
+        loadFloat(locFogGradient, fogGradient);
+        loadVector3f(locSkyColor, skyColor);
     }
 }

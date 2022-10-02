@@ -1,4 +1,4 @@
-package org.xnsc.jworld.render.util;
+package org.xnsc.jgraphic.util;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.stb.STBImage;

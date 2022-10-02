@@ -1,21 +1,14 @@
 package org.xnsc.jworld;
 
-import org.xnsc.jworld.render.*;
-import org.xnsc.jworld.render.util.DisplayManager;
-import org.xnsc.jworld.render.util.ObjectManager;
+import org.xnsc.jgraphic.AppInstance;
+import org.xnsc.jgraphic.world.World;
 
 public class Main {
     public static void main(String[] args) {
-        DisplayManager.createDisplay();
+        AppInstance app = new AppInstance("JWorld", 1280, 760);
         World world = new JWorld();
-
-        while (!DisplayManager.closeRequested()) {
-            world.tick();
-            DisplayManager.updateDisplay();
-        }
-
-        world.clean();
-        ObjectManager.clean();
-        DisplayManager.closeDisplay();
+        app.setWorld(world);
+        app.mainLoop();
+        app.clean();
     }
 }

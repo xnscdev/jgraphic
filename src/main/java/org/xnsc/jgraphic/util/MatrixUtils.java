@@ -1,4 +1,4 @@
-package org.xnsc.jworld.render.util;
+package org.xnsc.jgraphic.util;
 
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
@@ -23,7 +23,7 @@ public final class MatrixUtils {
     }
 
     public static Matrix4f projectionMatrix(float fov, float nearPlane, float farPlane) {
-        float aspectRatio = (float) DisplayManager.WIDTH / (float) DisplayManager.HEIGHT;
+        float aspectRatio = (float) DisplayManager.getWidth() / (float) DisplayManager.getHeight();
         float yScale = (1f / (float) Math.tan(Math.toRadians(fov / 2f))) * aspectRatio;
         float xScale = yScale / aspectRatio;
         float frustum = farPlane - nearPlane;

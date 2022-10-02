@@ -1,13 +1,13 @@
-package org.xnsc.jworld.render;
+package org.xnsc.jgraphic.world;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.xnsc.jworld.render.entity.Entity;
-import org.xnsc.jworld.render.entity.EntityRenderer;
-import org.xnsc.jworld.render.model.RawModel;
-import org.xnsc.jworld.render.terrain.TerrainPiece;
-import org.xnsc.jworld.render.terrain.TerrainRenderer;
-import org.xnsc.jworld.render.util.MatrixUtils;
+import org.xnsc.jgraphic.entity.Entity;
+import org.xnsc.jgraphic.entity.EntityRenderer;
+import org.xnsc.jgraphic.model.RawModel;
+import org.xnsc.jgraphic.terrain.TerrainPiece;
+import org.xnsc.jgraphic.terrain.TerrainRenderer;
+import org.xnsc.jgraphic.util.MatrixUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,21 +20,22 @@ public class World {
     private static final float FOV = 70;
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 1000f;
-    public static final Vector3f SKY_COLOR = new Vector3f(0.5f, 1, 1);
-    public static final float FOG_DENSITY = 0.003f;
-    public static final float FOG_GRADIENT = 1.5f;
+    private static final Vector3f DEFAULT_SKY_COLOR = new Vector3f(0.5f, 1, 1);
     public static final Matrix4f PROJECTION = MatrixUtils.projectionMatrix(FOV, NEAR_PLANE, FAR_PLANE);
     private final EntityRenderer entityRenderer = new EntityRenderer();
     private final TerrainRenderer terrainRenderer = new TerrainRenderer();
     private final Map<RawModel, List<Entity>> entitiesMap = new HashMap<>();
     private final List<TerrainPiece> terrains = new ArrayList<>();
     private final List<Entity> entities = new ArrayList<>();
-    private final LightSource light = new LightSource(new Vector3f(2000, 3000, 2000), new Vector3f(1, 1, 1));
-    private final Camera camera = new Camera();
+    private LightSource light = new LightSource(new Vector3f(2000, 3000, 2000), new Vector3f(1, 1, 1));
+    private Camera camera = new Camera();
+    private Vector3f skyColor;
+    private float fogDensity;
+    private float fogGradient = 1;
 
     public World() {
         entityRenderer.enableCulling();
-        glClearColor(SKY_COLOR.x, SKY_COLOR.y, SKY_COLOR.z, 1);
+        setSkyColor(DEFAULT_SKY_COLOR);
         glEnable(GL_DEPTH_TEST);
     }
 
@@ -53,8 +54,9 @@ public class World {
 
     public void render(Camera camera, LightSource light) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        entityRenderer.render(camera, light, entitiesMap);
-        terrainRenderer.render(camera, light, terrains);
+        WorldState state = new WorldState(camera, light, skyColor, fogDensity, fogGradient);
+        entityRenderer.render(state, entitiesMap);
+        terrainRenderer.render(state, terrains);
         entitiesMap.clear();
     }
 
@@ -84,5 +86,15 @@ public class World {
 
     public Camera getCamera() {
         return camera;
+    }
+
+    public void setSkyColor(Vector3f skyColor) {
+        this.skyColor = skyColor;
+        glClearColor(skyColor.x, skyColor.y, skyColor.z, 1);
+    }
+
+    public void setFog(float density, float gradient) {
+        fogDensity = density;
+        fogGradient = gradient;
     }
 }

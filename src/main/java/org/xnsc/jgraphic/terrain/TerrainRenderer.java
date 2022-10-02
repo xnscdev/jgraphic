@@ -1,13 +1,12 @@
-package org.xnsc.jworld.render.terrain;
+package org.xnsc.jgraphic.terrain;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.xnsc.jworld.render.Camera;
-import org.xnsc.jworld.render.LightSource;
-import org.xnsc.jworld.render.Shader;
-import org.xnsc.jworld.render.World;
-import org.xnsc.jworld.render.model.RawModel;
-import org.xnsc.jworld.render.util.MatrixUtils;
+import org.xnsc.jgraphic.model.RawModel;
+import org.xnsc.jgraphic.util.MatrixUtils;
+import org.xnsc.jgraphic.world.Shader;
+import org.xnsc.jgraphic.world.World;
+import org.xnsc.jgraphic.world.WorldState;
 
 import java.util.List;
 
@@ -26,11 +25,9 @@ public class TerrainRenderer {
         shader.clean();
     }
 
-    public void render(Camera camera, LightSource light, List<TerrainPiece> terrains) {
+    public void render(WorldState state, List<TerrainPiece> terrains) {
         shader.start();
-        shader.loadSkyFog();
-        shader.loadLightSource(light);
-        shader.loadViewMatrix(camera);
+        state.loadToShader(shader);
         for (TerrainPiece terrain : terrains) {
             bindModel(terrain.getModel());
             bindTerrainPiece(terrain);

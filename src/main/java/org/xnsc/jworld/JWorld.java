@@ -1,11 +1,11 @@
 package org.xnsc.jworld;
 
 import org.joml.Vector3f;
-import org.xnsc.jworld.render.World;
-import org.xnsc.jworld.render.entity.Entity;
-import org.xnsc.jworld.render.model.ModelData;
-import org.xnsc.jworld.render.model.TexturedModel;
-import org.xnsc.jworld.render.util.OBJLoader;
+import org.xnsc.jgraphic.entity.Entity;
+import org.xnsc.jgraphic.model.ModelData;
+import org.xnsc.jgraphic.model.TexturedModel;
+import org.xnsc.jgraphic.util.OBJLoader;
+import org.xnsc.jgraphic.world.World;
 
 import java.util.Random;
 

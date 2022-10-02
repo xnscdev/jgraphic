@@ -1,12 +1,11 @@
-package org.xnsc.jworld.render.entity;
+package org.xnsc.jgraphic.entity;
 
 import org.joml.Matrix4f;
-import org.xnsc.jworld.render.Camera;
-import org.xnsc.jworld.render.LightSource;
-import org.xnsc.jworld.render.Shader;
-import org.xnsc.jworld.render.World;
-import org.xnsc.jworld.render.model.RawModel;
-import org.xnsc.jworld.render.util.MatrixUtils;
+import org.xnsc.jgraphic.model.RawModel;
+import org.xnsc.jgraphic.util.MatrixUtils;
+import org.xnsc.jgraphic.world.Shader;
+import org.xnsc.jgraphic.world.World;
+import org.xnsc.jgraphic.world.WorldState;
 
 import java.util.List;
 import java.util.Map;
@@ -26,11 +25,9 @@ public class EntityRenderer {
         shader.clean();
     }
 
-    public void render(Camera camera, LightSource light, Map<RawModel, List<Entity>> entities) {
+    public void render(WorldState state, Map<RawModel, List<Entity>> entities) {
         shader.start();
-        shader.loadSkyFog();
-        shader.loadLightSource(light);
-        shader.loadViewMatrix(camera);
+        state.loadToShader(shader);
         for (RawModel model : entities.keySet()) {
             bindModel(model);
             List<Entity> batch = entities.get(model);

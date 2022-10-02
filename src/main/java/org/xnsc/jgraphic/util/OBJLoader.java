@@ -1,9 +1,9 @@
-package org.xnsc.jworld.render.util;
+package org.xnsc.jgraphic.util;
 
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import org.xnsc.jworld.render.model.ModelData;
-import org.xnsc.jworld.render.model.ModelVertex;
+import org.xnsc.jgraphic.model.ModelData;
+import org.xnsc.jgraphic.model.ModelVertex;
 
 import java.io.BufferedReader;
 import java.io.IOException;

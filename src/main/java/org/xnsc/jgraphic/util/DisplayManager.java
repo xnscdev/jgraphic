@@ -1,16 +1,19 @@
-package org.xnsc.jworld.render.util;
+package org.xnsc.jgraphic.util;
 
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 public class DisplayManager {
-    private static final String TITLE = "JWorld";
-    public static final int WIDTH = 1280;
-    public static final int HEIGHT = 720;
+    private static String title;
+    private static int width;
+    private static int height;
     private static long window;
 
-    public static void createDisplay() {
+    public static void createDisplay(String title, int width, int height) {
+        DisplayManager.title = title;
+        DisplayManager.width = width;
+        DisplayManager.height = height;
         if (!glfwInit())
             throw new IllegalStateException("Failed to initialize GLFW");
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -19,7 +22,7 @@ public class DisplayManager {
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
-        window = glfwCreateWindow(WIDTH, HEIGHT, TITLE, 0, 0);
+        window = glfwCreateWindow(width, height, title, 0, 0);
         if (window == 0) {
             glfwTerminate();
             throw new RuntimeException("Failed to create window");
@@ -44,5 +47,17 @@ public class DisplayManager {
 
     public static boolean keyDown(int key) {
         return glfwGetKey(window, key) == GLFW_PRESS;
+    }
+
+    public static String getTitle() {
+        return title;
+    }
+
+    public static int getWidth() {
+        return width;
+    }
+
+    public static int getHeight() {
+        return height;
     }
 }

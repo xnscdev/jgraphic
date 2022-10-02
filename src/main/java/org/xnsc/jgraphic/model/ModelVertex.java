@@ -1,4 +1,4 @@
-package org.xnsc.jworld.render.model;
+package org.xnsc.jgraphic.model;
 
 import org.joml.Vector3f;
 

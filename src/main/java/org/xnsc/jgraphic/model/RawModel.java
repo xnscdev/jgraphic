@@ -1,6 +1,6 @@
-package org.xnsc.jworld.render.model;
+package org.xnsc.jgraphic.model;
 
-import org.xnsc.jworld.render.util.ObjectManager;
+import org.xnsc.jgraphic.util.ObjectManager;
 
 public class RawModel {
     private final int vao;

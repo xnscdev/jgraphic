@@ -1,7 +1,7 @@
-package org.xnsc.jworld.render.entity;
+package org.xnsc.jgraphic.entity;
 
 import org.joml.Vector3f;
-import org.xnsc.jworld.render.model.RawModel;
+import org.xnsc.jgraphic.model.RawModel;
 
 public class Entity {
     private final RawModel model;

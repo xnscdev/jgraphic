@@ -1,6 +1,6 @@
-package org.xnsc.jworld.render.entity;
+package org.xnsc.jgraphic.entity;
 
-import org.xnsc.jworld.render.ObjectShader;
+import org.xnsc.jgraphic.world.ObjectShader;
 
 public class EntityShader extends ObjectShader {
     private int locFakeLighting;

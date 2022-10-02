@@ -1,7 +1,7 @@
-package org.xnsc.jworld.render.terrain;
+package org.xnsc.jgraphic.terrain;
 
-import org.xnsc.jworld.render.model.ModelData;
-import org.xnsc.jworld.render.model.TexturedModel;
+import org.xnsc.jgraphic.model.ModelData;
+import org.xnsc.jgraphic.model.TexturedModel;
 
 public class TerrainPiece {
     private static final float SIZE = 800;

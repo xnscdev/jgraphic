@@ -1,6 +1,6 @@
-package org.xnsc.jworld.render.model;
+package org.xnsc.jgraphic.model;
 
-import org.xnsc.jworld.render.util.ObjectManager;
+import org.xnsc.jgraphic.util.ObjectManager;
 
 import static org.lwjgl.opengl.GL13.*;
 
