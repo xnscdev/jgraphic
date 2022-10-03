@@ -10,6 +10,7 @@ layout(location = 0) out vec4 out_color;
 
 uniform sampler2D texture_sampler;
 uniform vec3 light_color[4];
+uniform vec3 attenuation[4];
 uniform float reflectivity;
 uniform float shine_damper;
 uniform vec3 sky_color;
@@ -22,12 +23,14 @@ void main(void) {
   vec3 total_specular = vec3(0.0);
 
   for (int i = 0; i < 4; i++) {
+    float distance = length(light_vector[i]);
+    float attenuation_factor = attenuation[i].x + attenuation[i].y * distance + attenuation[i].z * distance * distance;
     vec3 unit_light = normalize(light_vector[i]);
     float brightness = max(dot(unit_normal, unit_light), 0.0);
     vec3 light_dir = reflect(-unit_light, unit_normal);
     float specular_factor = max(dot(light_dir, unit_camera), 0.0);
-    total_diffuse = total_diffuse + brightness * light_color[i];
-    total_specular = total_specular + pow(specular_factor, shine_damper) * reflectivity * light_color[i];
+    total_diffuse = total_diffuse + brightness * light_color[i] / attenuation_factor;
+    total_specular = total_specular + pow(specular_factor, shine_damper) * reflectivity * light_color[i] / attenuation_factor;
   }
   total_diffuse = max(total_diffuse, ambient_threshold);
 

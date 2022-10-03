@@ -12,6 +12,7 @@ public class ObjectShader extends Shader {
     private int locViewMatrix;
     private int[] locLightPos;
     private int[] locLightColor;
+    private int[] locAttenuation;
     private int locReflectivity;
     private int locShineDamper;
     private int locFogDensity;
@@ -37,9 +38,11 @@ public class ObjectShader extends Shader {
 
         locLightPos = new int[MAX_LIGHTS];
         locLightColor = new int[MAX_LIGHTS];
+        locAttenuation = new int[MAX_LIGHTS];
         for (int i = 0; i < MAX_LIGHTS; i++) {
             locLightPos[i] = getUniform("light_pos[" + i + "]");
             locLightColor[i] = getUniform("light_color[" + i + "]");
+            locAttenuation[i] = getUniform("attenuation[" + i + "]");
         }
     }
 
@@ -60,10 +63,12 @@ public class ObjectShader extends Shader {
             if (i < lights.size()) {
                 loadVector3f(locLightPos[i], lights.get(i).getPosition());
                 loadVector3f(locLightColor[i], lights.get(i).getColor());
+                loadVector3f(locAttenuation[i], lights.get(i).getAttenuation());
             }
             else {
                 loadVector3f(locLightPos[i], new Vector3f());
                 loadVector3f(locLightColor[i], new Vector3f());
+                loadVector3f(locAttenuation[i], new Vector3f(1, 0, 0));
             }
         }
     }

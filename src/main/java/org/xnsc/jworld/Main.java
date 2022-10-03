@@ -23,7 +23,7 @@ public class Main {
         world.setCamera(new Camera3PT(player));
         world.getCamera().setPosition(new Vector3f(0, 20, 50));
         world.getCamera().setPitch(20);
-        world.addLightSource(new LightSource(new Vector3f(2000, 4000, 2000), new Vector3f(1, 1, 1)));
+        world.addLightSource(new LightSource(new Vector3f(2000, 4000, 2000), new Vector3f(1)));
         world.setAmbientThreshold(0.3f);
         world.setGravityAccel(40);
         world.setFog(0.003f, 1.5f);
