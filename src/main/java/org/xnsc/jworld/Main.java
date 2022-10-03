@@ -11,6 +11,7 @@ import org.xnsc.jgraphic.gui.TexturedGui;
 import org.xnsc.jgraphic.model.TexturedModel;
 import org.xnsc.jgraphic.terrain.TerrainPiece;
 import org.xnsc.jgraphic.world.Camera3PT;
+import org.xnsc.jgraphic.world.LightSource;
 import org.xnsc.jgraphic.world.World;
 
 public class Main {
@@ -22,8 +23,8 @@ public class Main {
         world.setCamera(new Camera3PT(player));
         world.getCamera().setPosition(new Vector3f(0, 20, 50));
         world.getCamera().setPitch(20);
-        world.getLightSource().setPosition(new Vector3f(2000, 4000, 2000));
-        world.setAmbientThreshold(0.2f);
+        world.addLightSource(new LightSource(new Vector3f(2000, 4000, 2000), new Vector3f(1, 1, 1)));
+        world.setAmbientThreshold(0.3f);
         world.setGravityAccel(40);
         world.setFog(0.003f, 1.5f);
         world.addEntity(player);

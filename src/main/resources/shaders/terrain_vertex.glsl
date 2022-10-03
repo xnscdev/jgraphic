@@ -6,14 +6,14 @@ layout(location = 2) in vec3 normal;
 
 out vec2 pass_texture;
 out vec3 surface_normal;
-out vec3 light_vector;
+out vec3 light_vector[4];
 out vec3 camera_vector;
 out float visibility;
 
 uniform mat4 transform_matrix;
 uniform mat4 projection_matrix;
 uniform mat4 view_matrix;
-uniform vec3 light_pos;
+uniform vec3 light_pos[4];
 uniform float fog_density;
 uniform float fog_gradient;
 uniform float texture_scale;
@@ -25,7 +25,9 @@ void main(void) {
   pass_texture = texture * texture_scale;
 
   surface_normal = (transform_matrix * vec4(normal, 0.0)).xyz;
-  light_vector = light_pos - world_pos.xyz;
+  for (int i = 0; i < 4; i++) {
+    light_vector[i] = light_pos[i] - world_pos.xyz;
+  }
   camera_vector = (inverse(view_matrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - world_pos.xyz;
 
   float distance = length(camera_pos.xyz);

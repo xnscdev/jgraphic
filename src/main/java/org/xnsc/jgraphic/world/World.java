@@ -29,7 +29,7 @@ public class World {
     private final Map<RawModel, List<Entity>> entitiesMap = new HashMap<>();
     private final List<Entity> entities = new ArrayList<>();
     private final List<TerrainPiece> terrains = new ArrayList<>();
-    private LightSource light = new LightSource(new Vector3f(0, 40000, 0), new Vector3f(1, 1, 1));
+    private final List<LightSource> lights = new ArrayList<>();
     private Camera camera;
     private Vector3f skyColor;
     private float fogDensity;
@@ -55,7 +55,7 @@ public class World {
                 loadEntity(entity);
         }
         camera.tick();
-        render(camera, light);
+        render(camera, lights);
     }
 
     public void clean() {
@@ -64,9 +64,9 @@ public class World {
         guiRenderer.clean();
     }
 
-    public void render(Camera camera, LightSource light) {
+    public void render(Camera camera, List<LightSource> lights) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        WorldState state = new WorldState(camera, light, skyColor, fogDensity, fogGradient, ambientThreshold);
+        WorldState state = new WorldState(camera, lights, skyColor, fogDensity, fogGradient, ambientThreshold);
         entityRenderer.render(state, entitiesMap);
         terrainRenderer.render(state, terrains);
         guiRenderer.render();
@@ -103,12 +103,12 @@ public class World {
         guiRenderer.addDebugGui();
     }
 
-    public LightSource getLightSource() {
-        return light;
+    public List<LightSource> getLightSources() {
+        return lights;
     }
 
-    public void setLightSource(LightSource light) {
-        this.light = light;
+    public void addLightSource(LightSource light) {
+        lights.add(light);
     }
 
     public Camera getCamera() {

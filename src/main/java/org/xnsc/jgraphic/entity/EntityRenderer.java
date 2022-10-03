@@ -27,7 +27,6 @@ public class EntityRenderer {
 
     public void render(WorldState state, Map<RawModel, List<Entity>> entities) {
         shader.start();
-        shader.setAmbientThreshold(state.ambientThreshold());
         state.loadToShader(shader);
         for (RawModel model : entities.keySet()) {
             bindModel(model);

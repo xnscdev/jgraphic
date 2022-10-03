@@ -3,17 +3,21 @@ package org.xnsc.jgraphic.world;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
+import java.util.List;
+
 public class ObjectShader extends Shader {
+    private static final int MAX_LIGHTS = 4;
     private int locTransformMatrix;
     private int locProjectionMatrix;
     private int locViewMatrix;
-    private int locLightPos;
-    private int locLightColor;
+    private int[] locLightPos;
+    private int[] locLightColor;
     private int locReflectivity;
     private int locShineDamper;
     private int locFogDensity;
     private int locFogGradient;
     private int locSkyColor;
+    private int locAmbientThreshold;
 
     public ObjectShader(String name) {
         super(name);
@@ -24,13 +28,19 @@ public class ObjectShader extends Shader {
         locTransformMatrix = getUniform("transform_matrix");
         locProjectionMatrix = getUniform("projection_matrix");
         locViewMatrix = getUniform("view_matrix");
-        locLightPos = getUniform("light_pos");
-        locLightColor = getUniform("light_color");
         locReflectivity = getUniform("reflectivity");
         locShineDamper = getUniform("shine_damper");
         locFogDensity = getUniform("fog_density");
         locFogGradient = getUniform("fog_gradient");
         locSkyColor = getUniform("sky_color");
+        locAmbientThreshold = getUniform("ambient_threshold");
+
+        locLightPos = new int[MAX_LIGHTS];
+        locLightColor = new int[MAX_LIGHTS];
+        for (int i = 0; i < MAX_LIGHTS; i++) {
+            locLightPos[i] = getUniform("light_pos[" + i + "]");
+            locLightColor[i] = getUniform("light_color[" + i + "]");
+        }
     }
 
     public void loadTransformMatrix(Matrix4f value) {
@@ -45,9 +55,17 @@ public class ObjectShader extends Shader {
         loadMatrix4f(locViewMatrix, camera.viewMatrix());
     }
 
-    public void loadLightSource(LightSource source) {
-        loadVector3f(locLightPos, source.getPosition());
-        loadVector3f(locLightColor, source.getColor());
+    public void loadLightSources(List<LightSource> lights) {
+        for (int i = 0; i < MAX_LIGHTS; i++) {
+            if (i < lights.size()) {
+                loadVector3f(locLightPos[i], lights.get(i).getPosition());
+                loadVector3f(locLightColor[i], lights.get(i).getColor());
+            }
+            else {
+                loadVector3f(locLightPos[i], new Vector3f());
+                loadVector3f(locLightColor[i], new Vector3f());
+            }
+        }
     }
 
     public void loadSpecularLighting(float reflectivity, float shineDamper) {
@@ -59,5 +77,9 @@ public class ObjectShader extends Shader {
         loadFloat(locFogDensity, fogDensity);
         loadFloat(locFogGradient, fogGradient);
         loadVector3f(locSkyColor, skyColor);
+    }
+
+    public void setAmbientThreshold(float threshold) {
+        loadFloat(locAmbientThreshold, threshold);
     }
 }

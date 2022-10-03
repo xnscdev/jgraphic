@@ -30,6 +30,9 @@ public class GuiRenderer {
         solidShader.start();
         glBindVertexArray(model.getVAO());
         glEnableVertexAttribArray(0);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glDisable(GL_DEPTH_TEST);
         for (SolidGui gui : solidGuis) {
             Matrix4f transformMatrix = MatrixUtils.transformMatrix(gui.getPosition(), gui.getSize());
             solidShader.loadTransformMatrix(transformMatrix);
@@ -43,6 +46,8 @@ public class GuiRenderer {
             texturedShader.loadTransformMatrix(transformMatrix);
             glDrawArrays(GL_TRIANGLE_STRIP, 0, model.getVertexCount());
         }
+        glEnable(GL_DEPTH_TEST);
+        glDisable(GL_BLEND);
         glDisableVertexAttribArray(0);
         glBindVertexArray(0);
         Shader.stop();
