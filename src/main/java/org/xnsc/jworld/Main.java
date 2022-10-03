@@ -29,8 +29,8 @@ public class Main {
         world.setFog(0.003f, 1.5f);
         world.addEntity(player);
 
-        TerrainPiece terrain = new TerrainPiece(0, 0, 1000, 256, "terrain");
-        terrain.setHeightMap(0, 0, 20, "heightmap");
+        TerrainPiece terrain = new TerrainPiece(0, 0, 1000, 256, "terrain", "mud", "flowers", "path", "blend_map");
+        terrain.setHeightMap(0, 0, 10, "heightmap");
         world.addTerrain(terrain);
 
         Random random = new Random();

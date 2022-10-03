@@ -18,6 +18,7 @@ public class TerrainRenderer {
     public TerrainRenderer() {
         shader.start();
         shader.loadProjectionMatrix(World.PROJECTION);
+        shader.loadTextureUnits();
         Shader.stop();
     }
 

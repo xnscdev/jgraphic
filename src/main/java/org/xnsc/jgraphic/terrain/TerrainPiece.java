@@ -18,23 +18,31 @@ public class TerrainPiece {
     private final float z;
     private final float size;
     private final int vertexCount;
-    private final String texture;
+    private final String background;
+    private final String red;
+    private final String green;
+    private final String blue;
+    private final String blendMap;
     private float maxHeight;
     private int hx;
     private int hz;
     private BufferedImage heightMap;
     private float[][] heights;
-    private TexturedModel model;
+    private TerrainModel model;
 
-    public TerrainPiece(int x, int z, float size, int vertexCount, String texture) {
+    public TerrainPiece(int x, int z, float size, int vertexCount, String background, String red, String green, String blue, String blendMap) {
         this.x = x - size / 2;
         this.z = z - size / 2;
         this.size = size;
         this.vertexCount = vertexCount;
-        this.texture = texture;
+        this.background = background;
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+        this.blendMap = blendMap;
     }
 
-    public TexturedModel getModel() {
+    public TerrainModel getModel() {
         return model;
     }
 
@@ -123,7 +131,7 @@ public class TerrainPiece {
             }
         }
         ModelData data = new ModelData(vertices, textures, normals, indices);
-        model = new TexturedModel(data, texture);
+        model = new TerrainModel(data, background, red, green, blue, blendMap);
     }
 
     private float getHeight(int x, int z, BufferedImage image) {

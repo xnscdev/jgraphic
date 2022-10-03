@@ -52,6 +52,10 @@ public abstract class Shader {
         glUniform1f(loc, value);
     }
 
+    protected void loadInt(int loc, int value) {
+        glUniform1i(loc, value);
+    }
+
     protected void loadBoolean(int loc, boolean value) {
         glUniform1f(loc, value ? 1 : 0);
     }

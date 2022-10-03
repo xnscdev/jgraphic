@@ -16,13 +16,12 @@ uniform mat4 view_matrix;
 uniform vec3 light_pos[4];
 uniform float fog_density;
 uniform float fog_gradient;
-uniform float texture_scale;
 
 void main(void) {
   vec4 world_pos = transform_matrix * vec4(position, 1.0);
   vec4 camera_pos = view_matrix * world_pos;
   gl_Position = projection_matrix * camera_pos;
-  pass_texture = texture * texture_scale;
+  pass_texture = texture;
 
   surface_normal = (transform_matrix * vec4(normal, 0.0)).xyz;
   for (int i = 0; i < 4; i++) {

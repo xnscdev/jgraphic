@@ -9,6 +9,8 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class Player extends Entity {
     public static final IPlayerMovement MOVEMENT_WASD = (player, terrain, delta) -> {
+        if (DisplayManager.keyDown(GLFW_KEY_SPACE) && terrain != null && player.position.y <= terrain.getTerrainHeight(player.position.x, player.position.z))
+            player.addVelocity(new Vector3f(0, player.jumpSpeed, 0));
         if (DisplayManager.keyDown(GLFW_KEY_A)) {
             player.position.x -= player.moveSpeed * delta * Math.cos(Math.toRadians(player.yaw));
             player.position.z -= player.moveSpeed * delta * Math.sin(Math.toRadians(player.yaw));
@@ -25,8 +27,6 @@ public class Player extends Entity {
             player.position.z += player.moveSpeed * delta * Math.cos(Math.toRadians(player.yaw));
             player.position.x -= player.moveSpeed * delta * Math.sin(Math.toRadians(player.yaw));
         }
-        if (DisplayManager.keyDown(GLFW_KEY_SPACE) && terrain != null && player.position.y <= terrain.getTerrainHeight(player.position.x, player.position.z))
-            player.addVelocity(new Vector3f(0, player.jumpSpeed, 0));
     };
     public static final IPlayerMovement MOVEMENT_WASD_TLR = (player, terrain, delta) -> {
         MOVEMENT_WASD.move(player, terrain, delta);
