@@ -8,7 +8,7 @@ in float visibility;
 
 layout(location = 0) out vec4 out_color;
 
-uniform sampler2D textureSampler;
+uniform sampler2D texture_sampler;
 uniform vec3 light_color;
 uniform float reflectivity;
 uniform float shine_damper;
@@ -23,6 +23,6 @@ void main(void) {
   vec3 light_dir = reflect(-unit_light, unit_normal);
   float specular_factor = max(dot(light_dir, unit_camera), 0.0);
   vec3 specular_color = pow(specular_factor, shine_damper) * reflectivity * light_color;
-  out_color = vec4(diffuse, 1.0) * texture(textureSampler, pass_texture) + vec4(specular_color, 1.0);
+  out_color = vec4(diffuse, 1.0) * texture(texture_sampler, pass_texture) + vec4(specular_color, 1.0);
   out_color = mix(vec4(sky_color, 1.0), out_color, visibility);
 }
