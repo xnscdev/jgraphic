@@ -1,6 +1,7 @@
 package org.xnsc.jgraphic.world;
 
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 
@@ -58,6 +59,10 @@ public abstract class Shader {
 
     protected void loadBoolean(int loc, boolean value) {
         glUniform1f(loc, value ? 1 : 0);
+    }
+
+    protected void loadVector2f(int loc, Vector2f value) {
+        glUniform2f(loc, value.x, value.y);
     }
 
     protected void loadVector3f(int loc, Vector3f value) {

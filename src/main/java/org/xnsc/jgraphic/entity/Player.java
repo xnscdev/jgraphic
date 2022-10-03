@@ -2,6 +2,7 @@ package org.xnsc.jgraphic.entity;
 
 import org.joml.Vector3f;
 import org.xnsc.jgraphic.model.RawModel;
+import org.xnsc.jgraphic.model.TexturedModel;
 import org.xnsc.jgraphic.terrain.TerrainPiece;
 import org.xnsc.jgraphic.util.DisplayManager;
 
@@ -45,12 +46,12 @@ public class Player extends Entity {
     private float jumpSpeed = 15;
     private float yaw;
 
-    public Player(RawModel model, Vector3f position, IPlayerMovement movement) {
-        super(model, position);
+    public Player(TexturedModel model, Vector3f position, IPlayerMovement movement) {
+        super(model, position, 0, 0, 0, 1);
         this.movement = movement;
     }
 
-    public Player(RawModel model, Vector3f position) {
+    public Player(TexturedModel model, Vector3f position) {
         this(model, position, null);
     }
 

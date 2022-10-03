@@ -7,6 +7,7 @@ import org.xnsc.jgraphic.entity.EntityRenderer;
 import org.xnsc.jgraphic.gui.Gui;
 import org.xnsc.jgraphic.gui.GuiRenderer;
 import org.xnsc.jgraphic.model.RawModel;
+import org.xnsc.jgraphic.model.TexturedModel;
 import org.xnsc.jgraphic.terrain.TerrainPiece;
 import org.xnsc.jgraphic.terrain.TerrainRenderer;
 import org.xnsc.jgraphic.util.DisplayManager;
@@ -26,7 +27,7 @@ public class World {
     private final EntityRenderer entityRenderer = new EntityRenderer();
     private final TerrainRenderer terrainRenderer = new TerrainRenderer();
     private final GuiRenderer guiRenderer = new GuiRenderer();
-    private final Map<RawModel, List<Entity>> entitiesMap = new HashMap<>();
+    private final Map<TexturedModel, List<Entity>> entitiesMap = new HashMap<>();
     private final List<Entity> entities = new ArrayList<>();
     private final List<TerrainPiece> terrains = new ArrayList<>();
     private final List<LightSource> lights = new ArrayList<>();
@@ -74,7 +75,7 @@ public class World {
     }
 
     public void loadEntity(Entity entity) {
-        RawModel model = entity.getModel();
+        TexturedModel model = entity.getModel();
         List<Entity> batch = entitiesMap.get(model);
         if (batch != null)
             batch.add(entity);

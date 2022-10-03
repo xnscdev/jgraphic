@@ -35,12 +35,22 @@ public class Main {
 
         Random random = new Random();
         TexturedModel treeModel = new TexturedModel("tree");
+        TexturedModel fernModel = new TexturedModel("fern");
+        fernModel.setRows(2);
         for (int i = 0; i < 1000; i++) {
             float x = random.nextFloat() * 2000 - 1000;
             float z = random.nextFloat() * 2000 - 1000;
             float scale = random.nextFloat() + 3;
             Entity tree = new Entity(treeModel, new Vector3f(x, terrain.getTerrainHeight(x, z), z), 0, 0, 0, scale);
             world.addEntity(tree);
+        }
+        for (int i = 0; i < 1500; i++) {
+            float x = random.nextFloat() * 2000 - 1000;
+            float z = random.nextFloat() * 2000 - 1000;
+            float ry = random.nextFloat() * 180;
+            int textureIndex = random.nextInt(4);
+            Entity fern = new Entity(fernModel, new Vector3f(x, terrain.getTerrainHeight(x, z), z), 0, ry, 0, 1, textureIndex);
+            world.addEntity(fern);
         }
         world.addDebugGui();
         AppInstance.launch(world);

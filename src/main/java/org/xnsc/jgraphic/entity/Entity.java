@@ -1,31 +1,33 @@
 package org.xnsc.jgraphic.entity;
 
 import org.joml.Vector3f;
-import org.xnsc.jgraphic.model.RawModel;
+import org.xnsc.jgraphic.model.TexturedModel;
 import org.xnsc.jgraphic.terrain.TerrainPiece;
 import org.xnsc.jgraphic.world.World;
 
 public class Entity {
-    private final RawModel model;
+    private final TexturedModel model;
     protected Vector3f position;
     protected float rx;
     protected float ry;
     protected float rz;
     protected float scale;
+    private int textureIndex;
     private Vector3f acceleration = new Vector3f();
     private Vector3f velocity = new Vector3f();
 
-    public Entity(RawModel model, Vector3f position, float rx, float ry, float rz, float scale) {
+    public Entity(TexturedModel model, Vector3f position, float rx, float ry, float rz, float scale, int textureIndex) {
         this.model = model;
         this.position = position;
         this.rx = rx;
         this.ry = ry;
         this.rz = rz;
         this.scale = scale;
+        this.textureIndex = textureIndex;
     }
 
-    public Entity(RawModel model, Vector3f position) {
-        this(model, position, 0, 0, 0, 1);
+    public Entity(TexturedModel model, Vector3f position, float rx, float ry, float rz, float scale) {
+        this(model, position, rx, ry, rz, scale, 0);
     }
 
     public void tick(TerrainPiece terrain, double delta) {
@@ -40,7 +42,7 @@ public class Entity {
         }
     }
 
-    public RawModel getModel() {
+    public TexturedModel getModel() {
         return model;
     }
 
@@ -82,6 +84,16 @@ public class Entity {
 
     public void setScale(float scale) {
         this.scale = scale;
+    }
+
+    public float getTextureX() {
+        int column = textureIndex % model.getRows();
+        return (float) column / (float) model.getRows();
+    }
+
+    public float getTextureY() {
+        int row = textureIndex / model.getRows();
+        return (float) row / (float) model.getRows();
     }
 
     public void addAcceleration(Vector3f acceleration) {
