@@ -2,7 +2,7 @@ package org.xnsc.jgraphic;
 
 import org.xnsc.jgraphic.util.DisplayManager;
 import org.xnsc.jgraphic.util.ObjectManager;
-import org.xnsc.jgraphic.world.World;
+import org.xnsc.jgraphic.render.World;
 
 public class AppInstance {
     private static World world;

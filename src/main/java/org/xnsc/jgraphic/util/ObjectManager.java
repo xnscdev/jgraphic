@@ -4,6 +4,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.stb.STBImage;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
+import org.xnsc.jgraphic.render.TextureData;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -34,29 +35,17 @@ public class ObjectManager {
     }
 
     public static int createTexture(String name) {
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            IntBuffer width = stack.mallocInt(1);
-            IntBuffer height = stack.mallocInt(1);
-            IntBuffer channels = stack.mallocInt(1);
-            String path = "/textures/" + name + ".png";
-            ByteBuffer raw = storeByteBuffer(path);
-            if (raw == null)
-                throw new IllegalArgumentException("Failed to load buffer for texture " + path);
-            ByteBuffer buffer = STBImage.stbi_load_from_memory(raw, width, height, channels, STBImage.STBI_rgb_alpha);
-            if (buffer == null)
-                throw new RuntimeException("Failed to load image data for texture " + path);
-
-            int texture = glGenTextures();
-            glBindTexture(GL_TEXTURE_2D, texture);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width.get(), height.get(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
-            glGenerateMipmap(GL_TEXTURE_2D);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, 0);
-            glBindTexture(GL_TEXTURE_2D, 0);
-            STBImage.stbi_image_free(buffer);
-            textures.add(texture);
-            return texture;
-        }
+        TextureData data = new TextureData("/textures/" + name + ".png");
+        int texture = glGenTextures();
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, data.getWidth(), data.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data.getBuffer());
+        glGenerateMipmap(GL_TEXTURE_2D);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, 0);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        data.clean();
+        textures.add(texture);
+        return texture;
     }
 
     public static void storeAttribute(int attr, int size, float[] data) {

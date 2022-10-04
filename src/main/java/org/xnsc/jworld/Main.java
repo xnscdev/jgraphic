@@ -1,18 +1,15 @@
 package org.xnsc.jworld;
 
 import org.joml.Random;
-import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.xnsc.jgraphic.AppInstance;
 import org.xnsc.jgraphic.entity.Entity;
 import org.xnsc.jgraphic.entity.Player;
-import org.xnsc.jgraphic.gui.SolidGui;
-import org.xnsc.jgraphic.gui.TexturedGui;
 import org.xnsc.jgraphic.model.TexturedModel;
 import org.xnsc.jgraphic.terrain.TerrainPiece;
-import org.xnsc.jgraphic.world.Camera3PT;
-import org.xnsc.jgraphic.world.LightSource;
-import org.xnsc.jgraphic.world.World;
+import org.xnsc.jgraphic.render.Camera3PT;
+import org.xnsc.jgraphic.render.LightSource;
+import org.xnsc.jgraphic.render.World;
 
 public class Main {
     public static void main(String[] args) {
@@ -29,7 +26,8 @@ public class Main {
         world.setFog(0.003f, 1.5f);
         world.addEntity(player);
 
-        TerrainPiece terrain = new TerrainPiece(0, 0, 1000, 256, "terrain", "mud", "flowers", "path", "blend_map");
+        TerrainPiece terrain = new TerrainPiece(0, 0, 1000, 256, "terrain");
+        terrain.useBlendMap("mud", "flowers", "path", "blend_map");
         terrain.setHeightMap(0, 0, 10, "heightmap");
         world.addTerrain(terrain);
 

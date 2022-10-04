@@ -1,6 +1,6 @@
 package org.xnsc.jgraphic.terrain;
 
-import org.xnsc.jgraphic.world.ObjectShader;
+import org.xnsc.jgraphic.render.ObjectShader;
 
 public class TerrainShader extends ObjectShader {
     private int locBackgroundSampler;

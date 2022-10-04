@@ -2,7 +2,7 @@ package org.xnsc.jgraphic.gui;
 
 import org.joml.Matrix4f;
 import org.xnsc.jgraphic.util.MatrixUtils;
-import org.xnsc.jgraphic.world.Shader;
+import org.xnsc.jgraphic.render.Shader;
 
 import java.util.ArrayList;
 import java.util.List;

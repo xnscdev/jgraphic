@@ -3,9 +3,8 @@ package org.xnsc.jgraphic.terrain;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.xnsc.jgraphic.model.ModelData;
-import org.xnsc.jgraphic.model.TexturedModel;
 import org.xnsc.jgraphic.util.MatrixUtils;
-import org.xnsc.jgraphic.world.World;
+import org.xnsc.jgraphic.render.World;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -14,15 +13,16 @@ import java.util.Objects;
 
 public class TerrainPiece {
     private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
+    private static final String UNUSED_TEXTURE = "black";
     private final float x;
     private final float z;
     private final float size;
     private final int vertexCount;
     private final String background;
-    private final String red;
-    private final String green;
-    private final String blue;
-    private final String blendMap;
+    private String red;
+    private String green;
+    private String blue;
+    private String blendMap;
     private float maxHeight;
     private int hx;
     private int hz;
@@ -30,16 +30,13 @@ public class TerrainPiece {
     private float[][] heights;
     private TerrainModel model;
 
-    public TerrainPiece(int x, int z, float size, int vertexCount, String background, String red, String green, String blue, String blendMap) {
+    public TerrainPiece(int x, int z, float size, int vertexCount, String background) {
         this.x = x - size / 2;
         this.z = z - size / 2;
         this.size = size;
         this.vertexCount = vertexCount;
         this.background = background;
-        this.red = red;
-        this.green = green;
-        this.blue = blue;
-        this.blendMap = blendMap;
+        this.red = this.green = this.blue = this.blendMap = UNUSED_TEXTURE;
     }
 
     public TerrainModel getModel() {
@@ -89,6 +86,13 @@ public class TerrainPiece {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public void useBlendMap(String red, String green, String blue, String blendMap) {
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+        this.blendMap = blendMap;
     }
 
     public void build() {

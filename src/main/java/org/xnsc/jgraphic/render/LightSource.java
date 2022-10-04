@@ -1,4 +1,4 @@
-package org.xnsc.jgraphic.world;
+package org.xnsc.jgraphic.render;
 
 import org.joml.Vector3f;
 

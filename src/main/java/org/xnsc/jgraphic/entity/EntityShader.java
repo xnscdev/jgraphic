@@ -1,7 +1,7 @@
 package org.xnsc.jgraphic.entity;
 
 import org.joml.Vector2f;
-import org.xnsc.jgraphic.world.ObjectShader;
+import org.xnsc.jgraphic.render.ObjectShader;
 
 public class EntityShader extends ObjectShader {
     private int locFakeLighting;

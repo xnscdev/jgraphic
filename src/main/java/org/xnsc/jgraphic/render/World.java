@@ -1,4 +1,4 @@
-package org.xnsc.jgraphic.world;
+package org.xnsc.jgraphic.render;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -6,7 +6,6 @@ import org.xnsc.jgraphic.entity.Entity;
 import org.xnsc.jgraphic.entity.EntityRenderer;
 import org.xnsc.jgraphic.gui.Gui;
 import org.xnsc.jgraphic.gui.GuiRenderer;
-import org.xnsc.jgraphic.model.RawModel;
 import org.xnsc.jgraphic.model.TexturedModel;
 import org.xnsc.jgraphic.terrain.TerrainPiece;
 import org.xnsc.jgraphic.terrain.TerrainRenderer;
@@ -134,6 +133,10 @@ public class World {
 
     public void setGravityAccel(float gravityAccel) {
         this.gravityAccel = gravityAccel;
+    }
+
+    public Vector3f getSkyColor() {
+        return skyColor;
     }
 
     public void setSkyColor(Vector3f skyColor) {

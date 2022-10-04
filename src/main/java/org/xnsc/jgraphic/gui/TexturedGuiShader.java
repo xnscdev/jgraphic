@@ -1,7 +1,7 @@
 package org.xnsc.jgraphic.gui;
 
 import org.joml.Matrix4f;
-import org.xnsc.jgraphic.world.Shader;
+import org.xnsc.jgraphic.render.Shader;
 
 public class TexturedGuiShader extends Shader {
     private int locTransformMatrix;

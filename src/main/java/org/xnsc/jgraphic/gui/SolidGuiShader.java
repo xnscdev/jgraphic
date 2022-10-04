@@ -2,7 +2,7 @@ package org.xnsc.jgraphic.gui;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.xnsc.jgraphic.world.Shader;
+import org.xnsc.jgraphic.render.Shader;
 
 public class SolidGuiShader extends Shader {
     private int locTransformMatrix;

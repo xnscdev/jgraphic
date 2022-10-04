@@ -4,9 +4,9 @@ import org.joml.Matrix4f;
 import org.xnsc.jgraphic.model.RawModel;
 import org.xnsc.jgraphic.model.TexturedModel;
 import org.xnsc.jgraphic.util.MatrixUtils;
-import org.xnsc.jgraphic.world.Shader;
-import org.xnsc.jgraphic.world.World;
-import org.xnsc.jgraphic.world.WorldState;
+import org.xnsc.jgraphic.render.Shader;
+import org.xnsc.jgraphic.render.World;
+import org.xnsc.jgraphic.render.WorldState;
 
 import java.util.List;
 import java.util.Map;

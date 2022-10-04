@@ -1,4 +1,4 @@
-package org.xnsc.jgraphic.world;
+package org.xnsc.jgraphic.render;
 
 import org.joml.Matrix4f;
 import org.joml.Vector2f;

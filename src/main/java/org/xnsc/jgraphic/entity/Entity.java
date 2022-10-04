@@ -3,7 +3,7 @@ package org.xnsc.jgraphic.entity;
 import org.joml.Vector3f;
 import org.xnsc.jgraphic.model.TexturedModel;
 import org.xnsc.jgraphic.terrain.TerrainPiece;
-import org.xnsc.jgraphic.world.World;
+import org.xnsc.jgraphic.render.World;
 
 public class Entity {
     private final TexturedModel model;
