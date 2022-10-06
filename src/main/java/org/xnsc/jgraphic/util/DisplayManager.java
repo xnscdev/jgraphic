@@ -5,6 +5,9 @@ import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.glfw.GLFWScrollCallback;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.system.MemoryStack;
+
+import java.nio.DoubleBuffer;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -17,7 +20,6 @@ public class DisplayManager {
     private static float lastScroll;
     private static float scrollOffset;
     private static Vector2f lastMousePos = new Vector2f();
-    private static Vector2f mouseOffset;
 
     public static void createDisplay(String title, int width, int height) {
         DisplayManager.title = title;
@@ -43,17 +45,11 @@ public class DisplayManager {
                 scrollOffset = (float) yoffset;
             }
         });
-        glfwSetCursorPosCallback(window, new GLFWCursorPosCallback() {
-            @Override
-            public void invoke(long window, double xpos, double ypos) {
-                mouseOffset = new Vector2f((float) xpos, (float) ypos);
-            }
-        });
         glfwSetMouseButtonCallback(window, new GLFWMouseButtonCallback() {
             @Override
             public void invoke(long window, int button, int action, int mods) {
                 if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
-                    lastMousePos = mouseOffset;
+                    lastMousePos = getMousePos();
             }
         });
 
@@ -108,8 +104,18 @@ public class DisplayManager {
     }
 
     public static Vector2f getMouseOffset() {
-        Vector2f offset = new Vector2f(mouseOffset).sub(lastMousePos);
-        lastMousePos = mouseOffset;
+        Vector2f pos = getMousePos();
+        Vector2f offset = new Vector2f(pos).sub(lastMousePos);
+        lastMousePos = pos;
         return offset;
+    }
+
+    public static Vector2f getMousePos() {
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            DoubleBuffer x = stack.mallocDouble(1);
+            DoubleBuffer y = stack.mallocDouble(1);
+            glfwGetCursorPos(window, x, y);
+            return new Vector2f((float) x.get(), (float) y.get());
+        }
     }
 }

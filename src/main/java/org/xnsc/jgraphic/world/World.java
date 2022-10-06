@@ -1,4 +1,4 @@
-package org.xnsc.jgraphic.render;
+package org.xnsc.jgraphic.world;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -31,6 +31,8 @@ public class World {
     private final List<TerrainPiece> terrains = new ArrayList<>();
     private final List<LightSource> lights = new ArrayList<>();
     private Camera camera;
+    private MousePicker picker;
+    private IWorldTick tickCallback;
     private Vector3f skyColor;
     private float fogDensity;
     private float fogGradient = 1;
@@ -55,7 +57,10 @@ public class World {
                 loadEntity(entity);
         }
         camera.tick();
+        picker.tick(this);
         render(camera, lights);
+        if (tickCallback != null)
+            tickCallback.tick(this, delta);
     }
 
     public void clean() {
@@ -117,6 +122,7 @@ public class World {
 
     public void setCamera(Camera camera) {
         this.camera = camera;
+        picker = new MousePicker(camera);
     }
 
     public float getAmbientThreshold() {
@@ -149,11 +155,23 @@ public class World {
         fogGradient = gradient;
     }
 
-    private TerrainPiece getTerrainForEntity(Entity entity) {
+    public MousePicker getMousePicker() {
+        return picker;
+    }
+
+    public void setTickCallback(IWorldTick tickCallback) {
+        this.tickCallback = tickCallback;
+    }
+
+    public TerrainPiece getTerrain(float x, float z) {
         for (TerrainPiece terrain : terrains) {
-            if (entity.getPosition().x >= terrain.getX() && entity.getPosition().x < terrain.getX() + terrain.getSize() && entity.getPosition().z >= terrain.getZ() && entity.getPosition().z < terrain.getZ() + terrain.getSize())
+            if (x >= terrain.getX() && x < terrain.getX() + terrain.getSize() && z >= terrain.getZ() && z < terrain.getZ() + terrain.getSize())
                 return terrain;
         }
         return null;
+    }
+
+    private TerrainPiece getTerrainForEntity(Entity entity) {
+        return getTerrain(entity.getPosition().x, entity.getPosition().z);
     }
 }

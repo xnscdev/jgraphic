@@ -1,6 +1,7 @@
-package org.xnsc.jgraphic.render;
+package org.xnsc.jgraphic.world;
 
 import org.joml.Vector3f;
+import org.xnsc.jgraphic.render.ObjectShader;
 
 import java.util.List;
 

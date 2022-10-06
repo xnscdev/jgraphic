@@ -1,4 +1,4 @@
-package org.xnsc.jgraphic.render;
+package org.xnsc.jgraphic.world;
 
 import org.joml.Vector2f;
 import org.xnsc.jgraphic.entity.Player;

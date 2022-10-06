@@ -7,9 +7,9 @@ import org.xnsc.jgraphic.entity.Entity;
 import org.xnsc.jgraphic.entity.Player;
 import org.xnsc.jgraphic.model.TexturedModel;
 import org.xnsc.jgraphic.terrain.TerrainPiece;
-import org.xnsc.jgraphic.render.Camera3PT;
-import org.xnsc.jgraphic.render.LightSource;
-import org.xnsc.jgraphic.render.World;
+import org.xnsc.jgraphic.world.Camera3PT;
+import org.xnsc.jgraphic.world.LightSource;
+import org.xnsc.jgraphic.world.World;
 
 public class Main {
     public static void main(String[] args) {
@@ -51,6 +51,14 @@ public class Main {
             world.addEntity(fern);
         }
         world.addDebugGui();
+
+        Entity movingTree = new Entity(treeModel, new Vector3f(), 0, 0, 0, 3);
+        world.addEntity(movingTree);
+        world.setTickCallback((w, delta) -> {
+            Vector3f point = w.getMousePicker().getTerrainPoint();
+            if (point != null)
+                movingTree.setPosition(point);
+        });
         AppInstance.launch(world);
     }
 }

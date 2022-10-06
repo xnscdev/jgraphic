@@ -4,7 +4,7 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.xnsc.jgraphic.model.ModelData;
 import org.xnsc.jgraphic.util.MatrixUtils;
-import org.xnsc.jgraphic.render.World;
+import org.xnsc.jgraphic.world.World;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
