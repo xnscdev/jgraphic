@@ -58,4 +58,7 @@ public class Gui {
     public Vector2f getScreenSize() {
         return screenSize;
     }
+
+    protected void tick(double delta) {
+    }
 }

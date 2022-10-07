@@ -1,6 +1,7 @@
 package org.xnsc.jgraphic.world;
 
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 import org.xnsc.jgraphic.entity.Player;
 import org.xnsc.jgraphic.util.DisplayManager;
 
@@ -15,6 +16,11 @@ public class Camera3P extends Camera {
 
     public Camera3P(Player player) {
         this.player = player;
+    }
+
+    @Override
+    public Vector3f getPrimaryPosition() {
+        return player.getPosition();
     }
 
     @Override

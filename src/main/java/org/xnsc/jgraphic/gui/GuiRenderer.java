@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 import static org.lwjgl.opengl.GL30.*;
 
@@ -33,6 +32,15 @@ public class GuiRenderer {
         solidShader.clean();
         texturedShader.clean();
         textRenderer.clean();
+    }
+
+    public void tick(double delta) {
+        for (Gui gui : solidGuis) {
+            gui.tick(delta);
+        }
+        for (Gui gui : texturedGuis) {
+            gui.tick(delta);
+        }
     }
 
     public void render() {
@@ -63,17 +71,13 @@ public class GuiRenderer {
         renderTexts();
     }
 
-    private void render(Consumer<Gui> consumer) {
+    private void renderTexts() {
         for (Gui gui : solidGuis) {
-            consumer.accept(gui);
+            renderText(gui);
         }
         for (Gui gui : texturedGuis) {
-            consumer.accept(gui);
+            renderText(gui);
         }
-    }
-
-    private void renderTexts() {
-        render(this::renderText);
         textRenderer.render(texts);
         texts.clear();
     }
@@ -93,9 +97,5 @@ public class GuiRenderer {
             texturedGuis.add(texturedGui);
         else
             throw new IllegalStateException("Attempted to render invalid GUI type");
-    }
-
-    public void addDebugGui() {
-        solidGuis.add(new DebugGui());
     }
 }

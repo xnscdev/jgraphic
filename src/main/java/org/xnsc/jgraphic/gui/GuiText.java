@@ -8,13 +8,13 @@ import org.xnsc.jgraphic.util.DisplayManager;
 import org.xnsc.jgraphic.util.MathUtils;
 
 public class GuiText {
-    private final String text;
     private final float fontSize;
     private final Vector2f position;
     private final float lineMaxSize;
     private final FontType font;
     private final boolean centered;
-    private final TextModel model;
+    private TextModel model;
+    private String text;
     private Vector3f color = new Vector3f();
     private int lineCount;
 
@@ -25,7 +25,7 @@ public class GuiText {
         this.position = new Vector2f(position.x / DisplayManager.getWidth() * 2, position.y / DisplayManager.getHeight() * -2);
         this.lineMaxSize = lineMaxSize / DisplayManager.getWidth();
         this.centered = centered;
-        this.model = font.loadText(this);
+        model = font.loadText(this);
     }
 
     public FontType getFont() {
@@ -50,6 +50,11 @@ public class GuiText {
 
     public String getText() {
         return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+        model = font.loadText(this);
     }
 
     public float getFontSize() {

@@ -4,6 +4,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.xnsc.jgraphic.entity.Entity;
 import org.xnsc.jgraphic.entity.EntityRenderer;
+import org.xnsc.jgraphic.gui.DebugGui;
 import org.xnsc.jgraphic.gui.Gui;
 import org.xnsc.jgraphic.gui.GuiRenderer;
 import org.xnsc.jgraphic.model.TexturedModel;
@@ -58,6 +59,7 @@ public class World {
         }
         camera.tick();
         picker.tick(this);
+        guiRenderer.tick(delta);
         render(camera, lights);
         if (tickCallback != null)
             tickCallback.tick(this, delta);
@@ -105,7 +107,7 @@ public class World {
     }
 
     public void addDebugGui() {
-        guiRenderer.addDebugGui();
+        guiRenderer.addGui(new DebugGui(this));
     }
 
     public List<LightSource> getLightSources() {
