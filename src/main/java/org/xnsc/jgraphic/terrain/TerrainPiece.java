@@ -3,7 +3,7 @@ package org.xnsc.jgraphic.terrain;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.xnsc.jgraphic.model.ModelData;
-import org.xnsc.jgraphic.util.MatrixUtils;
+import org.xnsc.jgraphic.util.MathUtils;
 import org.xnsc.jgraphic.world.World;
 
 import javax.imageio.ImageIO;
@@ -70,9 +70,9 @@ public class TerrainPiece {
         float rx = terrainX % tileSize / tileSize;
         float rz = terrainX % tileSize / tileSize;
         if (rx <= 1 - rz)
-            return MatrixUtils.barycentric(new Vector3f(0, heights[gridX][gridZ], 0), new Vector3f(1, heights[gridX + 1][gridZ], 0), new Vector3f(0, heights[gridX][gridZ + 1], 1), new Vector2f(rx, rz));
+            return MathUtils.barycentric(new Vector3f(0, heights[gridX][gridZ], 0), new Vector3f(1, heights[gridX + 1][gridZ], 0), new Vector3f(0, heights[gridX][gridZ + 1], 1), new Vector2f(rx, rz));
         else
-            return MatrixUtils.barycentric(new Vector3f(1, heights[gridX + 1][gridZ], 0), new Vector3f(1, heights[gridX + 1][gridZ + 1], 1), new Vector3f(0, heights[gridX][gridZ + 1], 1), new Vector2f(rx, rz));
+            return MathUtils.barycentric(new Vector3f(1, heights[gridX + 1][gridZ], 0), new Vector3f(1, heights[gridX + 1][gridZ + 1], 1), new Vector3f(0, heights[gridX][gridZ + 1], 1), new Vector2f(rx, rz));
     }
 
     public void setHeightMap(int hx, int hz, int maxHeight, String path) {

@@ -3,7 +3,7 @@ package org.xnsc.jgraphic.terrain;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.xnsc.jgraphic.model.RawModel;
-import org.xnsc.jgraphic.util.MatrixUtils;
+import org.xnsc.jgraphic.util.MathUtils;
 import org.xnsc.jgraphic.render.Shader;
 import org.xnsc.jgraphic.world.World;
 import org.xnsc.jgraphic.world.WorldState;
@@ -56,7 +56,7 @@ public class TerrainRenderer {
     }
 
     private void bindTerrainPiece(TerrainPiece terrain) {
-        Matrix4f transformMatrix = MatrixUtils.transformMatrix(new Vector3f(terrain.getX(), 0, terrain.getZ()), 0, 0, 0, 1);
+        Matrix4f transformMatrix = MathUtils.transformMatrix(new Vector3f(terrain.getX(), 0, terrain.getZ()), 0, 0, 0, 1);
         shader.loadTransformMatrix(transformMatrix);
         shader.setTextureScale(terrain.getSize() / 10);
     }

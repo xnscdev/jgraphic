@@ -35,17 +35,11 @@ public class ObjectManager {
     }
 
     public static int createTexture(String name) {
-        TextureData data = new TextureData("/textures/" + name + ".png");
-        int texture = glGenTextures();
-        glBindTexture(GL_TEXTURE_2D, texture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, data.getWidth(), data.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data.getBuffer());
-        glGenerateMipmap(GL_TEXTURE_2D);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, 0);
-        glBindTexture(GL_TEXTURE_2D, 0);
-        data.clean();
-        textures.add(texture);
-        return texture;
+        return loadTexture("/textures/" + name + ".png");
+    }
+
+    public static int createFontAtlas(String name) {
+        return loadTexture("/fonts/" + name + ".png");
     }
 
     public static void storeAttribute(int attr, int size, float[] data) {
@@ -92,6 +86,20 @@ public class ObjectManager {
         }
         buffer.flip();
         return MemoryUtil.memSlice(buffer);
+    }
+
+    private static int loadTexture(String path) {
+        TextureData data = new TextureData(path);
+        int texture = glGenTextures();
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, data.getWidth(), data.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data.getBuffer());
+        glGenerateMipmap(GL_TEXTURE_2D);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, 0);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        data.clean();
+        textures.add(texture);
+        return texture;
     }
 
     private static FloatBuffer storeFloatBuffer(float[] data) {

@@ -10,7 +10,7 @@ import org.xnsc.jgraphic.model.TexturedModel;
 import org.xnsc.jgraphic.terrain.TerrainPiece;
 import org.xnsc.jgraphic.terrain.TerrainRenderer;
 import org.xnsc.jgraphic.util.DisplayManager;
-import org.xnsc.jgraphic.util.MatrixUtils;
+import org.xnsc.jgraphic.util.MathUtils;
 
 import java.util.*;
 
@@ -21,7 +21,7 @@ public class World {
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 1000f;
     private static final Vector3f DEFAULT_SKY_COLOR = new Vector3f(0.5f, 1, 1);
-    public static final Matrix4f PROJECTION = MatrixUtils.projectionMatrix(FOV, NEAR_PLANE, FAR_PLANE);
+    public static final Matrix4f PROJECTION = MathUtils.projectionMatrix(FOV, NEAR_PLANE, FAR_PLANE);
     public static final float VOID = -2000;
     private final EntityRenderer entityRenderer = new EntityRenderer();
     private final TerrainRenderer terrainRenderer = new TerrainRenderer();

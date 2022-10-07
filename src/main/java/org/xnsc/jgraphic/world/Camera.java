@@ -2,7 +2,7 @@ package org.xnsc.jgraphic.world;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.xnsc.jgraphic.util.MatrixUtils;
+import org.xnsc.jgraphic.util.MathUtils;
 
 public class Camera {
     protected Vector3f position = new Vector3f();
@@ -46,6 +46,6 @@ public class Camera {
     }
 
     public Matrix4f viewMatrix() {
-        return MatrixUtils.viewMatrix(position, pitch, yaw, roll);
+        return MathUtils.viewMatrix(position, pitch, yaw, roll);
     }
 }

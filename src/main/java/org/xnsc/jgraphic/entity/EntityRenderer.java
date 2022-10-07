@@ -3,7 +3,7 @@ package org.xnsc.jgraphic.entity;
 import org.joml.Matrix4f;
 import org.xnsc.jgraphic.model.RawModel;
 import org.xnsc.jgraphic.model.TexturedModel;
-import org.xnsc.jgraphic.util.MatrixUtils;
+import org.xnsc.jgraphic.util.MathUtils;
 import org.xnsc.jgraphic.render.Shader;
 import org.xnsc.jgraphic.world.World;
 import org.xnsc.jgraphic.world.WorldState;
@@ -73,7 +73,7 @@ public class EntityRenderer {
     }
 
     private void bindEntity(Entity entity) {
-        Matrix4f transformMatrix = MatrixUtils.transformMatrix(entity.getPosition(), entity.getRx(), entity.getRy(), entity.getRz(), entity.getScale());
+        Matrix4f transformMatrix = MathUtils.transformMatrix(entity.getPosition(), entity.getRx(), entity.getRy(), entity.getRz(), entity.getScale());
         shader.loadTransformMatrix(transformMatrix);
         shader.setTextureOffset(entity.getTextureX(), entity.getTextureY());
     }

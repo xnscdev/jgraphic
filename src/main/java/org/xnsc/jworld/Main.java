@@ -1,12 +1,17 @@
 package org.xnsc.jworld;
 
 import org.joml.Random;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.xnsc.jgraphic.AppInstance;
 import org.xnsc.jgraphic.entity.Entity;
 import org.xnsc.jgraphic.entity.Player;
+import org.xnsc.jgraphic.gui.SolidGui;
+import org.xnsc.jgraphic.text.FontType;
+import org.xnsc.jgraphic.gui.GuiText;
 import org.xnsc.jgraphic.model.TexturedModel;
 import org.xnsc.jgraphic.terrain.TerrainPiece;
+import org.xnsc.jgraphic.text.Fonts;
 import org.xnsc.jgraphic.world.Camera3PT;
 import org.xnsc.jgraphic.world.LightSource;
 import org.xnsc.jgraphic.world.World;
@@ -52,13 +57,10 @@ public class Main {
         }
         world.addDebugGui();
 
-        Entity movingTree = new Entity(treeModel, new Vector3f(), 0, 0, 0, 3);
-        world.addEntity(movingTree);
-        world.setTickCallback((w, delta) -> {
-            Vector3f point = w.getMousePicker().getTerrainPoint();
-            if (point != null)
-                movingTree.setPosition(point);
-        });
+        GuiText text = new GuiText("Sample text", 1, Fonts.PLAY, new Vector2f(20, 20), 360, false);
+        SolidGui gui = new SolidGui(new Vector2f(100, 100), new Vector2f(400, 100), new Vector3f(0, 1, 0));
+        gui.addText(text);
+        world.addGui(gui);
         AppInstance.launch(world);
     }
 }

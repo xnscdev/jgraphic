@@ -1,18 +1,17 @@
 package org.xnsc.jgraphic;
 
+import org.xnsc.jgraphic.text.Fonts;
 import org.xnsc.jgraphic.util.DisplayManager;
 import org.xnsc.jgraphic.util.ObjectManager;
 import org.xnsc.jgraphic.world.World;
 
 public class AppInstance {
-    private static World world;
-
     public static void init(String title, int width, int height) {
         DisplayManager.createDisplay(title, width, height);
+        Fonts.init();
     }
 
     public static void launch(World world) {
-        AppInstance.world = world;
         if (world.getCamera() == null)
             throw new IllegalStateException("Attempted to render a world without a camera");
         while (!DisplayManager.closeRequested()) {

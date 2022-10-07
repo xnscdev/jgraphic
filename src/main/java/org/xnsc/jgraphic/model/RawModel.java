@@ -27,6 +27,14 @@ public class RawModel {
         ObjectManager.unbindVAO();
     }
 
+    public RawModel(float[] vertices, float[] textures, int dimensions) {
+        vao = ObjectManager.createVAO();
+        vertexCount = vertices.length / dimensions;
+        ObjectManager.storeAttribute(0, dimensions, vertices);
+        ObjectManager.storeAttribute(1, 2, textures);
+        ObjectManager.unbindVAO();
+    }
+
     public int getVAO() {
         return vao;
     }

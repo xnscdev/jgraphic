@@ -1,15 +1,23 @@
 package org.xnsc.jgraphic.gui;
 
 import org.joml.Matrix4f;
-import org.xnsc.jgraphic.util.MatrixUtils;
+import org.joml.Vector2f;
+import org.xnsc.jgraphic.text.FontType;
+import org.xnsc.jgraphic.text.TextRenderer;
+import org.xnsc.jgraphic.util.MathUtils;
 import org.xnsc.jgraphic.render.Shader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 import static org.lwjgl.opengl.GL30.*;
 
 public class GuiRenderer {
+    private static final Map<FontType, Map<GuiText, Vector2f>> texts = new HashMap<>();
+    private final TextRenderer textRenderer = new TextRenderer();
     private final SolidGuiShader solidShader = new SolidGuiShader();
     private final TexturedGuiShader texturedShader = new TexturedGuiShader();
     private final List<SolidGui> solidGuis = new ArrayList<>();
@@ -24,6 +32,7 @@ public class GuiRenderer {
     public void clean() {
         solidShader.clean();
         texturedShader.clean();
+        textRenderer.clean();
     }
 
     public void render() {
@@ -34,7 +43,7 @@ public class GuiRenderer {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDisable(GL_DEPTH_TEST);
         for (SolidGui gui : solidGuis) {
-            Matrix4f transformMatrix = MatrixUtils.transformMatrix(gui.getPosition(), gui.getSize());
+            Matrix4f transformMatrix = MathUtils.transformMatrix(gui.getScreenPosition(), gui.getScreenSize());
             solidShader.loadTransformMatrix(transformMatrix);
             solidShader.setColor(gui.getBackgroundColor());
             glDrawArrays(GL_TRIANGLE_STRIP, 0, model.getVertexCount());
@@ -42,7 +51,7 @@ public class GuiRenderer {
         texturedShader.start();
         for (TexturedGui gui : texturedGuis) {
             gui.loadTexture();
-            Matrix4f transformMatrix = MatrixUtils.transformMatrix(gui.getPosition(), gui.getSize());
+            Matrix4f transformMatrix = MathUtils.transformMatrix(gui.getScreenPosition(), gui.getScreenSize());
             texturedShader.loadTransformMatrix(transformMatrix);
             glDrawArrays(GL_TRIANGLE_STRIP, 0, model.getVertexCount());
         }
@@ -51,6 +60,30 @@ public class GuiRenderer {
         glDisableVertexAttribArray(0);
         glBindVertexArray(0);
         Shader.stop();
+        renderTexts();
+    }
+
+    private void render(Consumer<Gui> consumer) {
+        for (Gui gui : solidGuis) {
+            consumer.accept(gui);
+        }
+        for (Gui gui : texturedGuis) {
+            consumer.accept(gui);
+        }
+    }
+
+    private void renderTexts() {
+        render(this::renderText);
+        textRenderer.render(texts);
+        texts.clear();
+    }
+
+    private void renderText(Gui gui) {
+        for (GuiText text : gui.getTexts()) {
+            FontType font = text.getFont();
+            Map<GuiText, Vector2f> batch = texts.computeIfAbsent(font, k -> new HashMap<>());
+            batch.put(text, gui.getTextPosition());
+        }
     }
 
     public void addGui(Gui gui) {
