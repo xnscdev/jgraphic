@@ -57,7 +57,7 @@ public class Main {
         }
         world.addDebugGui();
 
-        GuiText text = new GuiText("Sample text", 1, Fonts.PLAY, new Vector2f(20, 20), 360, false);
+        GuiText text = new GuiText("Sample text", 60, Fonts.PLAY, new Vector2f(20, 20), 360, false);
         SolidGui gui = new SolidGui(new Vector2f(100, 100), new Vector2f(400, 100), new Vector3f(0, 1, 0));
         gui.addText(text);
         world.addGui(gui);

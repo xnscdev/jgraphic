@@ -56,7 +56,7 @@ public class FontMetaFile {
     private void loadLineSizes() {
         nextLine();
         int pixels = getVariableValue("lineHeight") - paddingHeight;
-        verticalPerPixelSize = TextMeshCreator.LINE_HEIGHT / (double) pixels;
+        verticalPerPixelSize = 1 / (double) DisplayManager.getHeight() / pixels;
         horizontalPerPixelSize = verticalPerPixelSize / aspectRatio;
     }
 

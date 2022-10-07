@@ -1,12 +1,12 @@
 package org.xnsc.jgraphic.text;
 
 import org.xnsc.jgraphic.gui.GuiText;
+import org.xnsc.jgraphic.util.DisplayManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TextMeshCreator {
-    protected static final double LINE_HEIGHT = 0.03f;
     protected static final int SPACE_ASCII = ' ';
     protected static final int NEWLINE_ASCII = '\n';
     private final FontMetaFile metadata;
@@ -68,7 +68,7 @@ public class TextMeshCreator {
                 x += metadata.getSpaceWidth() * text.getFontSize();
             }
             x = 0;
-            y += LINE_HEIGHT * text.getFontSize();
+            y += text.getFontSize() / DisplayManager.getHeight();
         }
         return new TextModel(toArray(vertices), toArray(textures));
     }
