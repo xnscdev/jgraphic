@@ -18,11 +18,11 @@ public class TextShader extends Shader {
         locColor = getUniform("color");
     }
 
-    protected void loadTranslation(Vector2f translation) {
+    public void loadTranslation(Vector2f translation) {
         loadVector2f(locTranslation, translation);
     }
 
-    protected void loadColor(Vector3f color) {
+    public void loadColor(Vector3f color) {
         loadVector3f(locColor, color);
     }
 }

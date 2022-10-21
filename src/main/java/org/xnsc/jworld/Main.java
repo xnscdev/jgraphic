@@ -1,16 +1,14 @@
 package org.xnsc.jworld;
 
 import org.joml.Random;
-import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.xnsc.jgraphic.AppInstance;
 import org.xnsc.jgraphic.entity.Entity;
 import org.xnsc.jgraphic.entity.Player;
-import org.xnsc.jgraphic.gui.GuiText;
-import org.xnsc.jgraphic.gui.SolidGui;
+import org.xnsc.jgraphic.gui.DebugGui;
+import org.xnsc.jgraphic.gui.GuiManager;
 import org.xnsc.jgraphic.model.TexturedModel;
 import org.xnsc.jgraphic.terrain.TerrainPiece;
-import org.xnsc.jgraphic.text.Fonts;
 import org.xnsc.jgraphic.world.Camera3PT;
 import org.xnsc.jgraphic.world.LightSource;
 import org.xnsc.jgraphic.world.World;
@@ -54,12 +52,7 @@ public class Main {
             Entity fern = new Entity(fernModel, new Vector3f(x, terrain.getTerrainHeight(x, z), z), 0, ry, 0, 1, textureIndex);
             world.addEntity(fern);
         }
-        world.addDebugGui();
-
-        GuiText text = new GuiText("Sample text", 60, Fonts.PLAY, new Vector2f(20, 20), 360, false);
-        SolidGui gui = new SolidGui(new Vector2f(100, 100), new Vector2f(400, 100), new Vector3f(0, 1, 0));
-        gui.addText(text);
-        world.addGui(gui);
+        GuiManager.addGui(new DebugGui(world));
         AppInstance.launch(world);
     }
 }

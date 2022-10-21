@@ -1,31 +1,42 @@
 package org.xnsc.jgraphic.gui;
 
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 import org.xnsc.jgraphic.util.DisplayManager;
-import org.xnsc.jgraphic.util.MathUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Gui {
-    protected final List<GuiText> texts = new ArrayList<>();
+public class Gui implements GuiComponent {
+    private final GuiBackground background = new GuiBackground();
+    protected final List<GuiComponent> children = new ArrayList<>();
     protected Vector2f position;
     protected Vector2f screenPosition;
     protected Vector2f textPosition;
     protected Vector2f size;
     protected Vector2f screenSize;
 
-    public Gui(Vector2f position, Vector2f size) {
+    private Gui(Vector2f position, Vector2f size) {
         setPosition(position);
         setSize(size);
     }
 
-    public List<GuiText> getTexts() {
-        return texts;
+    public Gui(Vector2f position, Vector2f size, Vector3f backgroundColor) {
+        this(position, size);
+        background.setSolidColor(backgroundColor);
     }
 
-    public void addText(GuiText text) {
-        texts.add(text);
+    public Gui(Vector2f position, Vector2f size, String texture) {
+        this(position, size);
+        background.setTexture(texture);
+    }
+
+    public List<GuiComponent> getChildren() {
+        return children;
+    }
+
+    public void addChild(GuiComponent gui) {
+        children.add(gui);
     }
 
     public Vector2f getPosition() {
@@ -59,6 +70,16 @@ public class Gui {
         return screenSize;
     }
 
-    protected void tick(double delta) {
+    @Override
+    public void tick(double delta) {
+        for (GuiComponent gui : children)
+            gui.tick(delta);
+    }
+
+    @Override
+    public void render(Vector2f translation) {
+        background.render(screenPosition, screenSize);
+        for (GuiComponent gui : children)
+            gui.render(new Vector2f(translation).add(textPosition));
     }
 }

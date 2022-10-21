@@ -1,5 +1,6 @@
 package org.xnsc.jgraphic;
 
+import org.xnsc.jgraphic.gui.GuiManager;
 import org.xnsc.jgraphic.text.Fonts;
 import org.xnsc.jgraphic.util.DisplayManager;
 import org.xnsc.jgraphic.util.ObjectManager;
@@ -9,6 +10,7 @@ public class AppInstance {
     public static void init(String title, int width, int height) {
         DisplayManager.createDisplay(title, width, height);
         Fonts.init();
+        GuiManager.init();
     }
 
     public static void launch(World world) {
@@ -19,6 +21,7 @@ public class AppInstance {
             DisplayManager.updateDisplay();
         }
         world.clean();
+        GuiManager.clean();
         ObjectManager.clean();
         DisplayManager.closeDisplay();
     }

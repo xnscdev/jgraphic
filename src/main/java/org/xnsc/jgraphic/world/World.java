@@ -6,7 +6,7 @@ import org.xnsc.jgraphic.entity.Entity;
 import org.xnsc.jgraphic.entity.EntityRenderer;
 import org.xnsc.jgraphic.gui.DebugGui;
 import org.xnsc.jgraphic.gui.Gui;
-import org.xnsc.jgraphic.gui.GuiRenderer;
+import org.xnsc.jgraphic.gui.GuiManager;
 import org.xnsc.jgraphic.model.TexturedModel;
 import org.xnsc.jgraphic.terrain.TerrainPiece;
 import org.xnsc.jgraphic.terrain.TerrainRenderer;
@@ -26,7 +26,6 @@ public class World {
     public static final float VOID = -2000;
     private final EntityRenderer entityRenderer = new EntityRenderer();
     private final TerrainRenderer terrainRenderer = new TerrainRenderer();
-    private final GuiRenderer guiRenderer = new GuiRenderer();
     private final Map<TexturedModel, List<Entity>> entitiesMap = new HashMap<>();
     private final List<Entity> entities = new ArrayList<>();
     private final List<TerrainPiece> terrains = new ArrayList<>();
@@ -59,7 +58,7 @@ public class World {
         }
         camera.tick();
         picker.tick(this);
-        guiRenderer.tick(delta);
+        GuiManager.tick(delta);
         render(camera, lights);
         if (tickCallback != null)
             tickCallback.tick(this, delta);
@@ -68,7 +67,6 @@ public class World {
     public void clean() {
         entityRenderer.clean();
         terrainRenderer.clean();
-        guiRenderer.clean();
     }
 
     public void render(Camera camera, List<LightSource> lights) {
@@ -76,7 +74,7 @@ public class World {
         WorldState state = new WorldState(camera, lights, skyColor, fogDensity, fogGradient, ambientThreshold);
         entityRenderer.render(state, entitiesMap);
         terrainRenderer.render(state, terrains);
-        guiRenderer.render();
+        GuiManager.render();
         entitiesMap.clear();
     }
 
@@ -100,14 +98,6 @@ public class World {
     public void addTerrain(TerrainPiece terrain) {
         terrain.build();
         terrains.add(terrain);
-    }
-
-    public void addGui(Gui gui) {
-        guiRenderer.addGui(gui);
-    }
-
-    public void addDebugGui() {
-        guiRenderer.addGui(new DebugGui(this));
     }
 
     public List<LightSource> getLightSources() {
