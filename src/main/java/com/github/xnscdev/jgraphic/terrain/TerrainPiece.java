@@ -1,6 +1,10 @@
 package com.github.xnscdev.jgraphic.terrain;
 
 import com.github.xnscdev.jgraphic.model.ModelData;
+import de.articdive.jnoise.generators.noise_parameters.fade_functions.FadeFunction;
+import de.articdive.jnoise.generators.noise_parameters.interpolation.Interpolation;
+import de.articdive.jnoise.generators.noisegen.perlin.PerlinNoiseGenerator;
+import de.articdive.jnoise.pipeline.JNoise;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import com.github.xnscdev.jgraphic.util.MathUtils;
@@ -10,6 +14,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Random;
 
 public class TerrainPiece {
     private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
@@ -88,19 +93,26 @@ public class TerrainPiece {
     }
 
     public void setRandomHeightMap(int hx, int hz, int maxHeight) {
-        this.hx = hx;
-        this.hz = hz;
-        this.maxHeight = maxHeight;
-        PerlinNoiseGenerator gen = new PerlinNoiseGenerator();
-        generatePerlinNoise(gen);
+        setRandomHeightMap(hx, hz, maxHeight, new Random().nextLong());
     }
 
     public void setRandomHeightMap(int hx, int hz, int maxHeight, long seed) {
         this.hx = hx;
         this.hz = hz;
         this.maxHeight = maxHeight;
-        PerlinNoiseGenerator gen = new PerlinNoiseGenerator(seed);
-        generatePerlinNoise(gen);
+        heightMap = new BufferedImage(vertexCount, vertexCount, BufferedImage.TYPE_INT_ARGB);
+        JNoise gen = JNoise.newBuilder().perlin(seed, Interpolation.LINEAR, FadeFunction.IMPROVED_PERLIN_NOISE)
+                .scale(32.0 / vertexCount)
+                .addModifier(v -> (v + 1) / 2)
+                .clamp(0, 1)
+                .build();
+        for (int x = 0; x < vertexCount; x++) {
+            for (int y = 0; y < vertexCount; y++) {
+                double noise = gen.evaluateNoise(x, y);
+                int rgb = (int) (noise * 255) * 0x010101;
+                heightMap.setRGB(x, y, rgb);
+            }
+        }
     }
 
     public void useBlendMap(String red, String green, String blue, String blendMap) {
@@ -170,16 +182,5 @@ public class TerrainPiece {
         float up = getHeight(x, z + 1, image);
         Vector3f normal = new Vector3f(left - right, 2, down - up);
         return normal.normalize();
-    }
-
-    private void generatePerlinNoise(PerlinNoiseGenerator gen) {
-        heightMap = new BufferedImage(vertexCount, vertexCount, BufferedImage.TYPE_INT_ARGB);
-        for (int x = 0; x < vertexCount; x++) {
-            for (int y = 0; y < vertexCount; y++) {
-                double noise = gen.noise(x, y) * Math.sqrt(2) / 2 + 1;
-                int rgb = (int) (noise * 255) * 0x010101;
-                heightMap.setRGB(x, y, rgb);
-            }
-        }
     }
 }
