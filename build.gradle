@@ -4,7 +4,7 @@ plugins {
     id 'java-library'
 }
 
-group 'org.xnsc'
+group 'com.github.xnscdev'
 version '0.0.1'
 
 project.ext.lwjglVersion = "3.3.1"
