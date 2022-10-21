@@ -85,7 +85,22 @@ public class TerrainPiece {
         catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    public void setRandomHeightMap(int hx, int hz, int maxHeight) {
+        this.hx = hx;
+        this.hz = hz;
+        this.maxHeight = maxHeight;
+        PerlinNoiseGenerator gen = new PerlinNoiseGenerator();
+        generatePerlinNoise(gen);
+    }
+
+    public void setRandomHeightMap(int hx, int hz, int maxHeight, long seed) {
+        this.hx = hx;
+        this.hz = hz;
+        this.maxHeight = maxHeight;
+        PerlinNoiseGenerator gen = new PerlinNoiseGenerator(seed);
+        generatePerlinNoise(gen);
     }
 
     public void useBlendMap(String red, String green, String blue, String blendMap) {
@@ -155,5 +170,16 @@ public class TerrainPiece {
         float up = getHeight(x, z + 1, image);
         Vector3f normal = new Vector3f(left - right, 2, down - up);
         return normal.normalize();
+    }
+
+    private void generatePerlinNoise(PerlinNoiseGenerator gen) {
+        heightMap = new BufferedImage(vertexCount, vertexCount, BufferedImage.TYPE_INT_ARGB);
+        for (int x = 0; x < vertexCount; x++) {
+            for (int y = 0; y < vertexCount; y++) {
+                double noise = gen.noise(x, y) * Math.sqrt(2) / 2 + 1;
+                int rgb = (int) (noise * 255) * 0x010101;
+                heightMap.setRGB(x, y, rgb);
+            }
+        }
     }
 }
