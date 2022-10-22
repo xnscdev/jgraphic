@@ -80,7 +80,7 @@ public class ObjectManager {
             }
         }
         catch (IOException e) {
-            return null;
+            throw new RuntimeException(e);
         }
         buffer.flip();
         return MemoryUtil.memSlice(buffer);

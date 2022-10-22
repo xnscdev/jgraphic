@@ -1,7 +1,7 @@
 package com.github.xnscdev.jgraphic.model;
 
+import com.github.xnscdev.jgraphic.util.AssetLoader;
 import com.github.xnscdev.jgraphic.util.ObjectManager;
-import com.github.xnscdev.jgraphic.util.OBJLoader;
 
 import static org.lwjgl.opengl.GL13.*;
 
@@ -14,8 +14,8 @@ public class TexturedModel extends RawModel {
         this.texture = ObjectManager.createTexture(texture);
     }
 
-    public TexturedModel(String texture) {
-        this(OBJLoader.loadModel(texture), texture);
+    public TexturedModel(String model, String texture) {
+        this(AssetLoader.loadModel(model), texture);
     }
 
     public int getTexture() {
