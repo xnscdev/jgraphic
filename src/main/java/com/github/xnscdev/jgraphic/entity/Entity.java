@@ -24,7 +24,7 @@ public class Entity {
     }
 
     public Entity(EntityModel model, Vector3f position) {
-        this(model, position, 0, 0, 0, 0);
+        this(model, position, 0, 0, 0, 1);
     }
 
     public void tick(TerrainPiece terrain, double delta) {
