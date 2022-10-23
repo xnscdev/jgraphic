@@ -1,8 +1,7 @@
 package com.github.xnscdev.jgraphic.entity;
 
-import com.github.xnscdev.jgraphic.model.RawModel;
+import com.github.xnscdev.jgraphic.model.ModelMesh;
 import org.joml.Matrix4f;
-import com.github.xnscdev.jgraphic.model.TexturedModel;
 import com.github.xnscdev.jgraphic.util.MathUtils;
 import com.github.xnscdev.jgraphic.render.Shader;
 import com.github.xnscdev.jgraphic.world.World;
@@ -26,17 +25,19 @@ public class EntityRenderer {
         shader.clean();
     }
 
-    public void render(WorldState state, Map<TexturedModel, List<Entity>> entities) {
+    public void render(WorldState state, Map<EntityModel, List<Entity>> entities) {
         shader.start();
         state.loadToShader(shader);
-        for (TexturedModel model : entities.keySet()) {
-            bindModel(model);
-            List<Entity> batch = entities.get(model);
-            for (Entity entity : batch) {
-                bindEntity(entity);
-                glDrawElements(GL_TRIANGLES, model.getVertexCount(), GL_UNSIGNED_INT, 0);
+        for (EntityModel model : entities.keySet()) {
+            for (ModelMesh mesh : model.getMeshes()) {
+                bindMesh(mesh);
+                List<Entity> batch = entities.get(model);
+                for (Entity entity : batch) {
+                    bindEntity(entity);
+                    glDrawElements(GL_TRIANGLES, mesh.getVertexCount(), GL_UNSIGNED_INT, 0);
+                }
+                unbindMesh();
             }
-            unbindModel(model);
         }
         Shader.stop();
     }
@@ -50,21 +51,19 @@ public class EntityRenderer {
         glDisable(GL_CULL_FACE);
     }
 
-    private void bindModel(TexturedModel model) {
-        glBindVertexArray(model.getVAO());
+    private void bindMesh(ModelMesh mesh) {
+        glBindVertexArray(mesh.getVAO());
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
         glEnableVertexAttribArray(2);
-        shader.setTextureRows(model.getRows());
-        if (model.isTransparent())
+        if (mesh.isTransparent())
             disableCulling();
-        shader.loadFakeLighting(model.isFakeLighting());
-        shader.loadSpecularLighting(model.getReflectivity(), model.getShineDamper());
-        model.preRender();
+        shader.loadFakeLighting(mesh.isFakeLighting());
+        shader.loadSpecularLighting(mesh.getReflectivity(), mesh.getShineDamper());
+        mesh.preRender();
     }
 
-    private void unbindModel(RawModel model) {
-        model.postRender();
+    private void unbindMesh() {
         enableCulling();
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
@@ -75,6 +74,5 @@ public class EntityRenderer {
     private void bindEntity(Entity entity) {
         Matrix4f transformMatrix = MathUtils.transformMatrix(entity.getPosition(), entity.getRx(), entity.getRy(), entity.getRz(), entity.getScale());
         shader.loadTransformMatrix(transformMatrix);
-        shader.setTextureOffset(entity.getTextureX(), entity.getTextureY());
     }
 }

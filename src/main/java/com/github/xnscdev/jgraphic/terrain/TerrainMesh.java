@@ -1,19 +1,19 @@
 package com.github.xnscdev.jgraphic.terrain;
 
 import com.github.xnscdev.jgraphic.model.ModelData;
-import com.github.xnscdev.jgraphic.model.RawModel;
+import com.github.xnscdev.jgraphic.model.ModelMesh;
 import com.github.xnscdev.jgraphic.util.ObjectManager;
 
 import static org.lwjgl.opengl.GL13.*;
 
-public class TerrainModel extends RawModel {
+public class TerrainMesh extends ModelMesh {
     private final int backgroundTexture;
     private final int redTexture;
     private final int greenTexture;
     private final int blueTexture;
     private final int blendMap;
 
-    public TerrainModel(ModelData data, String backgroundTexture, String redTexture, String greenTexture, String blueTexture, String blendMap) {
+    public TerrainMesh(ModelData data, String backgroundTexture, String redTexture, String greenTexture, String blueTexture, String blendMap) {
         super(data);
         this.backgroundTexture = ObjectManager.createTexture(backgroundTexture);
         this.redTexture = ObjectManager.createTexture(redTexture);

@@ -8,7 +8,7 @@ import com.github.xnscdev.jgraphic.util.DisplayManager;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import com.github.xnscdev.jgraphic.entity.Entity;
-import com.github.xnscdev.jgraphic.model.TexturedModel;
+import com.github.xnscdev.jgraphic.entity.EntityModel;
 import com.github.xnscdev.jgraphic.util.MathUtils;
 
 import java.util.*;
@@ -24,7 +24,7 @@ public class World {
     public static final float VOID = -2000;
     private final EntityRenderer entityRenderer = new EntityRenderer();
     private final TerrainRenderer terrainRenderer = new TerrainRenderer();
-    private final Map<TexturedModel, List<Entity>> entitiesMap = new HashMap<>();
+    private final Map<EntityModel, List<Entity>> entitiesMap = new HashMap<>();
     private final List<Entity> entities = new ArrayList<>();
     private final List<TerrainPiece> terrains = new ArrayList<>();
     private final List<LightSource> lights = new ArrayList<>();
@@ -77,7 +77,7 @@ public class World {
     }
 
     public void loadEntity(Entity entity) {
-        TexturedModel model = entity.getModel();
+        EntityModel model = entity.getModel();
         List<Entity> batch = entitiesMap.get(model);
         if (batch != null)
             batch.add(entity);

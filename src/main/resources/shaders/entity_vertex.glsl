@@ -1,5 +1,11 @@
 #version 400 core
 
+struct Fog
+{
+  float density;
+  float gradient;
+};
+
 layout(location = 0) in vec3 position;
 layout(location = 1) in vec2 texture;
 layout(location = 2) in vec3 normal;
@@ -15,16 +21,13 @@ uniform mat4 projection_matrix;
 uniform mat4 view_matrix;
 uniform vec3 light_pos[4];
 uniform float fake_lighting;
-uniform float fog_density;
-uniform float fog_gradient;
-uniform float texture_rows;
-uniform vec2 texture_offset;
+uniform Fog fog;
 
 void main(void) {
   vec4 world_pos = transform_matrix * vec4(position, 1.0);
   vec4 camera_pos = view_matrix * world_pos;
   gl_Position = projection_matrix * camera_pos;
-  pass_texture = texture / texture_rows + texture_offset;
+  pass_texture = texture;
 
   vec3 actual_normal = normal;
   if (fake_lighting > 0.5) {
@@ -37,5 +40,5 @@ void main(void) {
   camera_vector = (inverse(view_matrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - world_pos.xyz;
 
   float distance = length(camera_pos.xyz);
-  visibility = clamp(exp(-pow(distance * fog_density, fog_gradient)), 0.0, 1.0);
+  visibility = clamp(exp(-pow(distance * fog.density, fog.gradient)), 0.0, 1.0);
 }

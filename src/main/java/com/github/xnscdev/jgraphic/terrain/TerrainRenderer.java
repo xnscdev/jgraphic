@@ -1,6 +1,6 @@
 package com.github.xnscdev.jgraphic.terrain;
 
-import com.github.xnscdev.jgraphic.model.RawModel;
+import com.github.xnscdev.jgraphic.model.ModelMesh;
 import com.github.xnscdev.jgraphic.render.Shader;
 import com.github.xnscdev.jgraphic.world.WorldState;
 import org.joml.Matrix4f;
@@ -30,15 +30,15 @@ public class TerrainRenderer {
         shader.start();
         state.loadToShader(shader);
         for (TerrainPiece terrain : terrains) {
-            bindModel(terrain.getModel());
+            bindMesh(terrain.getModel());
             bindTerrainPiece(terrain);
             glDrawElements(GL_TRIANGLES, terrain.getModel().getVertexCount(), GL_UNSIGNED_INT, 0);
-            unbindModel(terrain.getModel());
+            unbindMesh();
         }
         Shader.stop();
     }
 
-    private void bindModel(RawModel model) {
+    private void bindMesh(ModelMesh model) {
         glBindVertexArray(model.getVAO());
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
@@ -47,8 +47,7 @@ public class TerrainRenderer {
         model.preRender();
     }
 
-    private void unbindModel(RawModel model) {
-        model.postRender();
+    private void unbindMesh() {
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
         glDisableVertexAttribArray(2);

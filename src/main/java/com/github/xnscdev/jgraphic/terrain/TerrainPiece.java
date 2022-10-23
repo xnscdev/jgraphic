@@ -3,7 +3,6 @@ package com.github.xnscdev.jgraphic.terrain;
 import com.github.xnscdev.jgraphic.model.ModelData;
 import de.articdive.jnoise.generators.noise_parameters.fade_functions.FadeFunction;
 import de.articdive.jnoise.generators.noise_parameters.interpolation.Interpolation;
-import de.articdive.jnoise.generators.noisegen.perlin.PerlinNoiseGenerator;
 import de.articdive.jnoise.pipeline.JNoise;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -33,7 +32,7 @@ public class TerrainPiece {
     private int hz;
     private BufferedImage heightMap;
     private float[][] heights;
-    private TerrainModel model;
+    private TerrainMesh model;
 
     public TerrainPiece(int x, int z, float size, int vertexCount, String background) {
         this.x = x - size / 2;
@@ -44,7 +43,7 @@ public class TerrainPiece {
         this.red = this.green = this.blue = this.blendMap = UNUSED_TEXTURE;
     }
 
-    public TerrainModel getModel() {
+    public TerrainMesh getModel() {
         return model;
     }
 
@@ -162,7 +161,7 @@ public class TerrainPiece {
             }
         }
         ModelData data = new ModelData(vertices, textures, normals, indices);
-        model = new TerrainModel(data, background, red, green, blue, blendMap);
+        model = new TerrainMesh(data, background, red, green, blue, blendMap);
     }
 
     private float getHeight(int x, int z, BufferedImage image) {

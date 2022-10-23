@@ -33,8 +33,8 @@ public class ObjectShader extends Shader {
         locViewMatrix = getUniform("view_matrix");
         locReflectivity = getUniform("reflectivity");
         locShineDamper = getUniform("shine_damper");
-        locFogDensity = getUniform("fog_density");
-        locFogGradient = getUniform("fog_gradient");
+        locFogDensity = getUniform("fog.density");
+        locFogGradient = getUniform("fog.gradient");
         locSkyColor = getUniform("sky_color");
         locAmbientThreshold = getUniform("ambient_threshold");
 

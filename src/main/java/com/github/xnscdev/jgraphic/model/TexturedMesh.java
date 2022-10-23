@@ -1,21 +1,16 @@
 package com.github.xnscdev.jgraphic.model;
 
-import com.github.xnscdev.jgraphic.util.AssetLoader;
 import com.github.xnscdev.jgraphic.util.ObjectManager;
 
 import static org.lwjgl.opengl.GL13.*;
 
-public class TexturedModel extends RawModel {
+public class TexturedMesh extends ModelMesh {
     private final int texture;
     private int rows = 1;
 
-    public TexturedModel(ModelData data, String texture) {
+    public TexturedMesh(ModelData data, String texture) {
         super(data);
         this.texture = ObjectManager.createTexture(texture);
-    }
-
-    public TexturedModel(String model, String texture) {
-        this(AssetLoader.loadModel(model), texture);
     }
 
     public int getTexture() {

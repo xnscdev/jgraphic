@@ -2,7 +2,10 @@ package com.github.xnscdev.jgraphic.model;
 
 import com.github.xnscdev.jgraphic.util.ObjectManager;
 
-public class RawModel {
+import static org.lwjgl.opengl.GL13.*;
+
+public class ModelMesh {
+    private static final int NO_TEXTURE = -1;
     private final int vao;
     private final int vertexCount;
     private float reflectivity = 0;
@@ -10,7 +13,7 @@ public class RawModel {
     private boolean transparent = false;
     private boolean fakeLighting = false;
 
-    public RawModel(ModelData data) {
+    public ModelMesh(ModelData data) {
         vao = ObjectManager.createVAO();
         vertexCount = data.indices().length;
         ObjectManager.storeAttribute(0, 3, data.vertices());
@@ -20,14 +23,14 @@ public class RawModel {
         ObjectManager.unbindVAO();
     }
 
-    public RawModel(float[] vertices, int dimensions) {
+    public ModelMesh(float[] vertices, int dimensions) {
         vao = ObjectManager.createVAO();
         vertexCount = vertices.length / dimensions;
         ObjectManager.storeAttribute(0, dimensions, vertices);
         ObjectManager.unbindVAO();
     }
 
-    public RawModel(float[] vertices, float[] textures, int dimensions) {
+    public ModelMesh(float[] vertices, float[] textures, int dimensions) {
         vao = ObjectManager.createVAO();
         vertexCount = vertices.length / dimensions;
         ObjectManager.storeAttribute(0, dimensions, vertices);
@@ -75,7 +78,6 @@ public class RawModel {
         this.fakeLighting = fakeLighting;
     }
 
-    public void preRender() {}
-
-    public void postRender() {}
+    public void preRender() {
+    }
 }

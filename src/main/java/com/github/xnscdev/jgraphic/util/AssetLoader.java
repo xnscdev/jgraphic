@@ -52,11 +52,4 @@ public class AssetLoader {
             throw new RuntimeException(aiGetErrorString());
         return new AssetModel(scene);
     }
-
-    public static ModelData loadModel(String name) {
-        AssetModel asset = loadAsset(name);
-        if (asset.getMeshes().isEmpty())
-            throw new IllegalStateException("Asset has no meshes");
-        return asset.getMeshes().get(0);
-    }
 }

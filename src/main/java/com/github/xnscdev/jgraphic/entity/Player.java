@@ -1,7 +1,6 @@
 package com.github.xnscdev.jgraphic.entity;
 
 import org.joml.Vector3f;
-import com.github.xnscdev.jgraphic.model.TexturedModel;
 import com.github.xnscdev.jgraphic.terrain.TerrainPiece;
 import com.github.xnscdev.jgraphic.util.DisplayManager;
 
@@ -45,12 +44,12 @@ public class Player extends Entity {
     private float jumpSpeed = 15;
     private float yaw;
 
-    public Player(TexturedModel model, Vector3f position, IPlayerMovement movement) {
+    public Player(EntityModel model, Vector3f position, IPlayerMovement movement) {
         super(model, position, 0, 0, 0, 1);
         this.movement = movement;
     }
 
-    public Player(TexturedModel model, Vector3f position) {
+    public Player(EntityModel model, Vector3f position) {
         this(model, position, null);
     }
 

@@ -58,15 +58,6 @@ public class ObjectManager {
         vbos.add(vbo);
     }
 
-    public static void clean() {
-        for (int vao : vaos)
-            glDeleteVertexArrays(vao);
-        for (int vbo : vbos)
-            glDeleteBuffers(vbo);
-        for (int texture : textures)
-            glDeleteTextures(texture);
-    }
-
     public static ByteBuffer storeByteBuffer(String path) {
         ByteBuffer buffer;
         try (ReadableByteChannel channel = Channels.newChannel(Objects.requireNonNull(ObjectManager.class.getResourceAsStream(path)))) {
@@ -84,6 +75,15 @@ public class ObjectManager {
         }
         buffer.flip();
         return MemoryUtil.memSlice(buffer);
+    }
+
+    public static void clean() {
+        for (int vao : vaos)
+            glDeleteVertexArrays(vao);
+        for (int vbo : vbos)
+            glDeleteBuffers(vbo);
+        for (int texture : textures)
+            glDeleteTextures(texture);
     }
 
     private static int loadTexture(String path) {
