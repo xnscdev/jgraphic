@@ -43,8 +43,8 @@ public class ObjectShader extends Shader {
         locAttenuation = new int[MAX_LIGHTS];
         for (int i = 0; i < MAX_LIGHTS; i++) {
             locLightPos[i] = getUniform("light_pos[" + i + "]");
-            locLightColor[i] = getUniform("light_color[" + i + "]");
-            locAttenuation[i] = getUniform("attenuation[" + i + "]");
+            locLightColor[i] = getUniform("lights[" + i + "].color");
+            locAttenuation[i] = getUniform("lights[" + i + "].attenuation");
         }
     }
 

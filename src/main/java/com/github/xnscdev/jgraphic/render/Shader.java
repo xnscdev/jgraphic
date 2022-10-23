@@ -3,6 +3,7 @@ package com.github.xnscdev.jgraphic.render;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
 
 import java.io.BufferedReader;
@@ -67,6 +68,10 @@ public abstract class Shader {
 
     protected void loadVector3f(int loc, Vector3f value) {
         glUniform3f(loc, value.x, value.y, value.z);
+    }
+
+    protected void loadVector4f(int loc, Vector4f value) {
+        glUniform4f(loc, value.x, value.y, value.z, value.w);
     }
 
     protected void loadMatrix4f(int loc, Matrix4f value) {

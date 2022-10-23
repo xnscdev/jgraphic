@@ -29,7 +29,7 @@ public class EntityRenderer {
         shader.start();
         state.loadToShader(shader);
         for (EntityModel model : entities.keySet()) {
-            for (ModelMesh mesh : model.getMeshes()) {
+            for (EntityMesh mesh : model.getMeshes()) {
                 bindMesh(mesh);
                 List<Entity> batch = entities.get(model);
                 for (Entity entity : batch) {
@@ -51,7 +51,7 @@ public class EntityRenderer {
         glDisable(GL_CULL_FACE);
     }
 
-    private void bindMesh(ModelMesh mesh) {
+    private void bindMesh(EntityMesh mesh) {
         glBindVertexArray(mesh.getVAO());
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
@@ -60,6 +60,7 @@ public class EntityRenderer {
             disableCulling();
         shader.loadFakeLighting(mesh.isFakeLighting());
         shader.loadSpecularLighting(mesh.getReflectivity(), mesh.getShineDamper());
+        shader.loadMaterial(mesh.getMaterial(), mesh.hasTexture());
         mesh.preRender();
     }
 

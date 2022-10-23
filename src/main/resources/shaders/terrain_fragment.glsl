@@ -1,5 +1,11 @@
 #version 400 core
 
+struct PointLight
+{
+  vec3 color;
+  vec3 attenuation;
+};
+
 in vec2 pass_texture;
 in vec3 surface_normal;
 in vec3 light_vector[4];
@@ -13,8 +19,7 @@ uniform sampler2D red_sampler;
 uniform sampler2D green_sampler;
 uniform sampler2D blue_sampler;
 uniform sampler2D blend_map_sampler;
-uniform vec3 light_color[4];
-uniform vec3 attenuation[4];
+uniform PointLight lights[4];
 uniform float reflectivity;
 uniform float shine_damper;
 uniform vec3 sky_color;
@@ -38,13 +43,13 @@ void main(void) {
 
   for (int i = 0; i < 4; i++) {
     float distance = length(light_vector[i]);
-    float attenuation_factor = attenuation[i].x + attenuation[i].y * distance + attenuation[i].z * distance * distance;
+    float attenuation_factor = lights[i].attenuation.x + lights[i].attenuation.y * distance + lights[i].attenuation.z * distance * distance;
     vec3 unit_light = normalize(light_vector[i]);
     float brightness = max(dot(unit_normal, unit_light), 0.0);
     vec3 light_dir = reflect(-unit_light, unit_normal);
     float specular_factor = max(dot(light_dir, unit_camera), 0.0);
-    total_diffuse = total_diffuse + brightness * light_color[i] / attenuation_factor;
-    total_specular = total_specular + pow(specular_factor, shine_damper) * reflectivity * light_color[i] / attenuation_factor;
+    total_diffuse = total_diffuse + brightness * lights[i].color / attenuation_factor;
+    total_specular = total_specular + pow(specular_factor, shine_damper) * reflectivity * lights[i].color / attenuation_factor;
   }
   total_diffuse = max(total_diffuse, ambient_threshold);
 

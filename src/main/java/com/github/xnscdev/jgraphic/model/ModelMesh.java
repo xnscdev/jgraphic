@@ -2,10 +2,7 @@ package com.github.xnscdev.jgraphic.model;
 
 import com.github.xnscdev.jgraphic.util.ObjectManager;
 
-import static org.lwjgl.opengl.GL13.*;
-
 public class ModelMesh {
-    private static final int NO_TEXTURE = -1;
     private final int vao;
     private final int vertexCount;
     private float reflectivity = 0;

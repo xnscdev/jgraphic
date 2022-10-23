@@ -7,23 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EntityModel {
-    private final List<ModelMesh> meshes = new ArrayList<>();
+    private final List<EntityMesh> meshes = new ArrayList<>();
     private final List<ModelMaterial> materials;
 
     public EntityModel(String model) {
         AssetModel asset = AssetLoader.loadAsset(model);
         materials = asset.getMaterials();
         for (ModelData data : asset.getMeshes()) {
-            ModelMesh mesh;
-            if (data.material() != null && data.material().getTexturePath() != null)
-                mesh = new TexturedMesh(data, data.material().getTexturePath());
-            else
-                mesh = new ModelMesh(data);
-            meshes.add(mesh);
+            meshes.add(new EntityMesh(data));
         }
     }
 
-    public List<ModelMesh> getMeshes() {
+    public List<EntityMesh> getMeshes() {
         return meshes;
     }
 

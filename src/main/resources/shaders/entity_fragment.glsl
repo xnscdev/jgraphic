@@ -1,5 +1,17 @@
 #version 400 core
 
+struct PointLight
+{
+  vec3 color;
+  vec3 attenuation;
+};
+
+struct Material
+{
+  float use_texture;
+  vec4 color;
+};
+
 in vec2 pass_texture;
 in vec3 surface_normal;
 in vec3 light_vector[4];
@@ -9,12 +21,12 @@ in float visibility;
 layout(location = 0) out vec4 out_color;
 
 uniform sampler2D texture_sampler;
-uniform vec3 light_color[4];
-uniform vec3 attenuation[4];
+uniform PointLight lights[4];
 uniform float reflectivity;
 uniform float shine_damper;
 uniform vec3 sky_color;
 uniform float ambient_threshold;
+uniform Material material;
 
 void main(void) {
   vec3 unit_normal = normalize(surface_normal);
@@ -24,20 +36,23 @@ void main(void) {
 
   for (int i = 0; i < 4; i++) {
     float distance = length(light_vector[i]);
-    float attenuation_factor = attenuation[i].x + attenuation[i].y * distance + attenuation[i].z * distance * distance;
+    float attenuation_factor = lights[i].attenuation.x + lights[i].attenuation.y * distance + lights[i].attenuation.z * distance * distance;
     vec3 unit_light = normalize(light_vector[i]);
     float brightness = max(dot(unit_normal, unit_light), 0.0);
     vec3 light_dir = reflect(-unit_light, unit_normal);
     float specular_factor = max(dot(light_dir, unit_camera), 0.0);
-    total_diffuse = total_diffuse + brightness * light_color[i] / attenuation_factor;
-    total_specular = total_specular + pow(specular_factor, shine_damper) * reflectivity * light_color[i] / attenuation_factor;
+    total_diffuse = total_diffuse + brightness * lights[i].color / attenuation_factor;
+    total_specular = total_specular + pow(specular_factor, shine_damper) * reflectivity * lights[i].color / attenuation_factor;
   }
   total_diffuse = max(total_diffuse, ambient_threshold);
 
-  vec4 texture_color = texture(texture_sampler, pass_texture);
-  if (texture_color.a < 0.5) {
+  vec4 real_color = material.color;
+  if (material.use_texture > 0.5) {
+    real_color = texture(texture_sampler, pass_texture);
+  }
+  if (real_color.a < 0.5) {
     discard;
   }
-  out_color = vec4(total_diffuse, 1.0) * texture_color + vec4(total_specular, 1.0);
+  out_color = vec4(total_diffuse, 1.0) * real_color + vec4(total_specular, 1.0);
   out_color = mix(vec4(sky_color, 1.0), out_color, visibility);
 }
