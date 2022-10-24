@@ -93,9 +93,17 @@ public class World {
         entities.add(entity);
     }
 
+    public void removeEntity(Entity entity) {
+        entities.remove(entity);
+    }
+
     public void addTerrain(TerrainPiece terrain) {
         terrain.build();
         terrains.add(terrain);
+    }
+
+    public void removeTerrain(TerrainPiece terrain) {
+        terrains.remove(terrain);
     }
 
     public List<LightSource> getLightSources() {
