@@ -14,8 +14,8 @@ import java.util.Map;
 import static org.lwjgl.assimp.Assimp.aiReleaseImport;
 
 public class AssetModel {
-    private static final int MAX_WEIGHTS = 4;
     private static final int MAX_BONES = 150;
+    private static final int MAX_WEIGHTS = 4;
     private final AIScene scene;
     private final List<ModelData> meshes = new ArrayList<>();
     private final List<ModelMaterial> materials = new ArrayList<>();

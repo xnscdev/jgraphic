@@ -6,6 +6,8 @@ struct PointLight
   vec3 attenuation;
 };
 
+const int MAX_LIGHTS = 4;
+
 in vec2 pass_texture;
 in vec3 surface_normal;
 in vec3 light_vector[4];
@@ -19,7 +21,7 @@ uniform sampler2D red_sampler;
 uniform sampler2D green_sampler;
 uniform sampler2D blue_sampler;
 uniform sampler2D blend_map_sampler;
-uniform PointLight lights[4];
+uniform PointLight lights[MAX_LIGHTS];
 uniform float reflectivity;
 uniform float shine_damper;
 uniform vec3 sky_color;
@@ -41,7 +43,7 @@ void main(void) {
   vec3 total_diffuse = vec3(0.0);
   vec3 total_specular = vec3(0.0);
 
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < MAX_LIGHTS; i++) {
     float distance = length(light_vector[i]);
     float attenuation_factor = lights[i].attenuation.x + lights[i].attenuation.y * distance + lights[i].attenuation.z * distance * distance;
     vec3 unit_light = normalize(light_vector[i]);
