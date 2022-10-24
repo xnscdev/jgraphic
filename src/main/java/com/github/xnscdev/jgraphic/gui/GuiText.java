@@ -14,9 +14,8 @@ import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
-public class GuiText implements GuiComponent {
+public class GuiText extends GuiComponent {
     private final float fontSize;
-    private final Vector2f position;
     private final float lineMaxSize;
     private final FontType font;
     private final boolean centered;
@@ -26,17 +25,17 @@ public class GuiText implements GuiComponent {
     private int lineCount;
 
     public GuiText(String text, float fontSize, FontType font, Vector2f position, float lineMaxSize, boolean centered) {
+        super(position);
         this.text = text;
         this.fontSize = fontSize;
         this.font = font;
-        this.position = new Vector2f(position.x / DisplayManager.getWidth() * 2, position.y / DisplayManager.getHeight() * -2);
         this.lineMaxSize = lineMaxSize / DisplayManager.getWidth();
         this.centered = centered;
         model = font.loadText(this);
     }
 
     @Override
-    public void render(Vector2f translation) {
+    public void render() {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDisable(GL_DEPTH_TEST);
@@ -46,7 +45,7 @@ public class GuiText implements GuiComponent {
         glBindVertexArray(model.getVAO());
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
-        GuiManager.TEXT_SHADER.loadTranslation(new Vector2f(translation).add(position));
+        GuiManager.TEXT_SHADER.loadTranslation(new Vector2f(parent.getScreenPosition()).add(screenPosition).add(1, -1));
         GuiManager.TEXT_SHADER.loadColor(color);
         glDrawArrays(GL_TRIANGLES, 0, model.getVertexCount());
         glDisableVertexAttribArray(0);
@@ -59,10 +58,6 @@ public class GuiText implements GuiComponent {
 
     public FontType getFont() {
         return font;
-    }
-
-    public Vector2f getPosition() {
-        return position;
     }
 
     public TextModel getModel() {
