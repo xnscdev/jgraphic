@@ -38,6 +38,14 @@ public class MousePicker {
             terrainPoint = null;
     }
 
+    public Vector2f getProjectedPosition(Vector3f pos) {
+        Vector4f worldPos = new Vector4f(pos, 1);
+        Vector4f eyePos = viewMatrix.transform(worldPos);
+        Vector4f clipPos = projectionMatrix.transform(eyePos);
+        clipPos.div(clipPos.w);
+        return new Vector2f((clipPos.x + 1) * DisplayManager.getWidth() / 2, (1 - (clipPos.y + 1) / 2) * DisplayManager.getHeight());
+    }
+
     private void updateRay() {
         viewMatrix = camera.viewMatrix();
         Vector2f pos = DisplayManager.getMousePos();

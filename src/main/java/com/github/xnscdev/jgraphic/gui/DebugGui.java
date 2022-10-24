@@ -16,7 +16,7 @@ public class DebugGui extends Gui {
     private long lastUpdate;
 
     public DebugGui(World world) {
-        super(new Vector2f(), new Vector2f(DisplayManager.getWidth(), 50), new Vector3f(0.6f));
+        super(GuiManager.RECT_MODEL, new Vector2f(), new Vector2f(DisplayManager.getWidth(), 50), new Vector3f(0.6f));
         this.world = world;
         fpsText = new GuiText("FPS: 0", 24, Fonts.PLAY, new Vector2f(12, 12), 100, false);
         cameraText = new GuiText("Position: (0.00 0.00 0.00)", 24, Fonts.PLAY, new Vector2f(112, 12), 9999, false);

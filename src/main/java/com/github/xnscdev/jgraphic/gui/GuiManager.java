@@ -7,18 +7,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GuiManager {
+    public static GuiModel RECT_MODEL;
+    public static GuiModel STAR_MODEL;
     protected static SolidGuiShader SOLID_SHADER;
     protected static TexturedGuiShader TEXTURED_SHADER;
     protected static TextShader TEXT_SHADER;
-    protected static GuiModel GUI_MODEL;
     private static final List<GuiComponent> guis = new ArrayList<>();
 
     public static void init() {
         SOLID_SHADER = new SolidGuiShader();
         TEXTURED_SHADER = new TexturedGuiShader();
         TEXT_SHADER = new TextShader();
-        float[] positions = {0, 0, 0, -1, 1, 0, 1, -1};
-        GUI_MODEL = new GuiModel(positions);
+        RECT_MODEL = new GuiModel(new float[]{0, 0, 0, -1, 1, 0, 1, -1});
+        STAR_MODEL = new GuiModel(new float[]{
+                0, 1, -0.322f, 0.443f, 0.322f, 0.443f, 0.322f, 0.443f, -0.322f, 0.443f, 0.521f, -0.169f, 0.951f, 0.309f,
+                0.322f, 0.443f, 0.521f, -0.169f, -0.322f, 0.443f, -0.951f, 0.309f, -0.521f, -0.169f, -0.322f, 0.443f,
+                -0.521f, -0.169f, 0, -0.547f, -0.322f, 0.443f, 0, -0.547f, 0.521f, -0.169f, -0.521f, -0.169f,
+                -0.588f, -0.809f, 0, -0.547f, 0.521f, -0.169f, 0, -0.547f, 0.588f, -0.809f
+        });
     }
 
 
@@ -35,6 +41,10 @@ public class GuiManager {
 
     public static void addGui(GuiComponent gui) {
         guis.add(gui);
+    }
+
+    public static void removeGui(GuiComponent gui) {
+        guis.remove(gui);
     }
 
     public static void render() {

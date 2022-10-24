@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Gui implements GuiComponent {
-    private final GuiBackground background = new GuiBackground();
+    private final GuiBackground background;
     protected final List<GuiComponent> children = new ArrayList<>();
     protected Vector2f position;
     protected Vector2f screenPosition;
@@ -16,18 +16,19 @@ public class Gui implements GuiComponent {
     protected Vector2f size;
     protected Vector2f screenSize;
 
-    private Gui(Vector2f position, Vector2f size) {
+    private Gui(GuiModel model, Vector2f position, Vector2f size) {
+        background = new GuiBackground(model);
         setPosition(position);
         setSize(size);
     }
 
-    public Gui(Vector2f position, Vector2f size, Vector3f backgroundColor) {
-        this(position, size);
+    public Gui(GuiModel model, Vector2f position, Vector2f size, Vector3f backgroundColor) {
+        this(model, position, size);
         background.setSolidColor(backgroundColor);
     }
 
-    public Gui(Vector2f position, Vector2f size, String texture) {
-        this(position, size);
+    public Gui(GuiModel model, Vector2f position, Vector2f size, String texture) {
+        this(model, position, size);
         background.setTexture(texture);
     }
 

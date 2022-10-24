@@ -28,6 +28,7 @@ public class World {
     private final List<Entity> entities = new ArrayList<>();
     private final List<TerrainPiece> terrains = new ArrayList<>();
     private final List<LightSource> lights = new ArrayList<>();
+    private boolean active = true;
     private Camera camera;
     private MousePicker picker;
     private IWorldTick tickCallback;
@@ -44,6 +45,8 @@ public class World {
     }
 
     public void tick() {
+        if (!active)
+            return;
         double delta = DisplayManager.deltaTime();
         ListIterator<Entity> iter = entities.listIterator();
         while (iter.hasNext()) {
@@ -159,6 +162,14 @@ public class World {
 
     public void setTickCallback(IWorldTick tickCallback) {
         this.tickCallback = tickCallback;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public TerrainPiece getTerrain(float x, float z) {

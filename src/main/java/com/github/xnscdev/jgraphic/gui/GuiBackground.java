@@ -10,13 +10,30 @@ import com.github.xnscdev.jgraphic.util.MathUtils;
 import static org.lwjgl.opengl.GL30.*;
 
 public class GuiBackground {
+    private GuiModel model;
     private Vector3f backgroundColor;
     private int texture;
     private Type type;
 
+    public GuiBackground(GuiModel model) {
+        this.model = model;
+    }
+
     public void setSolidColor(Vector3f color) {
         type = Type.SOLID;
         backgroundColor = color;
+    }
+
+    public GuiModel getModel() {
+        return model;
+    }
+
+    public void setModel(GuiModel model) {
+        this.model = model;
+    }
+
+    public int getTexture() {
+        return texture;
     }
 
     public void setTexture(String texture) {
@@ -39,7 +56,7 @@ public class GuiBackground {
         Matrix4f transformMatrix = MathUtils.transformMatrix(pos, size);
         GuiManager.SOLID_SHADER.loadTransformMatrix(transformMatrix);
         GuiManager.SOLID_SHADER.setColor(backgroundColor);
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, GuiManager.GUI_MODEL.getVertexCount());
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, model.getVertexCount());
         unbindModel();
         Shader.stop();
     }
@@ -51,13 +68,13 @@ public class GuiBackground {
         glBindTexture(GL_TEXTURE_2D, texture);
         Matrix4f transformMatrix = MathUtils.transformMatrix(pos, size);
         GuiManager.TEXTURED_SHADER.loadTransformMatrix(transformMatrix);
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, GuiManager.GUI_MODEL.getVertexCount());
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, model.getVertexCount());
         unbindModel();
         Shader.stop();
     }
 
     private void bindModel() {
-        glBindVertexArray(GuiManager.GUI_MODEL.getVAO());
+        glBindVertexArray(model.getVAO());
         glEnableVertexAttribArray(0);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
