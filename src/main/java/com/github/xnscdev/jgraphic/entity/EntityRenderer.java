@@ -59,7 +59,7 @@ public class EntityRenderer {
         if (mesh.isTransparent())
             disableCulling();
         shader.loadFakeLighting(mesh.isFakeLighting());
-        shader.loadSpecularLighting(mesh.getReflectivity(), mesh.getShineDamper());
+        shader.loadSpecularLighting(mesh.getMaterial().getReflectance());
         shader.loadMaterial(mesh.getMaterial(), mesh.hasTexture());
         mesh.preRender();
     }

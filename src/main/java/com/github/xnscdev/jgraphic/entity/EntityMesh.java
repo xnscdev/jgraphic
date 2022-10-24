@@ -18,7 +18,6 @@ public class EntityMesh extends ModelMesh {
             material = data.material();
             if (material.getTexturePath() != null)
                 this.texture = ObjectManager.createTexture(material.getTexturePath());
-            setReflectivity(material.getReflectance());
         }
     }
 

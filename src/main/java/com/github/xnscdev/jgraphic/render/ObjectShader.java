@@ -16,7 +16,6 @@ public class ObjectShader extends Shader {
     private int[] locLightColor;
     private int[] locAttenuation;
     private int locReflectivity;
-    private int locShineDamper;
     private int locFogDensity;
     private int locFogGradient;
     private int locSkyColor;
@@ -32,7 +31,6 @@ public class ObjectShader extends Shader {
         locProjectionMatrix = getUniform("projection_matrix");
         locViewMatrix = getUniform("view_matrix");
         locReflectivity = getUniform("reflectivity");
-        locShineDamper = getUniform("shine_damper");
         locFogDensity = getUniform("fog.density");
         locFogGradient = getUniform("fog.gradient");
         locSkyColor = getUniform("sky_color");
@@ -75,9 +73,8 @@ public class ObjectShader extends Shader {
         }
     }
 
-    public void loadSpecularLighting(float reflectivity, float shineDamper) {
+    public void loadSpecularLighting(float reflectivity) {
         loadFloat(locReflectivity, reflectivity);
-        loadFloat(locShineDamper, shineDamper);
     }
 
     public void loadSkyFog(Vector3f skyColor, float fogDensity, float fogGradient) {

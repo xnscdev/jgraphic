@@ -23,7 +23,6 @@ uniform sampler2D blue_sampler;
 uniform sampler2D blend_map_sampler;
 uniform PointLight lights[MAX_LIGHTS];
 uniform float reflectivity;
-uniform float shine_damper;
 uniform vec3 sky_color;
 uniform float ambient_threshold;
 uniform float texture_scale;
@@ -51,7 +50,7 @@ void main(void) {
     vec3 light_dir = reflect(-unit_light, unit_normal);
     float specular_factor = max(dot(light_dir, unit_camera), 0.0);
     total_diffuse = total_diffuse + brightness * lights[i].color / attenuation_factor;
-    total_specular = total_specular + pow(specular_factor, shine_damper) * reflectivity * lights[i].color / attenuation_factor;
+    total_specular = total_specular + specular_factor * reflectivity * lights[i].color / attenuation_factor;
   }
   total_diffuse = max(total_diffuse, ambient_threshold);
 

@@ -5,8 +5,6 @@ import com.github.xnscdev.jgraphic.util.ObjectManager;
 public class ModelMesh {
     private final int vao;
     private final int vertexCount;
-    private float reflectivity = 0;
-    private float shineDamper = 1;
     private boolean transparent = false;
     private boolean fakeLighting = false;
 
@@ -41,22 +39,6 @@ public class ModelMesh {
 
     public int getVertexCount() {
         return vertexCount;
-    }
-
-    public float getReflectivity() {
-        return reflectivity;
-    }
-
-    public void setReflectivity(float reflectivity) {
-        this.reflectivity = reflectivity;
-    }
-
-    public float getShineDamper() {
-        return shineDamper;
-    }
-
-    public void setShineDamper(float shineDamper) {
-        this.shineDamper = shineDamper;
     }
 
     public boolean isTransparent() {

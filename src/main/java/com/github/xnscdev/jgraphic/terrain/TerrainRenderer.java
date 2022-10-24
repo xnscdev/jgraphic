@@ -43,7 +43,7 @@ public class TerrainRenderer {
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
         glEnableVertexAttribArray(2);
-        shader.loadSpecularLighting(model.getReflectivity(), model.getShineDamper());
+        shader.loadSpecularLighting(0);
         model.preRender();
     }
 
