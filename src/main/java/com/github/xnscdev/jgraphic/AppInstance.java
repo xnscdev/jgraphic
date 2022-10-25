@@ -8,6 +8,8 @@ import com.github.xnscdev.jgraphic.gui.GuiManager;
 import com.github.xnscdev.jgraphic.world.World;
 
 public class AppInstance {
+    public static World WORLD;
+
     public static void init(String title, int width, int height) {
         DisplayManager.createDisplay(title, width, height);
         Fonts.init();
@@ -17,6 +19,7 @@ public class AppInstance {
     public static void launch(World world) {
         if (world.getCamera() == null)
             throw new IllegalStateException("Attempted to render a world without a camera");
+        WORLD = world;
         while (!DisplayManager.closeRequested()) {
             world.tick();
             DisplayManager.updateDisplay();

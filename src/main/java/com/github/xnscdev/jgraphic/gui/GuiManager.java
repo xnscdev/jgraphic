@@ -5,6 +5,7 @@ import com.github.xnscdev.jgraphic.text.TextShader;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 public class GuiManager {
     private static final RootComponent ROOT_COMPONENT = new RootComponent();
@@ -78,6 +79,26 @@ public class GuiManager {
 
     public static void render() {
         for (GuiComponent gui : guis)
-            gui.render();
+            gui.render(ROOT_COMPONENT.getAbsoluteScreenPosition());
+    }
+
+    public static boolean mousePressed(float x, float y) {
+        ListIterator<GuiComponent> iter = guis.listIterator(guis.size());
+        while (iter.hasPrevious()) {
+            GuiComponent gui = iter.previous();
+            if (gui.mousePressed(x, y))
+                return true;
+        }
+        return false;
+    }
+
+    public static boolean mouseReleased(float x, float y) {
+        ListIterator<GuiComponent> iter = guis.listIterator(guis.size());
+        while (iter.hasPrevious()) {
+            GuiComponent gui = iter.previous();
+            if (gui.mouseReleased(x, y))
+                return true;
+        }
+        return false;
     }
 }

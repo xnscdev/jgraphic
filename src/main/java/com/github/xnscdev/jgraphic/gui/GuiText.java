@@ -35,7 +35,7 @@ public class GuiText extends GuiComponent {
     }
 
     @Override
-    public void render() {
+    public void render(Vector2f screenOffset) {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDisable(GL_DEPTH_TEST);
@@ -45,7 +45,7 @@ public class GuiText extends GuiComponent {
         glBindVertexArray(model.getVAO());
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
-        GuiManager.TEXT_SHADER.loadTranslation(new Vector2f(parent.getScreenPosition()).add(screenPosition).add(1, -1));
+        GuiManager.TEXT_SHADER.loadTranslation(new Vector2f(screenOffset).add(screenPosition).add(1, -1));
         GuiManager.TEXT_SHADER.loadColor(color);
         glDrawArrays(GL_TRIANGLES, 0, model.getVertexCount());
         glDisableVertexAttribArray(0);

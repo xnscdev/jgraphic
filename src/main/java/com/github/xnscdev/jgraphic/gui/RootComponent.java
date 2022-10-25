@@ -8,6 +8,16 @@ public class RootComponent extends GuiComponent {
     }
 
     @Override
-    public void render() {
+    public void render(Vector2f screenOffset) {
+    }
+
+    @Override
+    public Vector2f getAbsolutePosition() {
+        return new Vector2f();
+    }
+
+    @Override
+    public Vector2f getAbsoluteScreenPosition() {
+        return new Vector2f(-1, 1);
     }
 }

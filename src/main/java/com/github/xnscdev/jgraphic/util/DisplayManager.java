@@ -1,5 +1,7 @@
 package com.github.xnscdev.jgraphic.util;
 
+import com.github.xnscdev.jgraphic.AppInstance;
+import com.github.xnscdev.jgraphic.gui.GuiManager;
 import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.glfw.GLFWScrollCallback;
@@ -49,6 +51,13 @@ public class DisplayManager {
             public void invoke(long window, int button, int action, int mods) {
                 if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
                     lastMousePos = getMousePos();
+                if (button == GLFW_MOUSE_BUTTON_LEFT) {
+                    Vector2f pos = getMousePos();
+                    if (action == GLFW_PRESS)
+                        AppInstance.WORLD.mousePressed(pos.x, pos.y);
+                    else if (action == GLFW_RELEASE)
+                        AppInstance.WORLD.mouseReleased(pos.x, pos.y);
+                }
             }
         });
 

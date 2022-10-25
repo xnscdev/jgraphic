@@ -28,6 +28,8 @@ public class World {
     private final List<Entity> entities = new ArrayList<>();
     private final List<TerrainPiece> terrains = new ArrayList<>();
     private final List<LightSource> lights = new ArrayList<>();
+    private IMouseEventCallback mousePressedCallback;
+    private IMouseEventCallback mouseReleasedCallback;
     private Camera camera;
     private MousePicker picker;
     private IWorldTick tickCallback;
@@ -159,6 +161,24 @@ public class World {
 
     public void setTickCallback(IWorldTick tickCallback) {
         this.tickCallback = tickCallback;
+    }
+
+    public void mousePressed(float x, float y) {
+        if (!GuiManager.mousePressed(x, y) && mousePressedCallback != null)
+            mousePressedCallback.invoke(this, x, y);
+    }
+
+    public void setMousePressedCallback(IMouseEventCallback callback) {
+        this.mousePressedCallback = callback;
+    }
+
+    public void mouseReleased(float x, float y) {
+        if (!GuiManager.mouseReleased(x, y) && mouseReleasedCallback != null)
+            mouseReleasedCallback.invoke(this, x, y);
+    }
+
+    public void setMouseReleasedCallback(IMouseEventCallback callback) {
+        this.mouseReleasedCallback = callback;
     }
 
     public TerrainPiece getTerrain(float x, float z) {

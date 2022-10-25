@@ -14,7 +14,7 @@ public abstract class GuiComponent {
         setPosition(position);
     }
 
-    public abstract void render();
+    public abstract void render(Vector2f screenOffset);
 
     public GuiComponent getParent() {
         return parent;
@@ -28,13 +28,21 @@ public abstract class GuiComponent {
         return position;
     }
 
+    public Vector2f getAbsolutePosition() {
+        return parent.getAbsolutePosition().add(position);
+    }
+
     public void setPosition(Vector2f position) {
         this.position = position;
-        this.screenPosition = new Vector2f(position.x / DisplayManager.getWidth() * 2 - 0.5f, position.y / DisplayManager.getHeight() * -2 + 0.5f);
+        this.screenPosition = new Vector2f(position.x / DisplayManager.getWidth() * 2, position.y / DisplayManager.getHeight() * -2);
     }
 
     public Vector2f getScreenPosition() {
         return screenPosition;
+    }
+
+    public Vector2f getAbsoluteScreenPosition() {
+        return parent.getAbsoluteScreenPosition().add(screenPosition);
     }
 
     public Vector2f getSize() {
@@ -51,5 +59,18 @@ public abstract class GuiComponent {
     }
 
     public void tick(double delta) {
+    }
+
+    public boolean mousePressed(float x, float y) {
+        return false;
+    }
+
+    public boolean mouseReleased(float x, float y) {
+        return false;
+    }
+
+    public boolean containsPoint(float x, float y) {
+        Vector2f pos = getAbsolutePosition();
+        return x >= pos.x && x <= pos.x + size.x && y >= pos.y && y <= pos.y + size.y;
     }
 }
