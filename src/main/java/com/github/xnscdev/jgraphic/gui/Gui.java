@@ -61,7 +61,7 @@ public class Gui extends GuiComponent {
         ListIterator<GuiComponent> iter = children.listIterator(children.size());
         while (iter.hasPrevious()) {
             GuiComponent gui = iter.previous();
-            if (gui.mousePressed(x, y))
+            if (gui.containsPoint(x, y) && gui.mousePressed(x, y))
                 return true;
         }
         return false;
@@ -72,7 +72,7 @@ public class Gui extends GuiComponent {
         ListIterator<GuiComponent> iter = children.listIterator(children.size());
         while (iter.hasPrevious()) {
             GuiComponent gui = iter.previous();
-            if (gui.mouseReleased(x, y))
+            if (gui.containsPoint(x, y) && gui.mouseReleased(x, y))
                 return true;
         }
         return false;
