@@ -19,7 +19,14 @@ public class GuiManager {
         SOLID_SHADER = new SolidGuiShader();
         TEXTURED_SHADER = new TexturedGuiShader();
         TEXT_SHADER = new TextShader();
-        RECT_MODEL = new GuiModel(new float[]{0, 0, 0, -1, 1, 0, 1, -1});
+        RECT_MODEL = new GuiModel(new float[]{
+                0, 0,
+                0, -1,
+                1, 0,
+                1, 0,
+                0, -1,
+                1, -1
+        });
         STAR_MODEL = new GuiModel(new float[]{
                 0, 1,
                 -0.322f, 0.443f,

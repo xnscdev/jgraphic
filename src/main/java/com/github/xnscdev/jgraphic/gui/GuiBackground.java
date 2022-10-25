@@ -56,7 +56,7 @@ public class GuiBackground {
         Matrix4f transformMatrix = MathUtils.transformMatrix(pos, size);
         GuiManager.SOLID_SHADER.loadTransformMatrix(transformMatrix);
         GuiManager.SOLID_SHADER.setColor(backgroundColor);
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, model.getVertexCount());
+        glDrawArrays(GL_TRIANGLES, 0, model.getVertexCount());
         unbindModel();
         Shader.stop();
     }
@@ -68,7 +68,7 @@ public class GuiBackground {
         glBindTexture(GL_TEXTURE_2D, texture);
         Matrix4f transformMatrix = MathUtils.transformMatrix(pos, size);
         GuiManager.TEXTURED_SHADER.loadTransformMatrix(transformMatrix);
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, model.getVertexCount());
+        glDrawArrays(GL_TRIANGLES, 0, model.getVertexCount());
         unbindModel();
         Shader.stop();
     }
