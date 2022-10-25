@@ -1,6 +1,5 @@
 package com.github.xnscdev.jgraphic.gui;
 
-import com.github.xnscdev.jgraphic.util.DisplayManager;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
@@ -34,6 +33,11 @@ public class Gui extends GuiComponent {
     public void addChild(GuiComponent gui) {
         children.add(gui);
         gui.setParent(this);
+    }
+
+    public void removeChild(GuiComponent gui) {
+        if (children.remove(gui))
+            gui.setParent(null);
     }
 
     @Override
