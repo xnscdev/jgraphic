@@ -21,6 +21,15 @@ public class ModelMaterial {
     private String texturePath;
     private int index;
 
+    public ModelMaterial(String texturePath) {
+        this.material = null;
+        this.ambientColor = DEFAULT_COLOR;
+        this.diffuseColor = DEFAULT_COLOR;
+        this.specularColor = DEFAULT_COLOR;
+        this.texturePath = texturePath;
+        this.reflectance = 0;
+    }
+
     public ModelMaterial(AIMaterial material) {
         this.material = material;
         try (MemoryStack stack = MemoryStack.stackPush()) {
@@ -31,7 +40,7 @@ public class ModelMaterial {
             AIColor4D diffuse = AIColor4D.create();
             if (aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, aiTextureType_NONE, 0, diffuse) != 0)
                 throw new RuntimeException(aiGetErrorString());
-            Vector4f tempDiffuseColor = new Vector4f(diffuse.r(), diffuse.g(), diffuse.b(), diffuse.a());
+            diffuseColor = new Vector4f(diffuse.r(), diffuse.g(), diffuse.b(), diffuse.a());
             AIColor4D specular = AIColor4D.create();
             if (aiGetMaterialColor(material, AI_MATKEY_COLOR_SPECULAR, aiTextureType_NONE, 0, specular) != 0)
                 throw new RuntimeException(aiGetErrorString());
@@ -50,14 +59,9 @@ public class ModelMaterial {
             String path = texturePath.dataString();
             if (path.length() > 0) {
                 this.texturePath = new File(path).getName();
-                tempDiffuseColor = DEFAULT_COLOR;
+                diffuseColor = DEFAULT_COLOR;
             }
-            diffuseColor = tempDiffuseColor;
         }
-    }
-
-    public AIMaterial getMaterial() {
-        return material;
     }
 
     public Vector4f getAmbientColor() {
@@ -94,6 +98,10 @@ public class ModelMaterial {
 
     public String getTexturePath() {
         return texturePath;
+    }
+
+    public void setTexturePath(String texturePath) {
+        this.texturePath = texturePath;
     }
 
     public int getIndex() {

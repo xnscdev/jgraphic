@@ -14,15 +14,18 @@ public class EntityMesh extends ModelMesh {
 
     public EntityMesh(ModelData data) {
         super(data);
-        if (data.material() != null) {
-            material = data.material();
-            if (material.getTexturePath() != null)
-                this.texture = ObjectManager.createTexture(material.getTexturePath());
-        }
+        if (data.material() != null)
+            setMaterial(data.material());
     }
 
     public ModelMaterial getMaterial() {
         return material;
+    }
+
+    public void setMaterial(ModelMaterial material) {
+        this.material = material;
+        if (material.getTexturePath() != null)
+            texture = ObjectManager.createTexture(material.getTexturePath());
     }
 
     public int getTexture() {

@@ -16,6 +16,16 @@ public class EntityModel {
         }
     }
 
+    public EntityModel(String model, String texture) {
+        AssetModel asset = AssetLoader.loadAsset(model);
+        ModelMaterial material = new ModelMaterial(texture);
+        for (ModelData data : asset.getMeshes()) {
+            EntityMesh mesh = new EntityMesh(data);
+            mesh.setMaterial(material);
+            meshes.add(mesh);
+        }
+    }
+
     public List<EntityMesh> getMeshes() {
         return meshes;
     }
