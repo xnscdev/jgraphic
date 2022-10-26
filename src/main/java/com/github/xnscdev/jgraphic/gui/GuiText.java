@@ -77,8 +77,10 @@ public class GuiText extends GuiComponent {
     }
 
     public void setText(String text) {
-        this.text = text;
-        model = font.loadText(this);
+        if (!this.text.equals(text)) {
+            this.text = text;
+            model = font.loadText(this);
+        }
     }
 
     public float getFontSize() {

@@ -162,6 +162,7 @@ public class TerrainPiece {
         }
         ModelData data = new ModelData(vertices, textures, normals, indices);
         model = new TerrainMesh(data, background, red, green, blue, blendMap);
+        heightMap = null;
     }
 
     private float getHeight(int x, int z, BufferedImage image) {
