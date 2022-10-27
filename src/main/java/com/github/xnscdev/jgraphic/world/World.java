@@ -38,6 +38,7 @@ public class World {
     private float fogGradient = 1;
     private float ambientThreshold;
     private float gravityAccel;
+    private boolean active = true;
 
     public World() {
         entityRenderer.enableCulling();
@@ -50,7 +51,8 @@ public class World {
         ListIterator<Entity> iter = entities.listIterator();
         while (iter.hasNext()) {
             Entity entity = iter.next();
-            entity.tick(getTerrainForEntity(entity), delta);
+            if (active)
+                entity.tick(getTerrainForEntity(entity), delta);
             if (entity.getPosition().y <= VOID)
                 iter.remove();
             else
@@ -60,8 +62,10 @@ public class World {
         picker.tick(this);
         GuiManager.tick(delta);
         render(camera, lights);
-        if (tickCallback != null)
-            tickCallback.tick(this, delta);
+        if (active) {
+            if (tickCallback != null)
+                tickCallback.tick(this, delta);
+        }
     }
 
     public void clean() {
@@ -179,6 +183,14 @@ public class World {
 
     public void setMouseReleasedCallback(IMouseEventCallback callback) {
         this.mouseReleasedCallback = callback;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public TerrainPiece getTerrain(float x, float z) {
