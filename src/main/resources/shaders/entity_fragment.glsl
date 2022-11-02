@@ -35,6 +35,14 @@ void main(void) {
   vec3 total_diffuse = vec3(0.0);
   vec3 total_specular = vec3(0.0);
 
+  vec4 real_color = material.color;
+  if (material.use_texture > 0.5) {
+    real_color = texture(texture_sampler, pass_texture);
+  }
+  if (real_color.a < 0.5) {
+    discard;
+  }
+
   for (int i = 0; i < MAX_LIGHTS; i++) {
     float distance = length(light_vector[i]);
     float attenuation_factor = lights[i].attenuation.x + lights[i].attenuation.y * distance + lights[i].attenuation.z * distance * distance;
@@ -47,13 +55,6 @@ void main(void) {
   }
   total_diffuse = max(total_diffuse, ambient_threshold);
 
-  vec4 real_color = material.color;
-  if (material.use_texture > 0.5) {
-    real_color = texture(texture_sampler, pass_texture);
-  }
-  if (real_color.a < 0.5) {
-    discard;
-  }
   out_color = vec4(total_diffuse, 1.0) * real_color + vec4(total_specular, 1.0);
   out_color = mix(vec4(sky_color, 1.0), out_color, visibility);
 }

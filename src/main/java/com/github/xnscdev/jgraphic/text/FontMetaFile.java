@@ -14,7 +14,7 @@ public class FontMetaFile {
     private static final int PAD_LEFT = 1;
     private static final int PAD_BOTTOM = 2;
     private static final int PAD_RIGHT = 3;
-    private static final int DESIRED_PADDING = 3;
+    private static final int DESIRED_PADDING = 8;
     private static final String SPLITTER = " ";
     private static final String NUMBER_SEPARATOR = ",";
     private final Map<Integer, TextChar> metadata = new HashMap<>();

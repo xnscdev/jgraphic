@@ -22,6 +22,12 @@ public class GuiText extends GuiComponent {
     private TextModel model;
     private String text;
     private Vector3f color = new Vector3f();
+    private float width = 0.45f;
+    private float edge = 0.1f;
+    private Vector3f borderColor = new Vector3f();
+    private Vector2f borderOffset = new Vector2f();
+    private float borderWidth = 0;
+    private float borderEdge = 0.1f;
     private int lineCount;
 
     public GuiText(String text, float fontSize, FontType font, Vector2f position, float lineMaxSize, boolean centered) {
@@ -46,7 +52,8 @@ public class GuiText extends GuiComponent {
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
         GuiManager.TEXT_SHADER.loadTranslation(new Vector2f(screenOffset).add(screenPosition).add(1, -1));
-        GuiManager.TEXT_SHADER.loadColor(color);
+        GuiManager.TEXT_SHADER.loadForeground(color, width, edge);
+        GuiManager.TEXT_SHADER.loadBorder(borderColor, borderOffset, borderWidth, borderEdge);
         glDrawArrays(GL_TRIANGLES, 0, model.getVertexCount());
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
@@ -70,6 +77,54 @@ public class GuiText extends GuiComponent {
 
     public void setColor(Vector3f color) {
         this.color = color;
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public void setWidth(float width) {
+        this.width = width;
+    }
+
+    public float getEdge() {
+        return edge;
+    }
+
+    public void setEdge(float edge) {
+        this.edge = edge;
+    }
+
+    public Vector3f getBorderColor() {
+        return borderColor;
+    }
+
+    public void setBorderColor(Vector3f borderColor) {
+        this.borderColor = borderColor;
+    }
+
+    public Vector2f getBorderOffset() {
+        return borderOffset;
+    }
+
+    public void setBorderOffset(Vector2f borderOffset) {
+        this.borderOffset = borderOffset;
+    }
+
+    public float getBorderWidth() {
+        return borderWidth;
+    }
+
+    public void setBorderWidth(float borderWidth) {
+        this.borderWidth = borderWidth;
+    }
+
+    public float getBorderEdge() {
+        return borderEdge;
+    }
+
+    public void setBorderEdge(float borderEdge) {
+        this.borderEdge = borderEdge;
     }
 
     public String getText() {

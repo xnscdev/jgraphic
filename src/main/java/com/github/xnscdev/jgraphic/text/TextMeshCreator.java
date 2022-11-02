@@ -26,8 +26,7 @@ public class TextMeshCreator {
         TextLine line = new TextLine(metadata.getSpaceWidth(), text.getFontSize(), text.getLineMaxSize());
         TextWord word = new TextWord(text.getFontSize());
         for (char c : chars) {
-            int id = c;
-            if (id == SPACE_ASCII) {
+            if ((int) c == SPACE_ASCII) {
                 boolean added = line.addWord(word);
                 if (!added) {
                     lines.add(line);
@@ -37,7 +36,7 @@ public class TextMeshCreator {
                 word = new TextWord(text.getFontSize());
                 continue;
             }
-            TextChar character = metadata.getCharacter(id);
+            TextChar character = metadata.getCharacter(c);
             word.addCharacter(character);
         }
         boolean added = line.addWord(word);
