@@ -1,6 +1,5 @@
 package com.github.xnscdev.jgraphic.gui;
 
-import org.joml.Vector2f;
 import com.github.xnscdev.jgraphic.text.TextShader;
 
 import java.util.ArrayList;

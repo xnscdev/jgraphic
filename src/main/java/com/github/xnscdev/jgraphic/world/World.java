@@ -201,6 +201,13 @@ public class World {
         return null;
     }
 
+    public float getTerrainHeight(float x, float z) {
+        TerrainPiece terrain = getTerrain(x, z);
+        if (terrain == null)
+            return 0;
+        return terrain.getTerrainHeight(x, z);
+    }
+
     private TerrainPiece getTerrainForEntity(Entity entity) {
         return getTerrain(entity.getPosition().x, entity.getPosition().z);
     }
