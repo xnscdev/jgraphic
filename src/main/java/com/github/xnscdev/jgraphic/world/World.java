@@ -120,6 +120,10 @@ public class World {
         lights.add(light);
     }
 
+    public void removeLightSource(LightSource light) {
+        lights.remove(light);
+    }
+
     public Camera getCamera() {
         return camera;
     }

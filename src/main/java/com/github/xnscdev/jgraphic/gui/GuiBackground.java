@@ -7,9 +7,13 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import com.github.xnscdev.jgraphic.util.MathUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.lwjgl.opengl.GL30.*;
 
 public class GuiBackground {
+    private static final Map<String, Integer> TEXTURES = new HashMap<>();
     private GuiModel model;
     private Vector3f backgroundColor;
     private int texture;
@@ -38,7 +42,7 @@ public class GuiBackground {
 
     public void setTexture(String texture) {
         type = Type.TEXTURED;
-        this.texture = ObjectManager.createTexture(texture);
+        this.texture = TEXTURES.computeIfAbsent(texture, ObjectManager::createTexture);
     }
 
     public void render(Vector2f pos, Vector2f size) {
