@@ -2,7 +2,7 @@ package com.github.xnscdev.jgraphic.gui;
 
 import com.github.xnscdev.jgraphic.render.Shader;
 import org.joml.Matrix4f;
-import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 public class SolidGuiShader extends Shader {
     private int locTransformMatrix;
@@ -22,7 +22,7 @@ public class SolidGuiShader extends Shader {
         loadMatrix4f(locTransformMatrix, value);
     }
 
-    public void setColor(Vector3f color) {
-        loadVector3f(locColor, color);
+    public void setColor(Vector4f color) {
+        loadVector4f(locColor, color);
     }
 }

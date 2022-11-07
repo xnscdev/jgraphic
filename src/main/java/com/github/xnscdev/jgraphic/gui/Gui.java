@@ -1,7 +1,7 @@
 package com.github.xnscdev.jgraphic.gui;
 
 import org.joml.Vector2f;
-import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class Gui extends GuiComponent {
         setSize(size);
     }
 
-    public Gui(GuiModel model, Vector2f position, Vector2f size, Vector3f backgroundColor) {
+    public Gui(GuiModel model, Vector2f position, Vector2f size, Vector4f backgroundColor) {
         this(model, position, size);
         background.setSolidColor(backgroundColor);
     }

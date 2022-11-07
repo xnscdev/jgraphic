@@ -1,7 +1,6 @@
 package com.github.xnscdev.jgraphic.util;
 
 import com.github.xnscdev.jgraphic.model.AssetModel;
-import com.github.xnscdev.jgraphic.model.ModelData;
 import org.lwjgl.assimp.AIFile;
 import org.lwjgl.assimp.AIFileIO;
 import org.lwjgl.assimp.AIScene;

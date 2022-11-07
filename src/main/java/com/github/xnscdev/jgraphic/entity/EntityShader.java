@@ -1,7 +1,6 @@
 package com.github.xnscdev.jgraphic.entity;
 
 import com.github.xnscdev.jgraphic.model.ModelMaterial;
-import org.joml.Vector2f;
 import com.github.xnscdev.jgraphic.render.ObjectShader;
 
 public class EntityShader extends ObjectShader {

@@ -1,7 +1,7 @@
 package com.github.xnscdev.jgraphic.world;
 
-import org.joml.Vector3f;
 import com.github.xnscdev.jgraphic.render.ObjectShader;
+import org.joml.Vector3f;
 
 import java.util.List;
 

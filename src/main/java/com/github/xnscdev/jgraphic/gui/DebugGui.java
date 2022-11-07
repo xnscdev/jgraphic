@@ -4,7 +4,7 @@ import com.github.xnscdev.jgraphic.text.Fonts;
 import com.github.xnscdev.jgraphic.util.DisplayManager;
 import com.github.xnscdev.jgraphic.world.World;
 import org.joml.Vector2f;
-import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import java.text.NumberFormat;
 
@@ -16,7 +16,7 @@ public class DebugGui extends Gui {
     private long lastUpdate;
 
     public DebugGui(World world) {
-        super(GuiManager.RECT_MODEL, new Vector2f(), new Vector2f(DisplayManager.getWidth(), 50), new Vector3f(0.6f));
+        super(GuiManager.RECT_MODEL, new Vector2f(), new Vector2f(DisplayManager.getWidth(), 50), new Vector4f(0.6f, 0.6f, 0.6f, 1));
         this.world = world;
         fpsText = new GuiText("FPS: 0", 24, Fonts.PLAY, new Vector2f(12, 12), 100, false);
         cameraText = new GuiText("Position: (0.00 0.00 0.00)", 24, Fonts.PLAY, new Vector2f(112, 12), 9999, false);

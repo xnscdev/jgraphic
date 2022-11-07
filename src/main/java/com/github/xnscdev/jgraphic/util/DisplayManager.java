@@ -1,7 +1,6 @@
 package com.github.xnscdev.jgraphic.util;
 
 import com.github.xnscdev.jgraphic.AppInstance;
-import com.github.xnscdev.jgraphic.gui.GuiManager;
 import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.glfw.GLFWScrollCallback;

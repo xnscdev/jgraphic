@@ -1,6 +1,8 @@
 package com.github.xnscdev.jgraphic.entity;
 
-import com.github.xnscdev.jgraphic.model.*;
+import com.github.xnscdev.jgraphic.model.AssetModel;
+import com.github.xnscdev.jgraphic.model.ModelData;
+import com.github.xnscdev.jgraphic.model.ModelMaterial;
 import com.github.xnscdev.jgraphic.util.AssetLoader;
 
 import java.util.ArrayList;

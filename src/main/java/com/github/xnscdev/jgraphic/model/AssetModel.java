@@ -1,6 +1,5 @@
 package com.github.xnscdev.jgraphic.model;
 
-import com.github.xnscdev.jgraphic.util.ObjectManager;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.PointerBuffer;

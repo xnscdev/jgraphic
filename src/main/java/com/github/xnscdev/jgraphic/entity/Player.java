@@ -1,8 +1,8 @@
 package com.github.xnscdev.jgraphic.entity;
 
-import org.joml.Vector3f;
 import com.github.xnscdev.jgraphic.terrain.TerrainPiece;
 import com.github.xnscdev.jgraphic.util.DisplayManager;
+import org.joml.Vector3f;
 
 import static org.lwjgl.glfw.GLFW.*;
 

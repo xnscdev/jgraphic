@@ -1,13 +1,13 @@
 package com.github.xnscdev.jgraphic.terrain;
 
 import com.github.xnscdev.jgraphic.model.ModelData;
+import com.github.xnscdev.jgraphic.util.MathUtils;
+import com.github.xnscdev.jgraphic.world.World;
 import de.articdive.jnoise.generators.noise_parameters.fade_functions.FadeFunction;
 import de.articdive.jnoise.generators.noise_parameters.interpolation.Interpolation;
 import de.articdive.jnoise.pipeline.JNoise;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import com.github.xnscdev.jgraphic.util.MathUtils;
-import com.github.xnscdev.jgraphic.world.World;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

@@ -1,10 +1,10 @@
 package com.github.xnscdev.jgraphic;
 
+import com.github.xnscdev.jgraphic.gui.GuiManager;
 import com.github.xnscdev.jgraphic.text.Fonts;
 import com.github.xnscdev.jgraphic.util.AssetLoader;
 import com.github.xnscdev.jgraphic.util.DisplayManager;
 import com.github.xnscdev.jgraphic.util.ObjectManager;
-import com.github.xnscdev.jgraphic.gui.GuiManager;
 import com.github.xnscdev.jgraphic.world.World;
 
 public class AppInstance {

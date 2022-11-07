@@ -1,8 +1,8 @@
 package com.github.xnscdev.jgraphic.util;
 
+import com.github.xnscdev.jgraphic.render.TextureData;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.system.MemoryUtil;
-import com.github.xnscdev.jgraphic.render.TextureData;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

@@ -1,11 +1,11 @@
 package com.github.xnscdev.jgraphic.gui;
 
 import com.github.xnscdev.jgraphic.render.Shader;
+import com.github.xnscdev.jgraphic.util.MathUtils;
 import com.github.xnscdev.jgraphic.util.ObjectManager;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
-import org.joml.Vector3f;
-import com.github.xnscdev.jgraphic.util.MathUtils;
+import org.joml.Vector4f;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ import static org.lwjgl.opengl.GL30.*;
 public class GuiBackground {
     private static final Map<String, Integer> TEXTURES = new HashMap<>();
     private GuiModel model;
-    private Vector3f backgroundColor;
+    private Vector4f backgroundColor;
     private int texture;
     private Type type;
 
@@ -23,7 +23,7 @@ public class GuiBackground {
         this.model = model;
     }
 
-    public void setSolidColor(Vector3f color) {
+    public void setSolidColor(Vector4f color) {
         type = Type.SOLID;
         backgroundColor = color;
     }

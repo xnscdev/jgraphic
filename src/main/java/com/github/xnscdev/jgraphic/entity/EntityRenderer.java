@@ -1,11 +1,10 @@
 package com.github.xnscdev.jgraphic.entity;
 
-import com.github.xnscdev.jgraphic.model.ModelMesh;
-import org.joml.Matrix4f;
-import com.github.xnscdev.jgraphic.util.MathUtils;
 import com.github.xnscdev.jgraphic.render.Shader;
+import com.github.xnscdev.jgraphic.util.MathUtils;
 import com.github.xnscdev.jgraphic.world.World;
 import com.github.xnscdev.jgraphic.world.WorldState;
+import org.joml.Matrix4f;
 
 import java.util.List;
 import java.util.Map;

@@ -1,8 +1,8 @@
 package com.github.xnscdev.jgraphic.world;
 
+import com.github.xnscdev.jgraphic.util.MathUtils;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import com.github.xnscdev.jgraphic.util.MathUtils;
 
 public class Camera {
     protected Vector3f position = new Vector3f();
