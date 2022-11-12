@@ -83,11 +83,11 @@ public class TextMeshCreator {
         double realMaxY = -2 * maxY + 1;
         addVertices(vertices, realX, realY, realMaxX, realMaxY);
     }
-    
+
     private void addVertices(List<Float> vertices, double x, double y, double maxX, double maxY) {
         addQuadData(vertices, (float) x, (float) y, (float) maxX, (float) maxY);
     }
-    
+
     private void addTextures(List<Float> textures, double x, double y, double maxX, double maxY) {
         addQuadData(textures, (float) x, (float) y, (float) maxX, (float) maxY);
     }

@@ -5,7 +5,8 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 public final class MathUtils {
-    private MathUtils() {}
+    private MathUtils() {
+    }
 
     public static Matrix4f transformMatrix(Vector3f translation, float rx, float ry, float rz, float scale) {
         return new Matrix4f()

@@ -49,8 +49,8 @@ public class GuiBackground {
         if (type == null)
             return;
         switch (type) {
-        case SOLID -> renderSolid(pos, size);
-        case TEXTURED -> renderTextured(pos, size);
+            case SOLID -> renderSolid(pos, size);
+            case TEXTURED -> renderTextured(pos, size);
         }
     }
 
