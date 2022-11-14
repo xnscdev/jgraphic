@@ -14,6 +14,7 @@ public class GuiManager {
     protected static SolidGuiShader SOLID_SHADER;
     protected static TexturedGuiShader TEXTURED_SHADER;
     protected static TextShader TEXT_SHADER;
+    protected static GuiComponent focusedComponent;
 
     public static void init() {
         SOLID_SHADER = new SolidGuiShader();
@@ -88,6 +89,9 @@ public class GuiManager {
             if (gui.containsPoint(x, y) && gui.mousePressed(x, y))
                 return true;
         }
+        if (focusedComponent != null)
+            focusedComponent.unfocused();
+        focusedComponent = null;
         return false;
     }
 
@@ -99,5 +103,9 @@ public class GuiManager {
                 return true;
         }
         return false;
+    }
+
+    public static GuiComponent getFocusedComponent() {
+        return focusedComponent;
     }
 }

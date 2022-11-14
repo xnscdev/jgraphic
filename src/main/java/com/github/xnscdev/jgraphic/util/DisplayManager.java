@@ -1,7 +1,10 @@
 package com.github.xnscdev.jgraphic.util;
 
 import com.github.xnscdev.jgraphic.AppInstance;
+import com.github.xnscdev.jgraphic.gui.GuiManager;
 import org.joml.Vector2f;
+import org.lwjgl.glfw.GLFWCharCallback;
+import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.glfw.GLFWScrollCallback;
 import org.lwjgl.opengl.GL;
@@ -39,6 +42,20 @@ public class DisplayManager {
             throw new RuntimeException("Failed to create window");
         }
 
+        glfwSetKeyCallback(window, new GLFWKeyCallback() {
+            @Override
+            public void invoke(long window, int key, int scancode, int action, int mods) {
+                if (GuiManager.getFocusedComponent() != null)
+                    GuiManager.getFocusedComponent().receiveKey(key, action, mods);
+            }
+        });
+        glfwSetCharCallback(window, new GLFWCharCallback() {
+            @Override
+            public void invoke(long window, int codepoint) {
+                if (GuiManager.getFocusedComponent() != null)
+                    GuiManager.getFocusedComponent().receiveChar(codepoint);
+            }
+        });
         glfwSetScrollCallback(window, new GLFWScrollCallback() {
             @Override
             public void invoke(long window, double xoffset, double yoffset) {

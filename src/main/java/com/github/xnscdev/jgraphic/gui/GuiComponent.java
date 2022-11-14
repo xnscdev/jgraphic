@@ -16,15 +16,15 @@ public abstract class GuiComponent {
 
     public abstract void render(Vector2f screenOffset);
 
-    public GuiComponent getParent() {
+    public final GuiComponent getParent() {
         return parent;
     }
 
-    public void setParent(GuiComponent parent) {
+    public final void setParent(GuiComponent parent) {
         this.parent = parent;
     }
 
-    public Vector2f getPosition() {
+    public final Vector2f getPosition() {
         return position;
     }
 
@@ -32,12 +32,12 @@ public abstract class GuiComponent {
         return parent.getAbsolutePosition().add(position);
     }
 
-    public void setPosition(Vector2f position) {
+    public final void setPosition(Vector2f position) {
         this.position = position;
         this.screenPosition = new Vector2f(position.x / DisplayManager.getWidth() * 2, position.y / DisplayManager.getHeight() * -2);
     }
 
-    public Vector2f getScreenPosition() {
+    public final Vector2f getScreenPosition() {
         return screenPosition;
     }
 
@@ -45,16 +45,16 @@ public abstract class GuiComponent {
         return parent.getAbsoluteScreenPosition().add(screenPosition);
     }
 
-    public Vector2f getSize() {
+    public final Vector2f getSize() {
         return size;
     }
 
-    public void setSize(Vector2f size) {
+    public final void setSize(Vector2f size) {
         this.size = size;
         this.screenSize = new Vector2f(size.x / DisplayManager.getWidth() * 2, size.y / DisplayManager.getHeight() * 2);
     }
 
-    public Vector2f getScreenSize() {
+    public final Vector2f getScreenSize() {
         return screenSize;
     }
 
@@ -69,7 +69,27 @@ public abstract class GuiComponent {
         return false;
     }
 
-    public boolean containsPoint(float x, float y) {
+    public void unfocused() {
+    }
+
+    public void receiveKey(int key, int action, int mods) {
+    }
+
+    public void receiveChar(int codepoint) {
+    }
+
+    public final void takeFocus() {
+        if (GuiManager.focusedComponent != null)
+            GuiManager.focusedComponent.unfocused();
+        GuiManager.focusedComponent = this;
+    }
+
+    public final void dropFocus() {
+        unfocused();
+        GuiManager.focusedComponent = null;
+    }
+
+    public final boolean containsPoint(float x, float y) {
         Vector2f pos = getAbsolutePosition();
         return x >= pos.x && x <= pos.x + size.x && y >= pos.y && y <= pos.y + size.y;
     }

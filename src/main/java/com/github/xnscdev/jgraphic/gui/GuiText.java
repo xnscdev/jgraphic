@@ -71,6 +71,10 @@ public class GuiText extends GuiComponent {
         return model;
     }
 
+    public Vector2f getTextSize() {
+        return model.getTextSize();
+    }
+
     public Vector3f getColor() {
         return color;
     }

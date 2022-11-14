@@ -2,6 +2,7 @@ package com.github.xnscdev.jgraphic.text;
 
 import com.github.xnscdev.jgraphic.gui.GuiText;
 import com.github.xnscdev.jgraphic.util.DisplayManager;
+import org.joml.Vector2f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,8 @@ public class TextMeshCreator {
                 continue;
             }
             TextChar character = metadata.getCharacter(c);
-            word.addCharacter(character);
+            if (character != null)
+                word.addCharacter(character);
         }
         boolean added = line.addWord(word);
         if (!added) {
@@ -53,6 +55,7 @@ public class TextMeshCreator {
         text.setLineCount(lines.size());
         double x = 0;
         double y = 0;
+        double maxX = 0;
         List<Float> vertices = new ArrayList<>();
         List<Float> textures = new ArrayList<>();
         for (TextLine line : lines) {
@@ -66,10 +69,12 @@ public class TextMeshCreator {
                 }
                 x += metadata.getSpaceWidth() * text.getFontSize();
             }
+            if (x > maxX)
+                maxX = x;
             x = 0;
             y += text.getFontSize() / DisplayManager.getHeight();
         }
-        return new TextModel(toArray(vertices), toArray(textures));
+        return new TextModel(toArray(vertices), toArray(textures), new Vector2f((float) maxX * DisplayManager.getWidth(), (float) y * DisplayManager.getHeight()));
     }
 
     private void addCharVertices(double x, double y, TextChar c, double fontSize, List<Float> vertices) {
