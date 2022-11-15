@@ -72,7 +72,7 @@ public class FontMetaFile {
 
     private TextChar loadCharacter(int size) {
         int id = getVariableValue("id");
-        if (id == TextMeshCreator.SPACE_ASCII || id == TextMeshCreator.NEWLINE_ASCII) {
+        if (id == FontType.SPACE_ASCII || id == FontType.NEWLINE_ASCII) {
             spaceWidth = (getVariableValue("xadvance") - paddingWidth) * horizontalPerPixelSize;
             return null;
         }
