@@ -1,43 +1,35 @@
 package com.github.xnscdev.jgraphic.gui;
 
 import com.github.xnscdev.jgraphic.render.Shader;
-import com.github.xnscdev.jgraphic.text.FontType;
-import com.github.xnscdev.jgraphic.text.TextModel;
+import com.github.xnscdev.jgraphic.render.TextureData;
 import com.github.xnscdev.jgraphic.util.DisplayManager;
+import com.github.xnscdev.jgraphic.util.MathUtils;
+import com.github.xnscdev.jgraphic.util.ObjectManager;
+import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
-import static org.lwjgl.opengl.GL13.glActiveTexture;
-import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
-import static org.lwjgl.opengl.GL30.glBindVertexArray;
+import static org.lwjgl.opengl.GL30.*;
 
 public class GuiText extends GuiComponent {
-    private final float fontSize;
+    private final int fontSize;
     private final float lineMaxSize;
-    private final FontType font;
+    private final String font;
     private final boolean centered;
-    private TextModel model;
+    private TextureData textureData;
     private String text;
     private Vector3f color = new Vector3f();
-    private float width = 0.45f;
-    private float edge = 0.1f;
-    private Vector3f borderColor = new Vector3f();
-    private Vector2f borderOffset = new Vector2f();
-    private float borderWidth = 0;
-    private float borderEdge = 0.1f;
     private int lineCount;
 
-    public GuiText(String text, float fontSize, FontType font, Vector2f position, float lineMaxSize, boolean centered) {
+    public GuiText(String text, int fontSize, String font, Vector2f position, float lineMaxSize, boolean centered) {
         super(position);
         this.text = text;
         this.fontSize = fontSize;
         this.font = font;
         this.lineMaxSize = lineMaxSize / DisplayManager.getWidth();
         this.centered = centered;
-        model = font.loadText(this);
+        textureData = ObjectManager.loadText(text, fontSize, font);
+        setSize(new Vector2f(textureData.getWidth(), textureData.getHeight()));
     }
 
     @Override
@@ -47,32 +39,23 @@ public class GuiText extends GuiComponent {
         glDisable(GL_DEPTH_TEST);
         GuiManager.TEXT_SHADER.start();
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, font.getTextureAtlas());
-        glBindVertexArray(model.getVAO());
+        glBindTexture(GL_TEXTURE_2D, textureData.getTexture());
+        glBindVertexArray(GuiManager.RECT_MODEL.getVAO());
         glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
-        GuiManager.TEXT_SHADER.loadTranslation(new Vector2f(screenOffset).add(screenPosition).add(1, -1));
-        GuiManager.TEXT_SHADER.loadForeground(color, width, edge);
-        GuiManager.TEXT_SHADER.loadBorder(borderColor, borderOffset, borderWidth, borderEdge);
-        glDrawArrays(GL_TRIANGLES, 0, model.getVertexCount());
+        Vector2f pos = new Vector2f(screenOffset).add(screenPosition);
+        Matrix4f transformMatrix = MathUtils.transformMatrix(pos, screenSize);
+        GuiManager.TEXT_SHADER.loadTransformMatrix(transformMatrix);
+        GuiManager.TEXT_SHADER.loadForeground(color);
+        glDrawArrays(GL_TRIANGLES, 0, GuiManager.RECT_MODEL.getVertexCount());
         glDisableVertexAttribArray(0);
-        glDisableVertexAttribArray(1);
         glBindVertexArray(0);
         Shader.stop();
         glDisable(GL_BLEND);
         glEnable(GL_DEPTH_TEST);
     }
 
-    public FontType getFont() {
+    public String getFont() {
         return font;
-    }
-
-    public TextModel getModel() {
-        return model;
-    }
-
-    public Vector2f getTextSize() {
-        return model.getTextSize();
     }
 
     public Vector3f getColor() {
@@ -83,54 +66,6 @@ public class GuiText extends GuiComponent {
         this.color = color;
     }
 
-    public float getWidth() {
-        return width;
-    }
-
-    public void setWidth(float width) {
-        this.width = width;
-    }
-
-    public float getEdge() {
-        return edge;
-    }
-
-    public void setEdge(float edge) {
-        this.edge = edge;
-    }
-
-    public Vector3f getBorderColor() {
-        return borderColor;
-    }
-
-    public void setBorderColor(Vector3f borderColor) {
-        this.borderColor = borderColor;
-    }
-
-    public Vector2f getBorderOffset() {
-        return borderOffset;
-    }
-
-    public void setBorderOffset(Vector2f borderOffset) {
-        this.borderOffset = borderOffset;
-    }
-
-    public float getBorderWidth() {
-        return borderWidth;
-    }
-
-    public void setBorderWidth(float borderWidth) {
-        this.borderWidth = borderWidth;
-    }
-
-    public float getBorderEdge() {
-        return borderEdge;
-    }
-
-    public void setBorderEdge(float borderEdge) {
-        this.borderEdge = borderEdge;
-    }
-
     public String getText() {
         return text;
     }
@@ -138,11 +73,13 @@ public class GuiText extends GuiComponent {
     public void setText(String text) {
         if (!this.text.equals(text)) {
             this.text = text;
-            model = font.loadText(this);
+            glDeleteTextures(textureData.getTexture());
+            textureData = ObjectManager.loadText(text, fontSize, font);
+            setSize(new Vector2f(textureData.getWidth(), textureData.getHeight()));
         }
     }
 
-    public float getFontSize() {
+    public int getFontSize() {
         return fontSize;
     }
 

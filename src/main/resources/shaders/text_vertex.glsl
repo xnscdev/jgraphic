@@ -1,13 +1,12 @@
-#version 400
+#version 400 core
 
 layout(location = 0) in vec2 position;
-layout(location = 1) in vec2 texture;
 
 out vec2 pass_texture;
 
-uniform vec2 translation;
+uniform mat4 transform_matrix;
 
 void main(void) {
-  gl_Position = vec4(position + translation, 0.0, 1.0);
-  pass_texture = texture;
+  gl_Position = transform_matrix * vec4(position, 0.0, 1.0);
+  pass_texture = vec2(position.x, 1 - position.y);
 }

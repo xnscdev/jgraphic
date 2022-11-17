@@ -1,6 +1,5 @@
 package com.github.xnscdev.jgraphic.gui;
 
-import com.github.xnscdev.jgraphic.text.FontType;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
@@ -10,9 +9,9 @@ public class TextBox extends Gui {
     private final GuiText text;
     private String value = "";
 
-    public TextBox(Vector2f position, Vector2f size, FontType font) {
+    public TextBox(Vector2f position, Vector2f size, String font) {
         super(GuiManager.RECT_MODEL, position, size, new Vector4f(1));
-        text = new GuiText(value, size.y * 0.6f, font, new Vector2f(size.y * 0.2f), size.x - size.y * 0.4f, false);
+        text = new GuiText(value, (int) (size.y * 0.6f), font, new Vector2f(size.y * 0.2f), size.x - size.y * 0.4f, false);
         addChild(text);
     }
 

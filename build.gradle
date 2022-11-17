@@ -90,13 +90,13 @@ model {
                 }
                 def cflags = new ByteArrayOutputStream()
                 exec {
-                    commandLine 'pkg-config', '--cflags', 'glfw3', 'pangocairo'
+                    commandLine 'pkg-config', '--cflags', 'pangocairo'
                     standardOutput = cflags;
                 }
                 cCompiler.args "${cflags}".split()
                 def libs = new ByteArrayOutputStream()
                 exec {
-                    commandLine 'pkg-config', '--libs', 'glfw3', 'pangocairo'
+                    commandLine 'pkg-config', '--libs', 'pangocairo'
                     standardOutput = libs
                 }
                 linker.args "${libs}".split()

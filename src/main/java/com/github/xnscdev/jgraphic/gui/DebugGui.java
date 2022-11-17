@@ -1,6 +1,5 @@
 package com.github.xnscdev.jgraphic.gui;
 
-import com.github.xnscdev.jgraphic.text.Fonts;
 import com.github.xnscdev.jgraphic.util.DisplayManager;
 import com.github.xnscdev.jgraphic.world.World;
 import org.joml.Vector2f;
@@ -18,8 +17,8 @@ public class DebugGui extends Gui {
     public DebugGui(World world) {
         super(GuiManager.RECT_MODEL, new Vector2f(), new Vector2f(DisplayManager.getWidth(), 50), new Vector4f(0.6f, 0.6f, 0.6f, 1));
         this.world = world;
-        fpsText = new GuiText("FPS: 0", 24, Fonts.PLAY, new Vector2f(12, 12), 100, false);
-        cameraText = new GuiText("Position: (0.00 0.00 0.00)", 24, Fonts.PLAY, new Vector2f(112, 12), 9999, false);
+        fpsText = new GuiText("FPS: 0", 24, "Sans", new Vector2f(12, 12), 100, false);
+        cameraText = new GuiText("Position: (0.00 0.00 0.00)", 24, "Sans", new Vector2f(112, 12), 9999, false);
         addChild(fpsText);
         addChild(cameraText);
         floatFormatter.setMinimumFractionDigits(2);

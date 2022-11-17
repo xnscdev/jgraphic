@@ -1,7 +1,6 @@
 package com.github.xnscdev.jgraphic;
 
 import com.github.xnscdev.jgraphic.gui.GuiManager;
-import com.github.xnscdev.jgraphic.text.Fonts;
 import com.github.xnscdev.jgraphic.util.AssetLoader;
 import com.github.xnscdev.jgraphic.util.DisplayManager;
 import com.github.xnscdev.jgraphic.util.ObjectManager;
@@ -12,7 +11,6 @@ public class AppInstance {
 
     public static void init(String title, int width, int height) {
         DisplayManager.createDisplay(title, width, height);
-        Fonts.init();
         GuiManager.init();
     }
 
