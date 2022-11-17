@@ -43,6 +43,11 @@ public class GuiText extends GuiComponent {
         glBindVertexArray(GuiManager.RECT_MODEL.getVAO());
         glEnableVertexAttribArray(0);
         Vector2f pos = new Vector2f(screenOffset).add(screenPosition);
+        if (centered) {
+            float padding = lineMaxSize - screenSize.x / 2;
+            if (padding > 0)
+                pos.x += padding;
+        }
         Matrix4f transformMatrix = MathUtils.transformMatrix(pos, screenSize);
         GuiManager.TEXT_SHADER.loadTransformMatrix(transformMatrix);
         GuiManager.TEXT_SHADER.loadForeground(color);
