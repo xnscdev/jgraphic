@@ -32,7 +32,7 @@ public class ObjectManager {
         }
     }
 
-    public static native int loadText(String text, int size, String font);
+    public static native TextureData loadText(String text, int size, String font);
 
     public static int createVAO() {
         int vao = glGenVertexArrays();
@@ -101,16 +101,8 @@ public class ObjectManager {
 
     private static int loadTexture(String path) {
         TextureData data = new TextureData(path);
-        int texture = glGenTextures();
-        glBindTexture(GL_TEXTURE_2D, texture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, data.getWidth(), data.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data.getBuffer());
-        glGenerateMipmap(GL_TEXTURE_2D);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, 0);
-        glBindTexture(GL_TEXTURE_2D, 0);
-        data.clean();
-        textures.add(texture);
-        return texture;
+        textures.add(data.getTexture());
+        return data.getTexture();
     }
 
     private static FloatBuffer storeFloatBuffer(float[] data) {

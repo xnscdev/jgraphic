@@ -36,9 +36,6 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
-
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
     implementation "org.lwjgl:lwjgl"
     implementation "org.lwjgl:lwjgl-assimp"
@@ -58,10 +55,6 @@ dependencies {
     implementation 'com.github.ramanrajarathinam:native-utils:1.0.0'
 }
 
-test {
-    useJUnitPlatform()
-}
-
 model {
     platforms {
         x64 {
@@ -71,25 +64,42 @@ model {
 
     components {
         jtext(NativeLibrarySpec) {
+            targetPlatform "x64"
             binaries.all {
+                def javaHome = Jvm.current().javaHome;
                 if (targetPlatform.operatingSystem.macOsX) {
-                    def javaHome = Jvm.current().javaHome;
                     cCompiler.args '-I', "${javaHome}/include"
                     cCompiler.args '-I', "${javaHome}/include/darwin"
+                    linker.args '-framework', 'OpenGL'
                 }
                 else if (targetPlatform.operatingSystem.linux) {
                     cCompiler.args '-I', "${javaHome}/include"
                     cCompiler.args '-I', "${javaHome}/include/linux"
                     cCompiler.args '-D_FILE_OFFSET_BITS=64'
+                    linker.args '-lGL'
                 }
                 else if (targetPlatform.operatingSystem.windows) {
                     cCompiler.args "-I${javaHome}/include"
                     cCompiler.args "-I${javaHome}/include/win32"
+                    linker.args '-lGL'
                 }
                 else if (targetPlatform.operatingSystem.freeBSD) {
                     cCompiler.args '-I', "${javaHome}/include"
                     cCompiler.args '-I', "${javaHome}/include/freebsd"
+                    linker.args '-lGL'
                 }
+                def cflags = new ByteArrayOutputStream()
+                exec {
+                    commandLine 'pkg-config', '--cflags', 'glfw3', 'pangocairo'
+                    standardOutput = cflags;
+                }
+                cCompiler.args "${cflags}".split()
+                def libs = new ByteArrayOutputStream()
+                exec {
+                    commandLine 'pkg-config', '--libs', 'glfw3', 'pangocairo'
+                    standardOutput = libs
+                }
+                linker.args "${libs}".split()
             }
         }
     }
