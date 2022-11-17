@@ -65,7 +65,7 @@ gen_text (const char *text, const char *font, int size, int *width, int *height,
   layout = pango_cairo_create_layout (layout_ctx);
   pango_layout_set_text (layout, text, -1);
 
-  desc_name = g_strdup_printf ("%s %d", font, size);
+  desc_name = g_strdup_printf ("%s %d", font, size > 60 ? size : 60);
   desc = pango_font_description_from_string (desc_name);
   g_free (desc_name);
   pango_layout_set_font_description (layout, desc);
@@ -112,5 +112,6 @@ Java_com_github_xnscdev_jgraphic_util_ObjectManager_loadText (JNIEnv *env,
   (*env)->ReleaseStringUTFChars (env, text, text_chars);
   (*env)->ReleaseStringUTFChars (env, font, font_chars);
   return ret ? NULL :
-    (*env)->NewObject (env, ret_class, cid, texture, width, height);
+    (*env)->NewObject (env, ret_class, cid, texture,
+		       (int) ((float) width * size / height), size);
 }
