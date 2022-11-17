@@ -1,8 +1,10 @@
+import org.gradle.internal.jvm.Jvm
 import org.gradle.internal.os.OperatingSystem
 
 plugins {
     id 'java-library'
     id 'maven-publish'
+    id 'c'
 }
 
 group 'com.github.xnscdev'
@@ -34,6 +36,9 @@ repositories {
 }
 
 dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+
     implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
     implementation "org.lwjgl:lwjgl"
     implementation "org.lwjgl:lwjgl-assimp"
@@ -48,7 +53,52 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
     api "org.joml:joml:${jomlVersion}"
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation "de.articdive:jnoise-pipeline:4.0.0"
+    implementation 'com.github.ramanrajarathinam:native-utils:1.0.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+model {
+    platforms {
+        x64 {
+            architecture "x86_64"
+        }
+    }
+
+    components {
+        jtext(NativeLibrarySpec) {
+            binaries.all {
+                if (targetPlatform.operatingSystem.macOsX) {
+                    def javaHome = Jvm.current().javaHome;
+                    cCompiler.args '-I', "${javaHome}/include"
+                    cCompiler.args '-I', "${javaHome}/include/darwin"
+                }
+                else if (targetPlatform.operatingSystem.linux) {
+                    cCompiler.args '-I', "${javaHome}/include"
+                    cCompiler.args '-I', "${javaHome}/include/linux"
+                    cCompiler.args '-D_FILE_OFFSET_BITS=64'
+                }
+                else if (targetPlatform.operatingSystem.windows) {
+                    cCompiler.args "-I${javaHome}/include"
+                    cCompiler.args "-I${javaHome}/include/win32"
+                }
+                else if (targetPlatform.operatingSystem.freeBSD) {
+                    cCompiler.args '-I', "${javaHome}/include"
+                    cCompiler.args '-I', "${javaHome}/include/freebsd"
+                }
+            }
+        }
+    }
+}
+
+classes.dependsOn 'jtextSharedLibrary'
+
+jar {
+    from "${buildDir}/libs/jtext/shared"
 }
 
 publishing {

@@ -1,6 +1,8 @@
 package com.github.xnscdev.jgraphic.util;
 
 import com.github.xnscdev.jgraphic.render.TextureData;
+import com.nativeutils.NativeUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.system.MemoryUtil;
 
@@ -20,6 +22,17 @@ public class ObjectManager {
     private static final List<Integer> vaos = new ArrayList<>();
     private static final List<Integer> vbos = new ArrayList<>();
     private static final List<Integer> textures = new ArrayList<>();
+
+    static {
+        try {
+            NativeUtils.loadLibraryFromJar(getNativeJARName());
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static native int loadText(String text, int size, String font);
 
     public static int createVAO() {
         int vao = glGenVertexArrays();
@@ -119,5 +132,16 @@ public class ObjectManager {
         buffer.flip();
         newBuffer.put(buffer);
         return newBuffer;
+    }
+
+    private static String getNativeJARName() {
+        if (SystemUtils.IS_OS_WINDOWS)
+            return "/jtext.dll";
+        else if (SystemUtils.IS_OS_MAC_OSX)
+            return "/libjtext.dylib";
+        else if (SystemUtils.IS_OS_LINUX)
+            return "/libjtext.so";
+        else
+            throw new RuntimeException("Could not determine native platform");
     }
 }
