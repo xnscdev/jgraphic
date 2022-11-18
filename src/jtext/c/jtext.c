@@ -7,6 +7,8 @@
 #include <pango/pangocairo.h>
 #include <jni.h>
 
+#define RAW_SIZE 60
+
 static unsigned int
 gen_texture (int width, int height, unsigned char *pixels)
 {
@@ -65,7 +67,7 @@ gen_text (const char *text, const char *font, int size, int *width, int *height,
   layout = pango_cairo_create_layout (layout_ctx);
   pango_layout_set_text (layout, text, -1);
 
-  desc_name = g_strdup_printf ("%s %d", font, size > 60 ? size : 60);
+  desc_name = g_strdup_printf ("%s %d", font, MAX (size, 60));
   desc = pango_font_description_from_string (desc_name);
   g_free (desc_name);
   pango_layout_set_font_description (layout, desc);
@@ -101,6 +103,7 @@ Java_com_github_xnscdev_jgraphic_util_ObjectManager_loadText (JNIEnv *env,
   const char *text_chars;
   const char *font_chars;
   int ret;
+  float ratio;
   if (!ret_class)
     return NULL;
   cid = (*env)->GetMethodID (env, ret_class, "<init>", "(III)V");
@@ -111,7 +114,9 @@ Java_com_github_xnscdev_jgraphic_util_ObjectManager_loadText (JNIEnv *env,
   ret = gen_text (text_chars, font_chars, size, &width, &height, &texture);
   (*env)->ReleaseStringUTFChars (env, text, text_chars);
   (*env)->ReleaseStringUTFChars (env, font, font_chars);
-  return ret ? NULL :
-    (*env)->NewObject (env, ret_class, cid, texture,
-		       (int) ((float) width * size / height), size);
+  if (ret)
+    return NULL;
+  ratio = (float) size / RAW_SIZE;
+  return (*env)->NewObject (env, ret_class, cid, texture,
+			    (int) (ratio * width), (int) (ratio * height));
 }

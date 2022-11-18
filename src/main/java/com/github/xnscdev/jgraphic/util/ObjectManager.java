@@ -1,7 +1,6 @@
 package com.github.xnscdev.jgraphic.util;
 
 import com.github.xnscdev.jgraphic.render.TextureData;
-import com.nativeutils.NativeUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.system.MemoryUtil;
