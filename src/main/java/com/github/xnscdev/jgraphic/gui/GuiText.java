@@ -2,7 +2,6 @@ package com.github.xnscdev.jgraphic.gui;
 
 import com.github.xnscdev.jgraphic.render.Shader;
 import com.github.xnscdev.jgraphic.render.TextureData;
-import com.github.xnscdev.jgraphic.util.DisplayManager;
 import com.github.xnscdev.jgraphic.util.MathUtils;
 import com.github.xnscdev.jgraphic.util.ObjectManager;
 import org.joml.Matrix4f;
@@ -26,15 +25,18 @@ public class GuiText extends GuiComponent {
         this.text = text;
         this.fontSize = fontSize;
         this.font = font;
-        this.lineMaxSize = lineMaxSize / DisplayManager.getWidth();
+        this.lineMaxSize = lineMaxSize;
         this.centered = centered;
         textureData = ObjectManager.loadText(text, fontSize, font);
         setSize(new Vector2f(textureData.getWidth(), textureData.getHeight()));
     }
 
     @Override
-    public void render(GuiView view, Vector2f offset) {
-        GuiView newView = view.getVisibleArea(position, size, offset);
+    public void render(GuiView view, Vector2f screenPos) {
+        Vector2f pos = position;
+        if (centered)
+            pos = new Vector2f(pos).add((lineMaxSize - size.x) / 2, 0);
+        GuiView newView = view.getVisibleArea(pos, size, screenPos);
         if (newView == null)
             return;
         glEnable(GL_BLEND);
@@ -45,15 +47,10 @@ public class GuiText extends GuiComponent {
         glBindTexture(GL_TEXTURE_2D, textureData.getTexture());
         glBindVertexArray(GuiManager.RECT_MODEL.getVAO());
         glEnableVertexAttribArray(0);
-        Vector2f pos = newView.screenPos();
-        if (centered) {
-            float padding = lineMaxSize - screenSize.x / 2;
-            if (padding > 0)
-                pos = new Vector2f(pos).add(padding, 0);
-        }
-        Matrix4f transformMatrix = MathUtils.transformMatrix(pos, newView.screenSize());
+        Matrix4f transformMatrix = MathUtils.transformMatrix(newView.screenPos(), newView.screenSize());
         GuiManager.TEXT_SHADER.loadTransformMatrix(transformMatrix);
-        GuiManager.TEXT_SHADER.loadForeground(color);
+        GuiManager.TEXT_SHADER.loadView(newView);
+        GuiManager.TEXT_SHADER.loadForegroundColor(color);
         glDrawArrays(GL_TRIANGLES, 0, GuiManager.RECT_MODEL.getVertexCount());
         glDisableVertexAttribArray(0);
         glBindVertexArray(0);

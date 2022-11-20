@@ -42,13 +42,13 @@ public class ScrollableRectGui extends Gui {
     }
 
     @Override
-    public void render(GuiView view, Vector2f offset) {
-        GuiView newView = background.render(this, view, offset);
+    public void render(GuiView view, Vector2f screenPos) {
+        GuiView newView = background.render(this, view, screenPos);
         if (newView == null)
             return;
-        Vector2f newOffset = new Vector2f(offset).add(scrollOffset);
+        Vector2f newScreenPos = new Vector2f(screenPos).add(position).add(scrollOffset);
         for (GuiComponent gui : children) {
-            gui.render(newView, newOffset);
+            gui.render(newView, newScreenPos);
         }
     }
 

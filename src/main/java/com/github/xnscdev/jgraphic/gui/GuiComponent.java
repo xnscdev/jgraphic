@@ -14,7 +14,7 @@ public abstract class GuiComponent {
         setPosition(position);
     }
 
-    public abstract void render(GuiView view, Vector2f offset);
+    public abstract void render(GuiView view, Vector2f screenPos);
 
     public final GuiComponent getParent() {
         return parent;

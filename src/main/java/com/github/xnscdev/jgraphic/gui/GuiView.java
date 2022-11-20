@@ -4,8 +4,8 @@ import com.github.xnscdev.jgraphic.util.DisplayManager;
 import org.joml.Vector2f;
 
 public record GuiView(Vector2f pos, Vector2f size, Vector2f texturePos, Vector2f textureSize) {
-    public GuiView getVisibleArea(Vector2f childPos, Vector2f childSize, Vector2f offset) {
-        Vector2f realPos = new Vector2f(pos).add(childPos).add(offset);
+    public GuiView getVisibleArea(Vector2f childPos, Vector2f childSize, Vector2f screenPos) {
+        Vector2f realPos = new Vector2f(screenPos).add(childPos);
         if (realPos.x + childSize.x < pos.x || realPos.x > pos.x + size.x || realPos.y + childSize.y < pos.y || realPos.y > pos.y + size.y)
             return null;
         Vector2f newPos = new Vector2f(realPos);

@@ -1,6 +1,5 @@
 package com.github.xnscdev.jgraphic.gui;
 
-import com.github.xnscdev.jgraphic.text.TextShader;
 import com.github.xnscdev.jgraphic.util.DisplayManager;
 import org.joml.Vector2f;
 

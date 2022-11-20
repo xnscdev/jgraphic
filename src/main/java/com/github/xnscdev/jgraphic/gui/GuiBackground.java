@@ -45,8 +45,8 @@ public class GuiBackground {
         this.texture = TEXTURES.computeIfAbsent(texture, ObjectManager::createTexture);
     }
 
-    public GuiView render(Gui gui, GuiView view, Vector2f offset) {
-        GuiView newView = view.getVisibleArea(gui.getPosition(), gui.getSize(), offset);
+    public GuiView render(Gui gui, GuiView view, Vector2f screenPos) {
+        GuiView newView = view.getVisibleArea(gui.getPosition(), gui.getSize(), screenPos);
         if (newView == null)
             return null;
         switch (type) {
@@ -75,6 +75,7 @@ public class GuiBackground {
         glBindTexture(GL_TEXTURE_2D, texture);
         Matrix4f transformMatrix = MathUtils.transformMatrix(view.screenPos(), view.screenSize());
         GuiManager.TEXTURED_SHADER.loadTransformMatrix(transformMatrix);
+        GuiManager.TEXTURED_SHADER.loadView(view);
         glDrawArrays(GL_TRIANGLES, 0, model.getVertexCount());
         unbindModel();
         Shader.stop();
