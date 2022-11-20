@@ -6,6 +6,11 @@ import org.joml.Vector4f;
 
 import java.util.ListIterator;
 
+/**
+ * A rectangular GUI component with contents that may be scrolled in the horizontal and/or vertical directions by
+ * clicking and dragging the mouse.
+ * @author XNSC
+ */
 public class ScrollableRectGui extends Gui {
     private final boolean scrollHorizontal;
     private final boolean scrollVertical;
@@ -17,12 +22,28 @@ public class ScrollableRectGui extends Gui {
     private float minScrollY = -Float.MAX_VALUE;
     private float maxScrollY = Float.MAX_VALUE;
 
+    /**
+     * Creates a new scrollable GUI with a solid-color background.
+     * @param position position in device coordinates relative to the parent GUI
+     * @param size size in device coordinates
+     * @param backgroundColor the background color
+     * @param scrollHorizontal whether horizontal scrolling is enabled
+     * @param scrollVertical whether vertical scrolling is enabled
+     */
     public ScrollableRectGui(Vector2f position, Vector2f size, Vector4f backgroundColor, boolean scrollHorizontal, boolean scrollVertical) {
         super(GuiManager.RECT_MODEL, position, size, backgroundColor);
         this.scrollHorizontal = scrollHorizontal;
         this.scrollVertical = scrollVertical;
     }
 
+    /**
+     * Creates a new scrollable GUI with a textured background.
+     * @param position position in device coordinates relative to the parent GUI
+     * @param size size in device coordinates
+     * @param texture name of the background texture
+     * @param scrollHorizontal whether horizontal scrolling is enabled
+     * @param scrollVertical whether vertical scrolling is enabled
+     */
     public ScrollableRectGui(Vector2f position, Vector2f size, String texture, boolean scrollHorizontal, boolean scrollVertical) {
         super(GuiManager.RECT_MODEL, position, size, texture);
         this.scrollHorizontal = scrollHorizontal;
@@ -41,6 +62,11 @@ public class ScrollableRectGui extends Gui {
         return scrolling;
     }
 
+    /**
+     * Gets the scrolled offset of the GUI. The scrolled offset is the distance scrolled from the original position,
+     * with positive values meaning right or down.
+     * @return the scroll offset vector
+     */
     public Vector2f getScrollOffset() {
         return scrollOffset;
     }
@@ -49,6 +75,11 @@ public class ScrollableRectGui extends Gui {
         return minScrollX;
     }
 
+    /**
+     * Sets the minimum scroll offset in the X direction. The GUI will not allow scrolling left once the scroll
+     * offset for the left side of the visible area reaches this value.
+     * @param minScrollX minimum scroll offset
+     */
     public void setMinScrollX(float minScrollX) {
         this.minScrollX = minScrollX;
     }
@@ -57,6 +88,11 @@ public class ScrollableRectGui extends Gui {
         return maxScrollX;
     }
 
+    /**
+     * Sets the maximum scroll offset in the X direction. The GUI will not allow scrolling right once the scroll
+     * offset for the right side of the visible area reaches this value.
+     * @param maxScrollX maximum scroll offset
+     */
     public void setMaxScrollX(float maxScrollX) {
         this.maxScrollX = maxScrollX;
     }
@@ -65,6 +101,11 @@ public class ScrollableRectGui extends Gui {
         return minScrollY;
     }
 
+    /**
+     * Sets the minimum scroll offset in the Y direction. The GUI will not allow scrolling up once the scroll
+     * offset for the top of the visible area reaches this value.
+     * @param minScrollY minimum scroll offset
+     */
     public void setMinScrollY(float minScrollY) {
         this.minScrollY = minScrollY;
     }
@@ -73,6 +114,11 @@ public class ScrollableRectGui extends Gui {
         return maxScrollY;
     }
 
+    /**
+     * Sets the maximum scroll offset in the Y direction. The GUI will not allow scrolling down once the scroll
+     * offset for the bottom of the visible area reaches this value.
+     * @param maxScrollY maximum scroll offset
+     */
     public void setMaxScrollY(float maxScrollY) {
         this.maxScrollY = maxScrollY;
     }

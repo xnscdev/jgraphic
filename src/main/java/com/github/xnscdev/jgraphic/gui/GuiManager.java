@@ -7,16 +7,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+/**
+ * Manages general GUI-related functions.
+ * @author XNSC
+ */
 public class GuiManager {
     private static final RootComponent ROOT_COMPONENT = new RootComponent();
     private static final List<GuiComponent> guis = new ArrayList<>();
+
+    /**
+     * A rectangular model suitable as a GUI background. The GUI's position will be the top left corner
+     * of the rectangle.
+     */
     public static GuiModel RECT_MODEL;
+
+    /**
+     * A five-pointed star model suitable as a GUI background. The GUI's position is the center of the star
+     * and its size is the distance from the center to a tip.
+     */
     public static GuiModel STAR_MODEL;
     protected static SolidGuiShader SOLID_SHADER;
     protected static TexturedGuiShader TEXTURED_SHADER;
     protected static TextShader TEXT_SHADER;
     protected static GuiComponent focusedComponent;
 
+    /**
+     * Initializes the JGraphic GUI engine. This function usually does not need to be explicitly called since it is
+     * called automatically when a JGraphic application is initialized.
+     * @see com.github.xnscdev.jgraphic.AppInstance#init(String, int, int)
+     */
     public static void init() {
         SOLID_SHADER = new SolidGuiShader();
         TEXTURED_SHADER = new TexturedGuiShader();
@@ -57,22 +76,37 @@ public class GuiManager {
         });
     }
 
+    /**
+     * Frees resources allocated by the JGraphic GUI engine.
+     */
     public static void clean() {
         SOLID_SHADER.clean();
         TEXTURED_SHADER.clean();
         TEXT_SHADER.clean();
     }
 
+    /**
+     * Sends a tick event to all top-level GUIs. This function is called every world tick.
+     * @param delta number of seconds since the last world tick
+     */
     public static void tick(double delta) {
         for (GuiComponent gui : guis)
             gui.tick(delta);
     }
 
+    /**
+     * Adds a top-level GUI to be rendered on-screen. The GUI should not have an existing parent.
+     * @param gui the GUI to add
+     */
     public static void addGui(GuiComponent gui) {
         guis.add(gui);
         gui.setParent(ROOT_COMPONENT);
     }
 
+    /**
+     * Removes a top-level GUI so it is no longer rendered. Its parent will be reset to {@code null}.
+     * @param gui the GUI to remove
+     */
     public static void removeGui(GuiComponent gui) {
         if (guis.remove(gui))
             gui.setParent(null);
@@ -109,10 +143,20 @@ public class GuiManager {
         return false;
     }
 
+    /**
+     * Gets the currently focused component. A single GUI component may have focus, in which keyboard events
+     * are directed to the GUI.
+     * @return the currently focused component, or {@code null} if no GUI is focused
+     */
     public static GuiComponent getFocusedComponent() {
         return focusedComponent;
     }
 
+    /**
+     * Removes focus from the currently focused component, causing it to call its unfocused handler. If no
+     * component is currently focused, no action is performed.
+     * @see GuiComponent#unfocused()
+     */
     public static void resetFocusedComponent() {
         if (focusedComponent != null)
             focusedComponent.dropFocus();

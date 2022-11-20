@@ -10,6 +10,10 @@ import org.joml.Vector3f;
 
 import static org.lwjgl.opengl.GL30.*;
 
+/**
+ * A string of text that can be displayed as a two-dimensional GUI component.
+ * @author XNSC
+ */
 public class GuiText extends GuiComponent {
     private final int fontSize;
     private final float lineMaxSize;
@@ -18,8 +22,14 @@ public class GuiText extends GuiComponent {
     private TextureData textureData;
     private String text;
     private Vector3f color = new Vector3f();
-    private int lineCount;
 
+    /**
+     * Creates a new left-aligned text string.
+     * @param text the text to render
+     * @param fontSize the font size of the text, which may not equal the GUI height
+     * @param font name of the font to use when rendering the text
+     * @param position position in device coordinates relative to the parent GUI
+     */
     public GuiText(String text, int fontSize, String font, Vector2f position) {
         super(position);
         this.text = text;
@@ -31,6 +41,14 @@ public class GuiText extends GuiComponent {
         setSize(new Vector2f(textureData.getWidth(), textureData.getHeight()));
     }
 
+    /**
+     * Creates a new centered text string.
+     * @param text the text to render
+     * @param fontSize the font size of the text, which may not equal the GUI height
+     * @param font name of the font to use when rendering the text
+     * @param position position in device coordinates relative to the parent GUI
+     * @param lineMaxSize length of the text string, used to calculate the centered position of the text
+     */
     public GuiText(String text, int fontSize, String font, Vector2f position, float lineMaxSize) {
         super(position);
         this.text = text;
@@ -105,13 +123,5 @@ public class GuiText extends GuiComponent {
 
     public boolean isCentered() {
         return centered;
-    }
-
-    public int getLineCount() {
-        return lineCount;
-    }
-
-    public void setLineCount(int lineCount) {
-        this.lineCount = lineCount;
     }
 }

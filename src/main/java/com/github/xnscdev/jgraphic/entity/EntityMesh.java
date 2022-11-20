@@ -7,6 +7,10 @@ import com.github.xnscdev.jgraphic.util.ObjectManager;
 
 import static org.lwjgl.opengl.GL13.*;
 
+/**
+ * Represents a single mesh in an entity model with its material. Entity models may have multiple meshes and materials.
+ * @author XNSC
+ */
 public class EntityMesh extends ModelMesh {
     private static final int NO_TEXTURE = -1;
     private ModelMaterial material;

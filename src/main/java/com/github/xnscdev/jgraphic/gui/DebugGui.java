@@ -7,6 +7,10 @@ import org.joml.Vector4f;
 
 import java.text.NumberFormat;
 
+/**
+ * This utility GUI prints information about the current world, including frame rate and camera/player position.
+ * @author XNSC
+ */
 public class DebugGui extends Gui {
     private final NumberFormat floatFormatter = NumberFormat.getNumberInstance();
     private final GuiText fpsText;
