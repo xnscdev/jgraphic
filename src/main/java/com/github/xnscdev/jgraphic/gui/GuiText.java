@@ -33,7 +33,10 @@ public class GuiText extends GuiComponent {
     }
 
     @Override
-    public void render(Vector2f screenOffset) {
+    public void render(GuiView view, Vector2f offset) {
+        GuiView newView = view.getVisibleArea(position, size, offset);
+        if (newView == null)
+            return;
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDisable(GL_DEPTH_TEST);
@@ -42,13 +45,13 @@ public class GuiText extends GuiComponent {
         glBindTexture(GL_TEXTURE_2D, textureData.getTexture());
         glBindVertexArray(GuiManager.RECT_MODEL.getVAO());
         glEnableVertexAttribArray(0);
-        Vector2f pos = new Vector2f(screenOffset).add(screenPosition);
+        Vector2f pos = newView.screenPos();
         if (centered) {
             float padding = lineMaxSize - screenSize.x / 2;
             if (padding > 0)
-                pos.x += padding;
+                pos = new Vector2f(pos).add(padding, 0);
         }
-        Matrix4f transformMatrix = MathUtils.transformMatrix(pos, screenSize);
+        Matrix4f transformMatrix = MathUtils.transformMatrix(pos, newView.screenSize());
         GuiManager.TEXT_SHADER.loadTransformMatrix(transformMatrix);
         GuiManager.TEXT_SHADER.loadForeground(color);
         glDrawArrays(GL_TRIANGLES, 0, GuiManager.RECT_MODEL.getVertexCount());

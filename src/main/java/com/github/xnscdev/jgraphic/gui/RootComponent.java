@@ -8,7 +8,7 @@ public class RootComponent extends GuiComponent {
     }
 
     @Override
-    public void render(Vector2f screenOffset) {
+    public void render(GuiView view, Vector2f screenPos) {
     }
 
     @Override

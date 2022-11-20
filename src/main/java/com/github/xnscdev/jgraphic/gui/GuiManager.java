@@ -1,6 +1,8 @@
 package com.github.xnscdev.jgraphic.gui;
 
 import com.github.xnscdev.jgraphic.text.TextShader;
+import com.github.xnscdev.jgraphic.util.DisplayManager;
+import org.joml.Vector2f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,15 +80,17 @@ public class GuiManager {
     }
 
     public static void render() {
+        Vector2f pos = new Vector2f();
+        GuiView view = new GuiView(pos, new Vector2f(DisplayManager.getWidth(), DisplayManager.getHeight()), null, null);
         for (GuiComponent gui : guis)
-            gui.render(ROOT_COMPONENT.getAbsoluteScreenPosition());
+            gui.render(view, pos);
     }
 
     public static boolean mousePressed(float x, float y) {
         ListIterator<GuiComponent> iter = guis.listIterator(guis.size());
         while (iter.hasPrevious()) {
             GuiComponent gui = iter.previous();
-            if (gui.containsPoint(x, y) && gui.mousePressed(x, y))
+            if (gui.containsAbsolutePoint(x, y) && gui.mousePressed(x, y))
                 return true;
         }
         if (focusedComponent != null)
@@ -99,7 +103,7 @@ public class GuiManager {
         ListIterator<GuiComponent> iter = guis.listIterator(guis.size());
         while (iter.hasPrevious()) {
             GuiComponent gui = iter.previous();
-            if (gui.containsPoint(x, y) && gui.mouseReleased(x, y))
+            if (gui.containsAbsolutePoint(x, y) && gui.mouseReleased(x, y))
                 return true;
         }
         resetFocusedComponent();

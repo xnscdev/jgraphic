@@ -42,8 +42,14 @@ public class ScrollableRectGui extends Gui {
     }
 
     @Override
-    public void render(Vector2f screenOffset) {
-        render(screenOffset, scrollOffset);
+    public void render(GuiView view, Vector2f offset) {
+        GuiView newView = background.render(this, view, offset);
+        if (newView == null)
+            return;
+        Vector2f newOffset = new Vector2f(offset).add(scrollOffset);
+        for (GuiComponent gui : children) {
+            gui.render(newView, newOffset);
+        }
     }
 
     @Override
@@ -63,7 +69,7 @@ public class ScrollableRectGui extends Gui {
         ListIterator<GuiComponent> iter = children.listIterator(children.size());
         while (iter.hasPrevious()) {
             GuiComponent gui = iter.previous();
-            if (gui.containsPoint(x - scrollOffset.x, y - scrollOffset.y) && gui.mousePressed(x - scrollOffset.x, y - scrollOffset.y))
+            if (gui.containsAbsolutePoint(x - scrollOffset.x, y - scrollOffset.y) && gui.mousePressed(x - scrollOffset.x, y - scrollOffset.y))
                 return true;
         }
         lastScrollPos.set(x, y);
@@ -81,7 +87,7 @@ public class ScrollableRectGui extends Gui {
         ListIterator<GuiComponent> iter = children.listIterator(children.size());
         while (iter.hasPrevious()) {
             GuiComponent gui = iter.previous();
-            if (gui.containsPoint(x - scrollOffset.x, y - scrollOffset.y) && gui.mouseReleased(x - scrollOffset.x, y - scrollOffset.y))
+            if (gui.containsAbsolutePoint(x - scrollOffset.x, y - scrollOffset.y) && gui.mouseReleased(x - scrollOffset.x, y - scrollOffset.y))
                 return true;
         }
         GuiManager.resetFocusedComponent();

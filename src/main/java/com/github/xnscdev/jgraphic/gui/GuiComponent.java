@@ -14,7 +14,7 @@ public abstract class GuiComponent {
         setPosition(position);
     }
 
-    public abstract void render(Vector2f screenOffset);
+    public abstract void render(GuiView view, Vector2f offset);
 
     public final GuiComponent getParent() {
         return parent;
@@ -89,7 +89,7 @@ public abstract class GuiComponent {
         GuiManager.focusedComponent = null;
     }
 
-    public final boolean containsPoint(float x, float y) {
+    public final boolean containsAbsolutePoint(float x, float y) {
         Vector2f pos = getAbsolutePosition();
         return x >= pos.x && x <= pos.x + size.x && y >= pos.y && y <= pos.y + size.y;
     }

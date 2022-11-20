@@ -11,7 +11,8 @@ public class RectButton extends Gui {
         super(GuiManager.RECT_MODEL, position, size, backgroundColor);
         this.callback = callback;
         int fontSize = (int) (size.y * 0.5f);
-        labelText = new GuiText(label, fontSize, font, new Vector2f(0, size.y * 0.25f), size.x, true);
+        labelText = new GuiText(label, fontSize, font, new Vector2f(), size.x, true);
+        labelText.setPosition(new Vector2f(0, (size.y - labelText.getSize().y) / 2));
         addChild(labelText);
     }
 

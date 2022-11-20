@@ -95,10 +95,12 @@ public class NativeUtils {
         final File temp = new File(temporaryDir, filename);
         try (final InputStream is = NativeUtils.class.getResourceAsStream(path)) {
             Files.copy(is, temp.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             temp.delete();
             throw e;
-        } catch (NullPointerException e) {
+        }
+        catch (NullPointerException e) {
             temp.delete();
             throw new FileNotFoundException("File " + path + " was not found inside JAR.");
         }
@@ -106,11 +108,13 @@ public class NativeUtils {
         /* load file */
         try {
             System.load(temp.getAbsolutePath());
-        } finally {
+        }
+        finally {
             if (isPosixCompliant()) {
                 /* Assume POSIX compliant file system, can be deleted after loading */
                 temp.delete();
-            } else {
+            }
+            else {
                 /* Assume non-POSIX, and don't delete until last file descriptor closed */
                 temp.deleteOnExit();
             }
@@ -120,9 +124,10 @@ public class NativeUtils {
     private static boolean isPosixCompliant() {
         try {
             return FileSystems.getDefault().supportedFileAttributeViews().contains("posix");
-        } catch (FileSystemNotFoundException
-                 | ProviderNotFoundException
-                 | SecurityException e) {
+        }
+        catch (FileSystemNotFoundException
+               | ProviderNotFoundException
+               | SecurityException e) {
             return false;
         }
     }

@@ -45,19 +45,22 @@ public class GuiBackground {
         this.texture = TEXTURES.computeIfAbsent(texture, ObjectManager::createTexture);
     }
 
-    public void render(Vector2f pos, Vector2f size) {
-        if (type == null)
-            return;
+    public GuiView render(Gui gui, GuiView view, Vector2f offset) {
+        GuiView newView = view.getVisibleArea(gui.getPosition(), gui.getSize(), offset);
+        if (newView == null)
+            return null;
         switch (type) {
-            case SOLID -> renderSolid(pos, size);
-            case TEXTURED -> renderTextured(pos, size);
+            case SOLID -> renderSolid(newView);
+            case TEXTURED -> renderTextured(newView);
         }
+        ;
+        return newView;
     }
 
-    private void renderSolid(Vector2f pos, Vector2f size) {
+    private void renderSolid(GuiView view) {
         GuiManager.SOLID_SHADER.start();
         bindModel();
-        Matrix4f transformMatrix = MathUtils.transformMatrix(pos, size);
+        Matrix4f transformMatrix = MathUtils.transformMatrix(view.screenPos(), view.screenSize());
         GuiManager.SOLID_SHADER.loadTransformMatrix(transformMatrix);
         GuiManager.SOLID_SHADER.setColor(backgroundColor);
         glDrawArrays(GL_TRIANGLES, 0, model.getVertexCount());
@@ -65,12 +68,12 @@ public class GuiBackground {
         Shader.stop();
     }
 
-    private void renderTextured(Vector2f pos, Vector2f size) {
+    private void renderTextured(GuiView view) {
         GuiManager.TEXTURED_SHADER.start();
         bindModel();
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture);
-        Matrix4f transformMatrix = MathUtils.transformMatrix(pos, size);
+        Matrix4f transformMatrix = MathUtils.transformMatrix(view.screenPos(), view.screenSize());
         GuiManager.TEXTURED_SHADER.loadTransformMatrix(transformMatrix);
         glDrawArrays(GL_TRIANGLES, 0, model.getVertexCount());
         unbindModel();
