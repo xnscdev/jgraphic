@@ -20,13 +20,24 @@ public class GuiText extends GuiComponent {
     private Vector3f color = new Vector3f();
     private int lineCount;
 
-    public GuiText(String text, int fontSize, String font, Vector2f position, float lineMaxSize, boolean centered) {
+    public GuiText(String text, int fontSize, String font, Vector2f position) {
+        super(position);
+        this.text = text;
+        this.fontSize = fontSize;
+        this.font = font;
+        this.lineMaxSize = 0;
+        this.centered = false;
+        textureData = ObjectManager.loadText(text, fontSize, font);
+        setSize(new Vector2f(textureData.getWidth(), textureData.getHeight()));
+    }
+
+    public GuiText(String text, int fontSize, String font, Vector2f position, float lineMaxSize) {
         super(position);
         this.text = text;
         this.fontSize = fontSize;
         this.font = font;
         this.lineMaxSize = lineMaxSize;
-        this.centered = centered;
+        this.centered = true;
         textureData = ObjectManager.loadText(text, fontSize, font);
         setSize(new Vector2f(textureData.getWidth(), textureData.getHeight()));
     }

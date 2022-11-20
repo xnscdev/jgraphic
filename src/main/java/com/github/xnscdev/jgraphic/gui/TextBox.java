@@ -11,7 +11,7 @@ public class TextBox extends Gui {
 
     public TextBox(Vector2f position, Vector2f size, String font) {
         super(GuiManager.RECT_MODEL, position, size, new Vector4f(1));
-        text = new GuiText(value, (int) (size.y * 0.5f), font, new Vector2f(size.y * 0.25f), size.x - size.y * 0.4f, false);
+        text = new GuiText(value, (int) (size.y * 0.5f), font, new Vector2f(size.y * 0.25f));
         addChild(text);
     }
 

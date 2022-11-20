@@ -17,8 +17,8 @@ public class DebugGui extends Gui {
     public DebugGui(World world) {
         super(GuiManager.RECT_MODEL, new Vector2f(), new Vector2f(DisplayManager.getWidth(), 20), new Vector4f(0.6f, 0.6f, 0.6f, 1));
         this.world = world;
-        fpsText = new GuiText("FPS: 0", 12, "Sans", new Vector2f(4, 4), 100, false);
-        cameraText = new GuiText("Position: (0.00 0.00 0.00)", 12, "Sans", new Vector2f(104, 4), 9999, false);
+        fpsText = new GuiText("FPS: 0", 12, "Sans", new Vector2f(4, 4));
+        cameraText = new GuiText("Position: (0.00 0.00 0.00)", 12, "Sans", new Vector2f(104, 4));
         addChild(fpsText);
         addChild(cameraText);
         floatFormatter.setMinimumFractionDigits(2);
