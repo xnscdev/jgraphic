@@ -27,6 +27,14 @@ public class Gui extends GuiComponent {
         background.setTexture(texture);
     }
 
+    public void setSolidColor(Vector4f backgroundColor) {
+        background.setSolidColor(backgroundColor);
+    }
+
+    public void setTexture(String texture) {
+        background.setTexture(texture);
+    }
+
     public List<GuiComponent> getChildren() {
         return children;
     }
