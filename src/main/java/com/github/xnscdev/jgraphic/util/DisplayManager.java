@@ -14,16 +14,25 @@ import java.nio.DoubleBuffer;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+/**
+ * Utility class that handles the display, mouse, and keyboard.
+ * @author XNSC
+ */
 public class DisplayManager {
     private static String title;
     private static int width;
     private static int height;
     private static long window;
     private static double lastUpdate;
-    private static float lastScroll;
     private static float scrollOffset;
     private static Vector2f lastMousePos = new Vector2f();
 
+    /**
+     * Creates a new window for displaying content.
+     * @param title title of the window
+     * @param width window width in pixels
+     * @param height window height in pixels
+     */
     public static void createDisplay(String title, int width, int height) {
         DisplayManager.title = title;
         DisplayManager.width = width;
@@ -81,6 +90,10 @@ public class DisplayManager {
         GL.createCapabilities();
     }
 
+    /**
+     * Calculates the number of seconds since this function was last called.
+     * @return time delta
+     */
     public static double deltaTime() {
         double now = glfwGetTime();
         double delta = now - lastUpdate;
@@ -88,23 +101,43 @@ public class DisplayManager {
         return delta;
     }
 
+    /**
+     * Redraws the contents of the display.
+     */
     public static void updateDisplay() {
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
+    /**
+     * Closes the display.
+     */
     public static void closeDisplay() {
         glfwTerminate();
     }
 
+    /**
+     * Checks whether the window should close.
+     * @return {@code true} if the window should close
+     */
     public static boolean closeRequested() {
         return glfwWindowShouldClose(window);
     }
 
+    /**
+     * Checks if a keyboard key is currently pressed.
+     * @param key constant representing the key to check
+     * @return {@code true} if the key is pressed
+     */
     public static boolean keyDown(int key) {
         return glfwGetKey(window, key) == GLFW_PRESS;
     }
 
+    /**
+     * Checks if a mouse button is currently pressed.
+     * @param button constant representing the button to check
+     * @return {@code true} if the button is pressed
+     */
     public static boolean mouseDown(int button) {
         return glfwGetMouseButton(window, button) == GLFW_PRESS;
     }
@@ -121,12 +154,21 @@ public class DisplayManager {
         return height;
     }
 
+    /**
+     * Gets the distance the mouse was scrolled since the last time this function was called or the scroll wheel
+     * was released.
+     * @return the scroll distance
+     */
     public static float getScrollOffset() {
-        float offset = scrollOffset - lastScroll;
-        scrollOffset = lastScroll;
+        float offset = scrollOffset;
+        scrollOffset = 0;
         return offset;
     }
 
+    /**
+     * Gets the offset of the current mouse position from the last time this function was called.
+     * @return the mouse offset
+     */
     public static Vector2f getMouseOffset() {
         Vector2f pos = getMousePos();
         Vector2f offset = new Vector2f(pos).sub(lastMousePos);
@@ -134,6 +176,10 @@ public class DisplayManager {
         return offset;
     }
 
+    /**
+     * Gets the current mouse position in device coordinates.
+     * @return the position vector
+     */
     public static Vector2f getMousePos() {
         try (MemoryStack stack = MemoryStack.stackPush()) {
             DoubleBuffer x = stack.mallocDouble(1);

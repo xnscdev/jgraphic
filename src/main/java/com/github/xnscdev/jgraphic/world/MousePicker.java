@@ -7,6 +7,10 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
+/**
+ * The mouse picker converts the mouse position on-screen into a three-dimensional ray in the world.
+ * @author XNSC
+ */
 public class MousePicker {
     private static final int RECURSION_COUNT = 200;
     private static final float RAY_RANGE = 600;
@@ -16,16 +20,29 @@ public class MousePicker {
     private Vector3f ray;
     private Vector3f terrainPoint;
 
+    /**
+     * Creates a mouse picker for a camera. Rays calculated by this mouse picker will originate from the camera's
+     * position.
+     * @param camera the camera
+     */
     public MousePicker(Camera camera) {
         this.camera = camera;
         this.projectionMatrix = World.PROJECTION;
         this.viewMatrix = camera.viewMatrix();
     }
 
+    /**
+     * Calculates the normalized ray projected from the mouse cursor through the camera into the world.
+     * @return the ray
+     */
     public Vector3f getRay() {
         return ray;
     }
 
+    /**
+     * Calculates the point where the ray projected from the mouse cursor through the camera intersects the terrain.
+     * @return coordinates of the intersection point in world space
+     */
     public Vector3f getTerrainPoint() {
         return terrainPoint;
     }
@@ -38,6 +55,11 @@ public class MousePicker {
             terrainPoint = null;
     }
 
+    /**
+     * Calculates the two-dimensional position of three-dimensional world-space coordinates.
+     * @param pos the position in world space
+     * @return the 2D position vector in device coordinates
+     */
     public Vector2f getProjectedPosition(Vector3f pos) {
         Vector4f worldPos = new Vector4f(pos, 1);
         Vector4f eyePos = viewMatrix.transform(worldPos);

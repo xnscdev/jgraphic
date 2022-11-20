@@ -4,6 +4,10 @@ import com.github.xnscdev.jgraphic.util.MathUtils;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
+/**
+ * A camera in a world. All worlds must have a camera to render from.
+ * @author XNSC
+ */
 public class Camera {
     protected Vector3f position = new Vector3f();
     protected float pitch;
@@ -14,6 +18,12 @@ public class Camera {
         return position;
     }
 
+    /**
+     * The position to report to the debug GUI. This position is normally just the position of the camera itself,
+     * however third-person cameras may report the position of the tracked player instead.
+     * @return the position in world space
+     * @see com.github.xnscdev.jgraphic.gui.DebugGui
+     */
     public Vector3f getPrimaryPosition() {
         return position;
     }
@@ -49,6 +59,10 @@ public class Camera {
     public void tick() {
     }
 
+    /**
+     * Calculates the view matrix for this camera.
+     * @return the view matrix
+     */
     public Matrix4f viewMatrix() {
         return MathUtils.viewMatrix(position, pitch, yaw, roll);
     }

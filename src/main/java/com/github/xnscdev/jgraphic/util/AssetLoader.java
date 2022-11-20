@@ -10,6 +10,10 @@ import java.nio.ByteBuffer;
 import static org.lwjgl.assimp.Assimp.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+/**
+ * Helper class for loading assets within JAR resources using Assimp.
+ * @author XNSC
+ */
 public class AssetLoader {
     private static final AIFileIO fileIO = AIFileIO.create()
             .OpenProc((pFileIO, fileName, openMode) -> {
@@ -40,11 +44,20 @@ public class AssetLoader {
                 file.FileSizeProc().free();
             });
 
+    /**
+     * Frees memory used by the Assimp IO structures.
+     */
     public static void clean() {
         fileIO.OpenProc().free();
         fileIO.CloseProc().free();
     }
 
+    /**
+     * Loads a model using Assimp. The model files should be in the appropriate directory.
+     * @param name name of the model
+     * @return the loaded model
+     * @throws RuntimeException Assimp encountered an error importing the model
+     */
     public static AssetModel loadAsset(String name) {
         AIScene scene = aiImportFileEx("/models/" + name, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate, fileIO);
         if (scene == null)

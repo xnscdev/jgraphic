@@ -7,6 +7,12 @@ import org.joml.Vector3f;
 
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT;
 
+/**
+ * A third-person camera that always faces a player. This camera has a variable yaw with respect to the player,
+ * independent of the player's actual rotation. Changing the camera's yaw will cause the equivalent change
+ * to be reflected in the player's yaw but the two values may not be equal.
+ * @author XNSC
+ */
 public class Camera3P extends Camera {
     private static final float MAX_DISTANCE = 300;
     private static final float MIN_PITCH = 10;

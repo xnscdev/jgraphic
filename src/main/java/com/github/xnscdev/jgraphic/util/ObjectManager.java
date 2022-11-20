@@ -17,6 +17,10 @@ import java.util.Objects;
 
 import static org.lwjgl.opengl.GL30.*;
 
+/**
+ * Manages OpenGL objects and loading assets from JAR resources.
+ * @author XNSC
+ */
 public class ObjectManager {
     private static final List<Integer> vaos = new ArrayList<>();
     private static final List<Integer> vbos = new ArrayList<>();
@@ -31,8 +35,20 @@ public class ObjectManager {
         }
     }
 
+    /**
+     * Loads a string of text into a texture to be rendered as a GUI.
+     * @param text the text to render
+     * @param size font size
+     * @param font font for rendering the text
+     * @return a texture containing the string
+     * @see com.github.xnscdev.jgraphic.gui.GuiText
+     */
     public static native TextureData loadText(String text, int size, String font);
 
+    /**
+     * Creates a new OpenGL vertex array object.
+     * @return the VAO
+     */
     public static int createVAO() {
         int vao = glGenVertexArrays();
         glBindVertexArray(vao);
@@ -40,18 +56,28 @@ public class ObjectManager {
         return vao;
     }
 
+    /**
+     * Unbinds a bound VAO.
+     */
     public static void unbindVAO() {
         glBindVertexArray(0);
     }
 
+    /**
+     * Loads a texture from a JAR resource. The texture should be in the appropriate directory.
+     * @param name name of the texture
+     * @return the OpenGL texture ID
+     */
     public static int createTexture(String name) {
         return loadTexture("/textures/" + name + ".png");
     }
 
-    public static int createFontAtlas(String name) {
-        return loadTexture("/fonts/" + name + ".png");
-    }
-
+    /**
+     * Stores floating-point data into an OpenGL buffer and assigns it to an attribute of the currently bound VAO.
+     * @param attr attribute number
+     * @param size number of floats per vertex
+     * @param data the data to store
+     */
     public static void storeAttribute(int attr, int size, float[] data) {
         int vbo = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -62,6 +88,10 @@ public class ObjectManager {
         vbos.add(vbo);
     }
 
+    /**
+     * Stores indices data into an OpenGL buffer and assigns it to an attribute of the currently bound VAO.
+     * @param indices the data to store
+     */
     public static void storeIndices(int[] indices) {
         int vbo = glGenBuffers();
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
@@ -70,6 +100,13 @@ public class ObjectManager {
         vbos.add(vbo);
     }
 
+    /**
+     * Reads a file from a JAR resource into a {@link ByteBuffer} object. The entire contents of the file are read
+     * into memory.
+     * @param path JAR resource path to the file, starting with {@code '/'}
+     * @return the byte buffer
+     * @throws RuntimeException an I/O error occurred while reading the file
+     */
     public static ByteBuffer storeByteBuffer(String path) {
         ByteBuffer buffer;
         try (ReadableByteChannel channel = Channels.newChannel(Objects.requireNonNull(ObjectManager.class.getResourceAsStream(path)))) {
@@ -89,6 +126,9 @@ public class ObjectManager {
         return MemoryUtil.memSlice(buffer);
     }
 
+    /**
+     * Deletes all allocated OpenGL VAOs, buffers, and textures.
+     */
     public static void clean() {
         for (int vao : vaos)
             glDeleteVertexArrays(vao);

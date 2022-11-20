@@ -9,6 +9,10 @@ import java.nio.IntBuffer;
 
 import static org.lwjgl.opengl.GL30.*;
 
+/**
+ * Stores information about a loaded OpenGL texture.
+ * @author XNSC
+ */
 public class TextureData {
     private final int texture;
     private final int width;

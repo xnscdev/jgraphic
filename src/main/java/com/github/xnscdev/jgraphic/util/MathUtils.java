@@ -4,10 +4,23 @@ import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
+/**
+ * Utility class for linear algebraic and geometric operations.
+ * @author XNSC
+ */
 public final class MathUtils {
     private MathUtils() {
     }
 
+    /**
+     * Creates a transformation matrix for a three-dimensional object.
+     * @param translation translation vector
+     * @param rx roll
+     * @param ry yaw
+     * @param rz pitch
+     * @param scale scale factor
+     * @return the transformation matrix
+     */
     public static Matrix4f transformMatrix(Vector3f translation, float rx, float ry, float rz, float scale) {
         return new Matrix4f()
                 .translate(translation)
@@ -17,12 +30,25 @@ public final class MathUtils {
                 .scale(scale);
     }
 
+    /**
+     * Creates a transformation matrix for a two-dimensional object.
+     * @param translation translation vector
+     * @param scale scale vector
+     * @return the transformation matrix
+     */
     public static Matrix4f transformMatrix(Vector2f translation, Vector2f scale) {
         return new Matrix4f()
                 .translate(translation.x, translation.y, 0)
                 .scale(scale.x, scale.y, 1);
     }
 
+    /**
+     * Creates a projection matrix.
+     * @param fov field of view
+     * @param nearPlane near plane
+     * @param farPlane far plane
+     * @return the projection matrix
+     */
     public static Matrix4f projectionMatrix(float fov, float nearPlane, float farPlane) {
         float aspectRatio = (float) DisplayManager.getWidth() / (float) DisplayManager.getHeight();
         float yScale = (1f / (float) Math.tan(Math.toRadians(fov / 2f))) * aspectRatio;
@@ -37,6 +63,14 @@ public final class MathUtils {
                 .m33(0);
     }
 
+    /**
+     * Creates a view matrix for a camera in the world.
+     * @param pos position of the camera
+     * @param pitch pitch
+     * @param yaw yaw
+     * @param roll roll
+     * @return the view matrix
+     */
     public static Matrix4f viewMatrix(Vector3f pos, float pitch, float yaw, float roll) {
         Vector3f translation = new Vector3f();
         return new Matrix4f()
@@ -46,6 +80,14 @@ public final class MathUtils {
                 .translate(pos.negate(translation));
     }
 
+    /**
+     * Calculates the height of a point within a triangle using barycentric interpolation.
+     * @param p1 the first vertex of the triangle
+     * @param p2 the second vertex of the triangle
+     * @param p3 the third vertex of the triangle
+     * @param pos the two-dimensional position of the point in world space
+     * @return the interpolated height
+     */
     public static float barycentric(Vector3f p1, Vector3f p2, Vector3f p3, Vector2f pos) {
         float det = (p2.z - p3.z) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.z - p3.z);
         float l1 = ((p2.z - p3.z) * (pos.x - p3.x) + (p3.x - p2.x) * (pos.y - p3.z)) / det;

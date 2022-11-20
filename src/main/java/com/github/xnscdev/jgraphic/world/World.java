@@ -15,12 +15,25 @@ import java.util.*;
 
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * The world where all three-dimensional objects are rendered. Worlds also support ambient effects including
+ * light sources, gravity, and fog.
+ * @author XNSC
+ */
 public class World {
     private static final float FOV = 70;
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 1000f;
     private static final Vector3f DEFAULT_SKY_COLOR = new Vector3f(0.5f, 1, 1);
+
+    /**
+     * Default projection matrix for a world.
+     */
     public static final Matrix4f PROJECTION = MathUtils.projectionMatrix(FOV, NEAR_PLANE, FAR_PLANE);
+
+    /**
+     * Entities with a vertical position below this limit will be removed from the world.
+     */
     public static final float VOID = -2000;
     private final EntityRenderer entityRenderer = new EntityRenderer();
     private final TerrainRenderer terrainRenderer = new TerrainRenderer();
@@ -68,6 +81,9 @@ public class World {
         }
     }
 
+    /**
+     * Frees resources allocated to this world.
+     */
     public void clean() {
         entityRenderer.clean();
         terrainRenderer.clean();
@@ -94,20 +110,38 @@ public class World {
         }
     }
 
+    /**
+     * Adds an entity to be rendered in this world.
+     * @param entity the entity
+     */
     public void addEntity(Entity entity) {
         entity.addAcceleration(new Vector3f(0, -gravityAccel, 0));
         entities.add(entity);
     }
 
+    /**
+     * Removes an entity to be rendered in this world. If this world does not already have the entity,
+     * no action is performed.
+     * @param entity the entity
+     */
     public void removeEntity(Entity entity) {
         entities.remove(entity);
     }
 
+    /**
+     * Adds a terrain piece to the world.
+     * @param terrain the terrain
+     */
     public void addTerrain(TerrainPiece terrain) {
         terrain.build();
         terrains.add(terrain);
     }
 
+    /**
+     * Removes a terrain piece from the world. If this world does not already have the terrain piece,
+     * no action is performed.
+     * @param terrain the terrain
+     */
     public void removeTerrain(TerrainPiece terrain) {
         terrains.remove(terrain);
     }
@@ -116,10 +150,19 @@ public class World {
         return lights;
     }
 
+    /**
+     * Adds a light source to the world. Currently, a limited number of light sources are supported.
+     * @param light the light source
+     */
     public void addLightSource(LightSource light) {
         lights.add(light);
     }
 
+    /**
+     * Removes a light source from the world. If the light source is not present in the world,
+     * no action is performed.
+     * @param light the light source
+     */
     public void removeLightSource(LightSource light) {
         lights.remove(light);
     }
@@ -128,6 +171,10 @@ public class World {
         return camera;
     }
 
+    /**
+     * Sets the camera of the world and initializes the world mouse picker. A world requires a camera to render.
+     * @param camera the camera
+     */
     public void setCamera(Camera camera) {
         this.camera = camera;
         picker = new MousePicker(camera);
@@ -193,10 +240,21 @@ public class World {
         return active;
     }
 
+    /**
+     * Changes the active state of the world. Inactive worlds will not be refreshed and no world ticks will be emitted
+     * for the world.
+     * @param active the new active state
+     */
     public void setActive(boolean active) {
         this.active = active;
     }
 
+    /**
+     * Gets the terrain piece containing a point.
+     * @param x X coordinate of the point in world space
+     * @param z Z coordinate of the point in world space
+     * @return the terrain, or {@code null} if no terrain piece contains the point
+     */
     public TerrainPiece getTerrain(float x, float z) {
         for (TerrainPiece terrain : terrains) {
             if (x >= terrain.getX() && x < terrain.getX() + terrain.getSize() && z >= terrain.getZ() && z < terrain.getZ() + terrain.getSize())
@@ -205,6 +263,13 @@ public class World {
         return null;
     }
 
+    /**
+     * Calculates the height of the terrain at the specified coordinates. If multiple terrains overlap this point,
+     * the result will be calculated based on the first terrain piece added.
+     * @param x X coordinate in world space
+     * @param z Z coordinate in world space
+     * @return the terrain height, or 0 if no terrain contains this point
+     */
     public float getTerrainHeight(float x, float z) {
         TerrainPiece terrain = getTerrain(x, z);
         if (terrain == null)

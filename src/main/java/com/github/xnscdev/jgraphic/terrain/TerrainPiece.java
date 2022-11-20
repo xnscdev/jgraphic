@@ -15,6 +15,10 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Random;
 
+/**
+ * Represents a single instance of terrain. This terrain implementation supports height maps and texture blend maps.
+ * @author XNSC
+ */
 public class TerrainPiece {
     private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
     private static final String UNUSED_TEXTURE = "black";
@@ -34,6 +38,14 @@ public class TerrainPiece {
     private float[][] heights;
     private TerrainMesh model;
 
+    /**
+     * Creates a new square-shaped, textured, flat terrain piece.
+     * @param x center X coordinate in world space
+     * @param z center Z coordinate in world space
+     * @param size side length of terrain
+     * @param vertexCount number of points along each axis to use for height maps
+     * @param background name of terrain texture
+     */
     public TerrainPiece(int x, int z, float size, int vertexCount, String background) {
         this.x = x - size / 2;
         this.z = z - size / 2;
@@ -63,6 +75,13 @@ public class TerrainPiece {
         return vertexCount;
     }
 
+    /**
+     * Calculates the height of the terrain at the specified world coordinates. The terrain piece must contain
+     * the specified coordinates.
+     * @param worldX X coordinate in world space
+     * @param worldZ Z coordinate in world space
+     * @return the terrain height
+     */
     public float getTerrainHeight(float worldX, float worldZ) {
         float terrainX = worldX - x;
         float terrainZ = worldZ - z;
@@ -79,6 +98,14 @@ public class TerrainPiece {
             return MathUtils.barycentric(new Vector3f(1, heights[gridX + 1][gridZ], 0), new Vector3f(1, heights[gridX + 1][gridZ + 1], 1), new Vector3f(0, heights[gridX][gridZ + 1], 1), new Vector2f(rx, rz));
     }
 
+    /**
+     * Sets a height map for the terrain from a subsection of a height map image. The image file should be in
+     * the appropriate directory.
+     * @param hx first X coordinate of image
+     * @param hz first Z coordinate of image
+     * @param maxHeight maximum height in world space
+     * @param path name of height map file
+     */
     public void setHeightMap(int hx, int hz, int maxHeight, String path) {
         this.hx = hx;
         this.hz = hz;
@@ -91,13 +118,20 @@ public class TerrainPiece {
         }
     }
 
-    public void setRandomHeightMap(int hx, int hz, int maxHeight) {
-        setRandomHeightMap(hx, hz, maxHeight, new Random().nextLong());
+    /**
+     * Generates a random height map with a random seed using Perlin noise.
+     * @param maxHeight maximum height in world space
+     */
+    public void setRandomHeightMap(int maxHeight) {
+        setRandomHeightMap(maxHeight, new Random().nextLong());
     }
 
-    public void setRandomHeightMap(int hx, int hz, int maxHeight, long seed) {
-        this.hx = hx;
-        this.hz = hz;
+    /**
+     * Generates a random height map with a set seed using Perlin noise.
+     * @param maxHeight maximum height in world space
+     * @param seed seed to use for the random number generator
+     */
+    public void setRandomHeightMap(int maxHeight, long seed) {
         this.maxHeight = maxHeight;
         heightMap = new BufferedImage(vertexCount, vertexCount, BufferedImage.TYPE_INT_ARGB);
         JNoise gen = JNoise.newBuilder().perlin(seed, Interpolation.LINEAR, FadeFunction.IMPROVED_PERLIN_NOISE)
@@ -114,6 +148,13 @@ public class TerrainPiece {
         }
     }
 
+    /**
+     * Use a blend map when rendering this terrain.
+     * @param red name of the texture to use for red in the blend map
+     * @param green name of the texture to use for green in the blend map
+     * @param blue name of the texture to use for blue in the blend map
+     * @param blendMap name of the blend map texture
+     */
     public void useBlendMap(String red, String green, String blue, String blendMap) {
         this.red = red;
         this.green = green;
@@ -121,6 +162,13 @@ public class TerrainPiece {
         this.blendMap = blendMap;
     }
 
+    /**
+     * Builds the terrain mesh. This method should be called before terrain is added to the world and after
+     * any height maps are added.
+     * @see TerrainPiece#setHeightMap(int, int, int, String)
+     * @see TerrainPiece#setRandomHeightMap(int)
+     * @see TerrainPiece#setRandomHeightMap(int, long)
+     */
     public void build() {
         int count = vertexCount * vertexCount;
         heights = new float[vertexCount][vertexCount];

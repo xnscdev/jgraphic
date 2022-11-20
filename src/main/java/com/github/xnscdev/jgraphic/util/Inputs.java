@@ -2,6 +2,11 @@ package com.github.xnscdev.jgraphic.util;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+/**
+ * Constants for input keys and mouse buttons. These constants are equivalent to their GLFW counterparts and are
+ * provided for convenience.
+ * @author XNSC
+ */
 public interface Inputs {
     int SPACE = GLFW_KEY_SPACE;
     int APOSTROPHE = GLFW_KEY_APOSTROPHE;
