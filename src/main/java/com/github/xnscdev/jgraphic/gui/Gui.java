@@ -62,7 +62,7 @@ public class Gui extends GuiComponent {
             return;
         Vector2f newScreenPos = new Vector2f(screenPos).add(position);
         for (GuiComponent gui : children) {
-            gui.render(newView, newScreenPos);
+            gui.render(view, newScreenPos);
         }
     }
 
