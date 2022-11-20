@@ -1,5 +1,6 @@
 package com.github.xnscdev.jgraphic.gui;
 
+import com.github.xnscdev.jgraphic.util.DisplayManager;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
@@ -49,11 +50,7 @@ public class Gui extends GuiComponent {
 
     @Override
     public void render(Vector2f screenOffset) {
-        Vector2f newOffset = new Vector2f(screenOffset).add(screenPosition);
-        background.render(newOffset, screenSize);
-        for (GuiComponent gui : children) {
-            gui.render(newOffset);
-        }
+        render(screenOffset, new Vector2f());
     }
 
     @Override
@@ -75,6 +72,16 @@ public class Gui extends GuiComponent {
             if (gui.containsPoint(x, y) && gui.mouseReleased(x, y))
                 return true;
         }
+        GuiManager.resetFocusedComponent();
         return false;
+    }
+
+    protected void render(Vector2f screenOffset, Vector2f scrollOffset) {
+        Vector2f newOffset = new Vector2f(screenOffset).add(screenPosition);
+        background.render(newOffset, screenSize);
+        Vector2f scrolled = new Vector2f(scrollOffset).div(DisplayManager.getWidth(), DisplayManager.getHeight()).mul(2).add(newOffset);
+        for (GuiComponent gui : children) {
+            gui.render(scrolled);
+        }
     }
 }

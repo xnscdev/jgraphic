@@ -32,6 +32,11 @@ public class TextBox extends Gui {
     }
 
     @Override
+    public boolean mouseReleased(float x, float y) {
+        return true;
+    }
+
+    @Override
     public void unfocused() {
     }
 

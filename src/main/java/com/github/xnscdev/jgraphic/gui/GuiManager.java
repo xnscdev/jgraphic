@@ -102,10 +102,16 @@ public class GuiManager {
             if (gui.containsPoint(x, y) && gui.mouseReleased(x, y))
                 return true;
         }
+        resetFocusedComponent();
         return false;
     }
 
     public static GuiComponent getFocusedComponent() {
         return focusedComponent;
+    }
+
+    public static void resetFocusedComponent() {
+        if (focusedComponent != null)
+            focusedComponent.dropFocus();
     }
 }
